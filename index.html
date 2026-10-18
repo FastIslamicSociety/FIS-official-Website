@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FAST Islamic Society</title>
+
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&display=swap" rel="stylesheet">
@@ -12,7 +16,6 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: #0f0f0f; height: 100%; overflow: hidden; }
 
-  /* blurred copy of the image fills any leftover space, so no black bars */
   .backdrop {
     position: fixed; inset: 0;
     overflow: hidden;
@@ -24,7 +27,6 @@
     transform: scale(1.1);
   }
 
-  /* the stage = the full, uncropped image (16:9), centered */
   .stage {
     container-type: inline-size;
     position: absolute;
@@ -39,7 +41,7 @@
     display: block;
   }
 
-  /* floating nav: no bar, just words */
+  /* floating nav */
   .nav {
     position: absolute;
     top: 2.2cqw; left: 3cqw; right: 3cqw;
@@ -50,7 +52,6 @@
     font-family: "Archivo", system-ui, sans-serif;
     font-weight: 700;
     font-size: max(11px, 1.05cqw);
-    letter-spacing: .01em;
     text-transform: lowercase;
   }
   .nav a, .nav span {
@@ -59,7 +60,7 @@
     text-shadow: 0 1px 2px rgba(0,0,0,.5), 0 2px 14px rgba(0,0,0,.45);
     position: relative;
     padding-bottom: .3em;
-    transition: opacity .25s, transform .25s;
+    transition: transform .25s;
   }
   .nav a::after {
     content: "";
@@ -73,34 +74,31 @@
   .nav a:hover { transform: translateY(-2px); }
   .nav a:hover::after { transform: scaleX(1); }
 
-  /* title */
+  /* title: all lowercase, smaller, stays in the sky */
   .title {
     position: absolute;
-    top: 6.5cqw;
+    top: 6cqw;
     right: 5cqw;
     z-index: 2;
     text-align: right;
     color: #fff8e8;
     font-family: "Sentient", Georgia, "Times New Roman", serif;
     font-weight: 700;
+    text-transform: lowercase;
     filter: drop-shadow(0 .15cqw .3cqw rgba(0,0,0,.35))
             drop-shadow(0 .6cqw 1.4cqw rgba(0,0,0,.35));
     animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both;
   }
   .title span { display: block; }
   .fast {
-    font-size: 3cqw;
-    letter-spacing: .6cqw;
-    text-transform: uppercase;
-    line-height: 1;
-    margin-bottom: .6cqw;
+    font-size: 6.2cqw;
+    line-height: .95;
+    letter-spacing: -.02em;
   }
   .main span {
-    font-size: 8.5cqw;
-    line-height: .98;
+    font-size: 6.2cqw;
+    line-height: .95;
     letter-spacing: -.02em;
-    /* want ALL CAPS? uncomment the next line */
-    /* text-transform: uppercase; */
   }
 
   @keyframes rise {
@@ -123,8 +121,8 @@
     </nav>
 
     <h1 class="title">
-      <span class="fast">FAST</span>
-      <span class="main"><span>Islamic</span><span>Society</span></span>
+      <span class="fast">fast</span>
+      <span class="main"><span>islamic</span><span>society</span></span>
     </h1>
   </main>
 </body>
