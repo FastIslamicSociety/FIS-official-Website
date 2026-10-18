@@ -130,16 +130,37 @@
     .main { font-size: 9vw; }
   }
 
-  /* ===== below the hero: grass-to-light-green flow ===== */
-  :root { --grass: #4b5a23; }   /* change this to the hero's bottom grass color (eyedropper it) */
+  /* ===== below the hero ===== */
+  :root { --grass: #55652a; }   /* the color the blurred grass fades into; tweak if you want it greener/yellower */
+
+  /* soft mirror of the painting's own grass, fading into the first section color */
+  .blend {
+    position: relative;
+    height: 42vh;
+    overflow: hidden;
+    background: var(--grass);
+  }
+  .blend::before {
+    content: "";
+    position: absolute;
+    inset: -6vh -6vw 0;
+    background: url("FINAL%20DESKTOP.png") center bottom / cover no-repeat;
+    transform: scaleY(-1);          /* mirror, so it continues from the hero's last rows */
+    filter: blur(26px) saturate(1.05);
+  }
+  .blend::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(85,101,42,0) 0%, rgba(85,101,42,.6) 45%, var(--grass) 100%);
+  }
 
   .rest {
     background: linear-gradient(180deg,
       var(--grass) 0%,
-      #5a6b2c 25%,
-      #7f9444 50%,
-      #b9cb85 75%,
-      #eef0d4 100%);
+      #6b7b32 20%,
+      #8a9644 42%,
+      #c3ca8f 70%,
+      #f1eed6 100%);
     font-family: "Archivo", system-ui, sans-serif;
   }
   .rest section {
@@ -162,8 +183,7 @@
     line-height: 1.6;
     max-width: 56ch;
   }
-  /* text flips from cream to dark green where the background gets light */
-  .rest .on-dark  { color: #fff4dc; }
+  .rest .on-dark  { color: #fff4dc; text-shadow: 0 1px 12px rgba(20,25,5,.35); }
   .rest .on-light { color: #26290d; }
 </style>
 </head>
@@ -182,6 +202,8 @@
       <span class="main">ISLAMIC SOCIETY</span>
     </h1>
   </main>
+
+  <div class="blend"></div>
 
   <div class="rest">
     <section class="on-dark">
