@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: #0f0f0f; }
@@ -129,6 +129,42 @@
     .fast::before, .fast::after { height: 1.5px; }
     .main { font-size: 9vw; }
   }
+
+  /* ===== below the hero: grass-to-light-green flow ===== */
+  :root { --grass: #4b5a23; }   /* change this to the hero's bottom grass color (eyedropper it) */
+
+  .rest {
+    background: linear-gradient(180deg,
+      var(--grass) 0%,
+      #5a6b2c 25%,
+      #7f9444 50%,
+      #b9cb85 75%,
+      #eef0d4 100%);
+    font-family: "Archivo", system-ui, sans-serif;
+  }
+  .rest section {
+    min-height: 90vh;
+    padding: 14vh 8vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.4vh;
+  }
+  .rest h2 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 900;
+    font-size: clamp(34px, 5vw, 76px);
+    line-height: 1;
+  }
+  .rest p {
+    font-weight: 400;
+    font-size: clamp(16px, 1.3vw, 21px);
+    line-height: 1.6;
+    max-width: 56ch;
+  }
+  /* text flips from cream to dark green where the background gets light */
+  .rest .on-dark  { color: #fff4dc; }
+  .rest .on-light { color: #26290d; }
 </style>
 </head>
 <body>
@@ -146,5 +182,24 @@
       <span class="main">ISLAMIC SOCIETY</span>
     </h1>
   </main>
+
+  <div class="rest">
+    <section class="on-dark">
+      <h2>About</h2>
+      <p>Who we are and what FIS is about.</p>
+    </section>
+    <section class="on-dark">
+      <h2>Events</h2>
+      <p>Gatherings, talks and what's coming up.</p>
+    </section>
+    <section class="on-light">
+      <h2>Team</h2>
+      <p>The people behind the society.</p>
+    </section>
+    <section class="on-light">
+      <h2>Join</h2>
+      <p>How to get involved.</p>
+    </section>
+  </div>
 </body>
 </html>
