@@ -22,6 +22,8 @@
     --serif: "Playfair Display", Georgia, "Times New Roman", serif;
     --script: "Caveat", "Segoe Script", cursive;
     --sans: "Archivo", system-ui, sans-serif;
+    /* how far the hero runs past the screen bottom, so the whole image shows before the tear */
+    --drop: 80px;
   }
 
   html { scroll-behavior: smooth; }
@@ -32,8 +34,8 @@
     position: relative;
     z-index: 0;
     width: 100%;
-    height: 100vh;
-    height: 100svh;
+    height: calc(100vh + var(--drop));
+    height: calc(100svh + var(--drop));
     overflow: hidden;
     --focus: 50% 80%;
   }
@@ -47,12 +49,12 @@
   .hero::after {
     content: "";
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 38% 40% at 80% 26%, rgba(25,12,0,.22), transparent 72%);
+    background: radial-gradient(ellipse 38% 40% at 80% 20%, rgba(25,12,0,.22), transparent 72%);
     pointer-events: none;
   }
   .hint {
     position: absolute;
-    left: 50%; bottom: 7vh;
+    left: 50%; bottom: calc(var(--drop) + 7vh);
     z-index: 3;
     width: 22px; height: 22px;
     margin-left: -11px;
@@ -153,7 +155,6 @@
     background: var(--c);
     color: var(--t);
   }
-  /* soft paper grain */
   .sec::after, .hz::after {
     content: "";
     position: absolute; inset: 0;
@@ -163,8 +164,6 @@
   }
   .sec > *:not(.tear):not(.hpin) { position: relative; z-index: 1; }
 
-  /* the tear sits on the top of each section, over the section above it.
-     --rim is the paper color along the edge (not white) */
   .tear {
     position: absolute;
     left: 0; top: -39px;
@@ -186,7 +185,7 @@
     font-family: var(--script);
     font-style: normal;
     font-weight: 600;
-    color: var(--gold);
+    color: var(--cream);
     font-size: 1.1em;
     margin-left: .15em;
   }
@@ -204,51 +203,79 @@
     z-index: 4;
   }
 
-  /* ---------- ABOUT ---------- */
-  #about { padding: 16vh 6vw 18vh; }
-  .about {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
-    gap: 6vw;
+  /* ---------- ABOUT (Hi, we're FIS) ---------- */
+  #about { padding: 18vh 6vw 16vh; text-align: center; }
+  #about .hi {
+    font-family: var(--serif);
+    font-weight: 900;
+    font-size: clamp(42px, 7.4vw, 112px);
+    line-height: 1;
+    letter-spacing: -.01em;
+    color: var(--cream);
+  }
+  #about .hi em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1em;
+    margin-left: .12em;
+  }
+  #about .since {
+    margin: 2vh auto 0;
+    max-width: none;
+    font-size: clamp(11px, 1vw, 14px);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+
+  .stage {
+    position: relative;
+    width: min(1000px, 100%);
+    min-height: 560px;
+    margin: 7vh auto 0;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
   }
-  .collage { position: relative; min-height: 420px; display: flex; justify-content: center; }
-  .archwrap { position: relative; width: clamp(210px, 26vw, 340px); aspect-ratio: 3 / 4.2; }
-  .archwrap::before {
-    content: "";
-    position: absolute; inset: 0;
-    border: 2px solid var(--gold);
-    border-radius: 999px 999px 0 0;
-    transform: translate(12px, 12px);
+  /* cream sticker outline around the image */
+  .cut {
+    display: block;
+    width: clamp(190px, 22vw, 290px);
+    height: auto;
+    filter:
+      drop-shadow(3px 0 0 var(--cream))
+      drop-shadow(-3px 0 0 var(--cream))
+      drop-shadow(0 3px 0 var(--cream))
+      drop-shadow(0 -3px 0 var(--cream));
   }
-  .arch {
-    position: absolute; inset: 0;
-    border-radius: 999px 999px 0 0;
-    overflow: hidden;
-    background: #14291c;
-  }
-  .arch img { width: 100%; height: 100%; object-fit: cover; object-position: 28% 100%; display: block; }
-  .pol {
+
+  .note {
     position: absolute;
-    right: 0; bottom: -4vh;
-    width: clamp(120px, 14vw, 190px);
-    background: #fbf5e6;
-    padding: 8px 8px 30px;
-    transform: rotate(5deg);
-    z-index: 3;
+    width: clamp(150px, 17vw, 220px);
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(13px, 1.15vw, 17px);
+    line-height: 1.45;
+    color: var(--cream);
   }
-  .pol img { width: 100%; aspect-ratio: 1; object-fit: cover; object-position: 70% 80%; display: block; }
-  .pol span {
-    position: absolute; left: 0; right: 0; bottom: 5px;
-    text-align: center;
-    font-family: var(--script);
-    font-size: 20px;
-    color: var(--ink);
+  .note .ar {
+    position: absolute;
+    width: 86px; height: 58px;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .abouttext h2 { margin-bottom: 3vh; }
-  .abouttext p + p { margin-top: 1.6vh; }
+  .n1 { left: 2%;  top: 8%;    text-align: left; }
+  .n2 { right: 2%; top: 8%;    text-align: right; }
+  .n3 { left: 2%;  bottom: 8%; text-align: left; }
+  .n4 { right: 2%; bottom: 8%; text-align: right; }
+  .n1 .ar { left: calc(100% + 6px);  top: 18px; }
+  .n2 .ar { right: calc(100% + 6px); top: 18px;  transform: scaleX(-1); }
+  .n3 .ar { left: 24px;  top: -66px; transform: scaleY(-1); }
+  .n4 .ar { right: 24px; top: -66px; transform: scale(-1, -1); }
 
   /* ---------- SIDEWAYS ARCHIVE ---------- */
   .hz { height: 320vh; }
@@ -333,8 +360,9 @@
     line-height: 1.3;
     max-width: 22ch;
     margin: 0 auto 5vh;
+    color: var(--cream);
   }
-  #closing small { font-family: var(--script); font-size: clamp(20px, 1.8vw, 28px); color: var(--gold); }
+  #closing small { font-family: var(--script); font-size: clamp(20px, 1.8vw, 28px); color: var(--cream); }
 
   @media (prefers-reduced-motion: reduce) {
     .title, .hint { animation: none; }
@@ -342,6 +370,7 @@
   }
 
   @media (max-width: 800px) {
+    :root { --drop: 60px; }
     .hero { --focus: 68% 50%; }
     .nav { font-size: 11px; top: 2.5vh; }
     .title { top: 11svh; right: 6vw; max-width: none; }
@@ -349,9 +378,11 @@
     .fast::before, .fast::after { height: 1.5px; }
     .main { font-size: 9vw; }
 
-    .about { grid-template-columns: 1fr; gap: 9vh; }
-    .archwrap { width: 62vw; }
-    .pol { width: 34vw; right: 2vw; }
+    .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 5vh 5vw; min-height: 0; justify-items: center; }
+    .cut { grid-column: 1 / -1; width: 56vw; }
+    .note { position: static; width: auto; text-align: center !important; }
+    .note .ar { display: none; }
+
     .hhead { width: 62vw; }
     .card { width: 58vw; }
     .sheets { grid-template-columns: 1fr; gap: 7vh; }
@@ -382,21 +413,28 @@
   <!-- ABOUT: deep green -->
   <section class="sec" id="about" style="--c:#1f3d2a; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-    <div class="about">
-      <div class="collage">
-        <div class="archwrap">
-          <div class="arch"><img src="FINAL%20DESKTOP.png" alt="Students gathered under the banyan tree"></div>
-        </div>
-        <span class="tape" style="top: 4%; left: 8%; transform: rotate(-32deg);"></span>
-        <div class="pol">
-          <img src="FINAL%20DESKTOP.png" alt="">
-          <span>under the banyan</span>
-        </div>
+
+    <h2 class="hi">Hi, we're <em>FIS</em> !</h2>
+    <p class="since">FAST Islamic Society since 20XX</p>
+
+    <div class="stage">
+      <img class="cut" src="/favicon.png?v=2" alt="FIS">
+
+      <div class="note n1">
+        <svg class="ar" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+        Founded in 20XX,<br>right here at FAST
       </div>
-      <div class="abouttext">
-        <h2>About <em>FIS</em></h2>
-        <p>Your about text goes here. Two or three short lines about who FIS is and what you do.</p>
-        <p>A second short paragraph if you need it.</p>
+      <div class="note n2">
+        <svg class="ar" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+        Open to every<br>student on campus
+      </div>
+      <div class="note n3">
+        <svg class="ar" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+        Learning together<br>under one tree
+      </div>
+      <div class="note n4">
+        <svg class="ar" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+        Talks, blogs,<br>events and more
       </div>
     </div>
   </section>
@@ -447,7 +485,6 @@
   </section>
 
 <script>
-  /* random torn edges (same every load) */
   function rnd(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
   document.querySelectorAll(".tear").forEach((el, k) => {
     const r = rnd(k * 97 + 13), W = 1200, n = 80, a = [], b = [];
@@ -462,7 +499,6 @@
       '<polygon class="fl" points="0,40 ' + b.join(" ") + ' 1200,40"/>';
   });
 
-  /* vertical scroll drives the sideways archive */
   const hz = document.querySelector(".hz");
   const track = hz.querySelector(".track");
   const bar = hz.querySelector(".hbar i");
