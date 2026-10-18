@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FAST Islamic Society</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fff4dc;
+    --gold: #e8c46a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: #0f0f0f; }
+
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .hero img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 50% 80%;
+    display: block;
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(0,0,0,.55) 0%,
+      rgba(0,0,0,.25) 28%,
+      transparent 45%);
+    pointer-events: none;
+  }
+
+  .title {
+    position: absolute;
+    z-index: 2;
+    left: 0; right: 0;
+    top: calc(env(safe-area-inset-top, 0px) + 9svh);
+    padding: 0 6vw;
+    text-align: center;
+    color: var(--cream);
+    text-shadow: 0 2px 14px rgba(0,0,0,.6);
+    animation: rise 1.1s cubic-bezier(.2,.7,.2,1) both;
+  }
+
+  .fast {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3.5vw;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    font-size: clamp(18px, 6.5vw, 34px);
+    letter-spacing: .5em;
+    padding-left: .5em;
+    color: var(--gold);
+    margin-bottom: 1.5vw;
+  }
+  .fast::before, .fast::after {
+    content: "";
+    height: 2px;
+    width: 10vw;
+    background: var(--gold);
+    opacity: .8;
+  }
+
+  .main {
+    font-family: "Anton", "Impact", sans-serif;
+    font-weight: 400;
+    font-size: clamp(54px, 24vw, 130px);
+    line-height: .95;
+    text-transform: uppercase;
+    letter-spacing: .01em;
+  }
+  .main span { display: block; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .title { animation: none; }
+  }
+
+  @media (orientation: landscape) and (max-height: 500px) {
+    .title { text-align: left; top: 6svh; padding-left: 6vw; }
+    .fast { justify-content: flex-start; font-size: 4vh; }
+    .fast::before { display: none; }
+    .main { font-size: 20vh; }
+  }
+</style>
+</head>
+<body>
+  <main class="hero">
+    <img src="hero-mobile.jpg" alt="Students sitting under a banyan tree at sunset in front of the FAST campus">
+    <h1 class="title">
+      <span class="fast">FAST</span>
+      <span class="main"><span>Islamic</span><span>Society</span></span>
+    </h1>
+  </main>
+</body>
+</html>
