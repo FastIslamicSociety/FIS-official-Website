@@ -90,11 +90,18 @@
     animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both;
   }
   .title span { display: block; }
-  .fast,
-  .main span {
-    font-size: min(6.4vw, 11vh);
-    line-height: .92;
+    .fast {
+    font-size: min(2.6vw, 5vh);
+    letter-spacing: .32em;
+    margin-right: -.32em;   /* cancels the trailing gap so FAST lines up with the right edge */
+    line-height: 1;
+    margin-bottom: .5vh;
+  }
+  .main {
+    font-size: min(5.4vw, 10vh);
+    line-height: .95;
     letter-spacing: -.025em;
+    white-space: nowrap;
   }
 
   @keyframes rise {
@@ -104,11 +111,13 @@
   @media (prefers-reduced-motion: reduce) { .title { animation: none; } }
 
   /* phones / narrow windows */
+  /* phones / narrow windows: Islamic / Society wrap onto two lines */
   @media (max-width: 800px) {
     .hero { --focus: 68% 50%; }
     .nav { font-size: 11px; top: 2.5vh; }
-    .title { top: 11svh; right: 6vw; }
-    .fast, .main span { font-size: min(15vw, 9.5svh); }
+    .title { top: 11svh; right: 6vw; max-width: 88vw; }
+    .fast { font-size: min(5vw, 3.2svh); }
+    .main { font-size: min(15vw, 9.5svh); white-space: normal; }
   }
 </style>
 </head>
@@ -124,7 +133,7 @@
 
    <h1 class="title">
   <span class="fast">FAST</span>
-  <span class="main"><span>Islamic</span><span>Society</span></span>
+  <span class="main">Islamic Society</span>
 </h1>
   </main>
 </body>
