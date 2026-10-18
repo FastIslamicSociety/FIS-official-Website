@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Playfair+Display:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -20,7 +20,6 @@
     --ink:   #2a2118;
     --gold:  #d9a441;
     --serif: "Playfair Display", Georgia, "Times New Roman", serif;
-    --script: "Caveat", "Segoe Script", cursive;
     --sans: "Archivo", system-ui, sans-serif;
     /* how far the hero runs past the screen bottom, so the whole image shows before the tear */
     --drop: 80px;
@@ -184,13 +183,16 @@
     font-size: clamp(34px, 5vw, 76px);
     line-height: 1;
   }
-  .sec h2 em, .hz h2 em {
-    font-family: var(--script);
-    font-style: normal;
-    font-weight: 600;
+  /* plain small subtitle under a heading (replaces the script font) */
+  .sub {
+    display: block;
+    margin-top: 1.4vh;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(13px, 1.15vw, 17px);
+    line-height: 1.4;
+    letter-spacing: .02em;
     color: var(--cream);
-    font-size: 1.1em;
-    margin-left: .15em;
   }
   .sec p {
     font-family: var(--sans);
@@ -206,7 +208,7 @@
     z-index: 4;
   }
 
-  /* ---------- ABOUT (Hi, we're FIS) ---------- */
+  /* ---------- ABOUT (What is FIS ?) ---------- */
   #about { padding: 18vh 6vw 16vh; text-align: center; }
   #about .hi {
     font-family: var(--serif);
@@ -270,6 +272,7 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+  .note .ar path { vector-effect: non-scaling-stroke; }
   .n1 { left: 2%;  top: 8%;    text-align: left; }
   .n2 { right: 2%; top: 8%;    text-align: right; }
   .n3 { left: 2%;  bottom: 8%; text-align: left; }
@@ -314,10 +317,11 @@
   .card picture { display: block; }
   .card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: var(--op, 50% 50%); display: block; }
   .card span {
-    position: absolute; left: 0; right: 0; bottom: 8px;
+    position: absolute; left: 0; right: 0; bottom: 12px;
     text-align: center;
-    font-family: var(--script);
-    font-size: 24px;
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: 14px;
     color: var(--ink);
   }
   .hbar {
@@ -350,7 +354,6 @@
   .sheet:nth-child(2) { transform: rotate(1.2deg); margin-top: 5vh; }
   .sheet .tape { top: -12px; left: 50%; margin-left: -37px; transform: rotate(-3deg); }
   .sheet h3 { font-family: var(--serif); font-weight: 900; font-size: clamp(22px, 2.2vw, 32px); }
-  .sheet h3 em { font-family: var(--script); font-style: normal; font-weight: 600; color: #2f5d3a; font-size: 1.15em; margin-left: .2em; }
   .sheet p { margin-top: 2.4vh; max-width: none; }
 
   /* ---------- CLOSING ---------- */
@@ -365,45 +368,103 @@
     margin: 0 auto 5vh;
     color: var(--cream);
   }
-  #closing small { font-family: var(--script); font-size: clamp(20px, 1.8vw, 28px); color: var(--cream); }
+  #closing small {
+    font-family: var(--sans);
+    font-weight: 700;
+    font-size: clamp(11px, 1vw, 14px);
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .title, .hint { animation: none; }
     html { scroll-behavior: auto; }
   }
 
-  /* ---------- PHONES ---------- */
+  /* ---------- PHONES AND SPLIT TABS ---------- */
   @media (max-width: 800px) {
-    :root { --drop: 60px; }
+    :root { --drop: 50px; }
 
-    /* the phone image is tall, so it fills the screen with the tree, students and building */
     .hero { --focus: 45% 50%; }
-    .nav { font-size: 11px; top: 2.5vh; }
+    .nav { font-size: 10px; top: 2.5vh; }
     .title { top: 11svh; right: 6vw; max-width: none; }
-    .fast { font-size: 4vw; margin-bottom: 1.2svh; }
+    .fast { font-size: min(4vw, 22px); margin-bottom: 1.2svh; }
     .fast::before, .fast::after { height: 1.5px; }
-    .main { font-size: 9vw; }
+    .main { font-size: min(9vw, 56px); }
 
-    .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 5vh 5vw; min-height: 0; justify-items: center; }
-    .cut { grid-column: 1 / -1; width: 56vw; }
-    .note { position: static; width: auto; text-align: center !important; }
-    .note .ar { display: none; }
+    .sec h2, .hz h2 { font-size: clamp(26px, 7.5vw, 42px); }
+    .sub { font-size: 13px; margin-top: 1vh; }
 
-    /* archive: bigger cards so the pinned screen is not mostly empty */
-    .hz { height: 260vh; }
-    .track { gap: 8vw; padding: 0 8vw; }
-    .hhead { width: 78vw; }
-    .hhead h2 { font-size: 13vw; }
-    .hhead p { font-size: 15px; }
-    .card { width: 72vw; padding: 3vw 3vw 12vw; }
+    /* ABOUT: smaller, arrows stay */
+    #about { padding: 12vh 5vw 12vh; }
+    #about .hi { font-size: clamp(30px, 8.5vw, 52px); }
+    #about .since { font-size: 10px; letter-spacing: .16em; }
+
+    .stage {
+      display: block;
+      width: 100%;
+      max-width: 520px;
+      height: clamp(300px, 84vw, 440px);
+      min-height: 0;
+      margin: 5vh auto 0;
+    }
+    .cut {
+      position: absolute;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(120px, 36vw, 190px);
+      filter:
+        drop-shadow(2px 0 0 var(--cream))
+        drop-shadow(-2px 0 0 var(--cream))
+        drop-shadow(0 2px 0 var(--cream))
+        drop-shadow(0 -2px 0 var(--cream));
+    }
+    .note {
+      --aw: clamp(34px, 10vw, 56px);
+      width: clamp(110px, 38vw, 200px);
+      font-size: clamp(11px, 3.1vw, 14px);
+      line-height: 1.4;
+    }
+    .note .ar {
+      width: var(--aw);
+      height: auto;
+      aspect-ratio: 3 / 2;
+      stroke-width: 2;
+    }
+    .n1 { left: 0;  top: 0; }
+    .n2 { right: 0; top: 0; }
+    .n3 { left: 0;  bottom: 0; }
+    .n4 { right: 0; bottom: 0; }
+    .n1 .ar { left: calc(100% + 2px);  top: 12px; }
+    .n2 .ar { right: calc(100% + 2px); top: 12px; transform: scaleX(-1); }
+    .n3 .ar { left: calc(100% - var(--aw) / 2);  right: auto; top: auto; bottom: calc(100% + 2px); transform: scaleY(-1); }
+    .n4 .ar { right: calc(100% - var(--aw) / 2); left: auto;  top: auto; bottom: calc(100% + 2px); transform: scale(-1, -1); }
+
+    /* ARCHIVE: smaller cards */
+    .hz { height: 240vh; }
+    .track { gap: 6vw; padding: 0 7vw; }
+    .hhead { width: clamp(190px, 60vw, 320px); }
+    .hhead h2 { font-size: clamp(30px, 9vw, 44px); }
+    .hhead p { font-size: 13px; margin-top: 1.4vh; }
+    .card { width: clamp(150px, 50vw, 230px); padding: 8px 8px 30px; }
     .card:nth-child(even) { margin-top: 0; }
-    .card span { font-size: 7vw; bottom: 2.5vw; }
+    .card span { font-size: 12px; bottom: 9px; }
     .card img { object-position: var(--opm, 50% 50%); }
-    .hbar { bottom: 8vh; }
+    .hbar { left: 7vw; right: 7vw; bottom: 8vh; }
 
-    .sheets { grid-template-columns: 1fr; gap: 7vh; }
-    .sheet { padding: 5vh 7vw 4vh; }
+    /* MESSAGES */
+    #messages { padding: 12vh 6vw 14vh; }
+    #messages > h2 { margin-bottom: 5vh; }
+    .sheets { grid-template-columns: 1fr; gap: 5vh; }
+    .sheet { padding: 4vh 6vw 3.5vh; }
     .sheet:nth-child(2) { margin-top: 0; }
+    .sheet h3 { font-size: clamp(18px, 5vw, 24px); }
+    .sheet p { font-size: 14px; margin-top: 1.4vh; }
+
+    /* CLOSING */
+    #closing { padding: 14vh 6vw 12vh; }
+    #closing blockquote { font-size: clamp(20px, 6vw, 30px); }
   }
 </style>
 </head>
@@ -433,7 +494,7 @@
   <section class="sec" id="about" style="--c:#1f3d2a; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
 
-    <h2 class="hi">Hi, we're <em>FIS</em> !</h2>
+    <h2 class="hi">What is <em>FIS</em> ?</h2>
     <p class="since">FAST Islamic Society since 20XX</p>
 
     <div class="stage">
@@ -465,7 +526,7 @@
     <div class="hpin">
       <div class="track">
         <div class="hhead">
-          <h2>Archive <em>moments we kept</em></h2>
+          <h2>Archive <span class="sub">Moments we kept</span></h2>
           <p>Scroll to move through our past events.</p>
         </div>
 
@@ -505,12 +566,12 @@
     <div class="sheets">
       <article class="sheet">
         <span class="tape"></span>
-        <h3>President <em>says</em></h3>
+        <h3>From the President</h3>
         <p>President's message goes here.</p>
       </article>
       <article class="sheet">
         <span class="tape"></span>
-        <h3>CP <em>says</em></h3>
+        <h3>From the CP</h3>
         <p>CP's message goes here.</p>
       </article>
     </div>
