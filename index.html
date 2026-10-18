@@ -22,7 +22,6 @@
     height: 100vh;
     height: 100svh;
     overflow: hidden;
-    /* 50% 50% = center, 50% 70% = keep more grass/students, 50% 30% = keep more sky */
     --focus: 50% 62%;
   }
   .hero > img {
@@ -32,7 +31,6 @@
     object-position: var(--focus);
     display: block;
   }
-  /* very soft, local darkening behind the title only */
   .hero::after {
     content: "";
     position: absolute; inset: 0;
@@ -40,7 +38,6 @@
     pointer-events: none;
   }
 
-  /* nav: restrained, truly centered middle item */
   .nav {
     position: absolute;
     top: 3.5vh; left: 3vw; right: 3vw;
@@ -74,13 +71,13 @@
   .nav a:hover { transform: translateY(-2px); }
   .nav a:hover::after { transform: scaleX(1); }
 
-  /* main heading: Playfair Display Black, cream, big */
   .title {
     position: absolute;
-       top: 17vh;
+    top: 17vh;
     right: 5vw;
     z-index: 2;
-    text-align: left;
+    width: max-content;
+    max-width: 90vw;
     color: #fff4dc;
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
     font-weight: 900;
@@ -89,16 +86,29 @@
             drop-shadow(0 6px 22px rgba(20,8,0,.4));
     animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both;
   }
-  .title span { display: block; }
-  .title .fast {
+
+  /* ------- FAST ------- : lines stretch to fill the full width of the title */
+  .fast {
     display: flex;
-    justify-content: space-between;   /* spreads F A S T across the full width of the line below */
-    font-size: min(3vw, 5.5vh);
+    align-items: center;
+    gap: .7em;
+    font-size: min(2.2vw, 4.2vh);
     line-height: 1;
-    margin-bottom: 1.2vh;
+    letter-spacing: .35em;
+    margin-bottom: 1.6vh;
   }
-  .fast i { font-style: normal; }
+  .fast::before,
+  .fast::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: #fff4dc;
+    border-radius: 2px;
+  }
+  .fast span { margin-right: -.35em; }
+
   .main {
+    display: block;
     font-size: min(4.6vw, 10vh);
     line-height: 1;
     letter-spacing: .02em;
@@ -111,14 +121,13 @@
   }
   @media (prefers-reduced-motion: reduce) { .title { animation: none; } }
 
-  /* phones / narrow windows */
-  /* phones / narrow windows: Islamic / Society wrap onto two lines */
   @media (max-width: 800px) {
     .hero { --focus: 68% 50%; }
     .nav { font-size: 11px; top: 2.5vh; }
-    .title { top: 11svh; right: 6vw; max-width: 88vw; }
-    .title .fast { font-size: min(6vw, 3.4svh); }
-    .main { font-size: min(11vw, 7.5svh); white-space: normal; }
+    .title { top: 11svh; right: 6vw; max-width: none; }
+    .fast { font-size: 4vw; margin-bottom: 1.2svh; }
+    .fast::before, .fast::after { height: 1.5px; }
+    .main { font-size: 9vw; }
   }
 </style>
 </head>
@@ -132,10 +141,10 @@
       <a href="#">homepage</a>
     </nav>
 
-  <h1 class="title">
-  <span class="fast"><i>F</i><i>A</i><i>S</i><i>T</i></span>
-  <span class="main">ISLAMIC SOCIETY</span>
-</h1>
+    <h1 class="title">
+      <div class="fast"><span>FAST</span></div>
+      <span class="main">ISLAMIC SOCIETY</span>
+    </h1>
   </main>
 </body>
 </html>
