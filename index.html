@@ -12,33 +12,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { background: #0f0f0f; min-height: 100%; }
-  body { display: grid; place-items: center; min-height: 100vh; }
+  html, body { background: #0f0f0f; height: 100%; overflow: hidden; }
 
-  .poster {
-    container-type: inline-size;
+  .hero {
+    /* one scaling unit: text follows whichever is smaller, width or height */
+    --u: min(1vw, 1.65vh);
     position: relative;
-    width: min(100vw, 177.78vh);
-    aspect-ratio: 16 / 9;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
     overflow: hidden;
   }
-  .poster img {
+  .hero img {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: 50% 50%;   /* raise % to show more of the bottom, lower to show more sky */
     display: block;
   }
-  .poster::after {
+  .hero::after {
     content: "";
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 45% 50% at 80% 22%, rgba(0,0,0,.3), transparent 70%);
+    background: radial-gradient(ellipse 40% 45% at 80% 22%, rgba(0,0,0,.28), transparent 70%);
     pointer-events: none;
   }
 
   .title {
     position: absolute;
-    top: 4.5cqw;
-    right: 5cqw;
+    top: 4vh;
+    right: 5vw;
     z-index: 2;
     text-align: right;
     font-family: "Anton", "Impact", sans-serif;
@@ -49,7 +51,7 @@
   }
   .title span { display: block; }
 
-  /* raised / embossed look: stacked shadow = 3D thickness, blur = lift off the image */
+  /* raised / embossed look */
   .fast, .main span {
     text-shadow:
       0 .012em 0 #ececec,
@@ -61,26 +63,26 @@
   }
 
   .fast {
-    font-size: 4.6cqw;
-    letter-spacing: .5cqw;
+    font-size: calc(var(--u) * 4.6);
+    letter-spacing: calc(var(--u) * .5);
     line-height: 1;
-    margin-bottom: .5cqw;
+    margin-bottom: calc(var(--u) * .5);
   }
   .main span {
-    font-size: 11.5cqw;
+    font-size: calc(var(--u) * 11);
     line-height: .88;
-    letter-spacing: .1cqw;
+    letter-spacing: calc(var(--u) * .1);
   }
 
   @keyframes rise {
-    from { opacity: 0; transform: translateY(2cqw); }
+    from { opacity: 0; transform: translateY(2vh); }
     to   { opacity: 1; transform: none; }
   }
   @media (prefers-reduced-motion: reduce) { .title { animation: none; } }
 </style>
 </head>
 <body>
-  <main class="poster">
+  <main class="hero">
     <img src="FINAL%20DESKTOP.png" alt="Students sitting under a banyan tree at sunset in front of the FAST campus">
     <h1 class="title">
       <span class="fast">FAST</span>
