@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FAST ISLAMIC SOCIETY</title>
+<title>FAST Islamic Society</title>
 
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
@@ -14,26 +14,14 @@
 <link href="https://api.fontshare.com/v2/css?f[]=sentient@700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { background: #0f0f0f; height: 100%; overflow: hidden; }
+  html, body { background: #0f0f0f; }
 
-  .backdrop {
-    position: fixed; inset: 0;
-    overflow: hidden;
-  }
-  .backdrop img {
-    width: 100%; height: 100%;
-    object-fit: cover;
-    filter: blur(28px) brightness(.55);
-    transform: scale(1.1);
-  }
-
+  /* full width, natural height: nothing cropped, no side bars */
   .stage {
     container-type: inline-size;
-    position: absolute;
-    top: 50%; left: 50%;
-    width: max(100vw, 177.78vh);
+    position: relative;
+    width: 100%;
     aspect-ratio: 16 / 9;
-    transform: translate(-50%, -50%);
   }
   .stage > img {
     position: absolute; inset: 0;
@@ -74,7 +62,7 @@
   .nav a:hover { transform: translateY(-2px); }
   .nav a:hover::after { transform: scaleX(1); }
 
-  /* title: all lowercase, smaller, stays in the sky */
+  /* title */
   .title {
     position: absolute;
     top: 6cqw;
@@ -90,13 +78,9 @@
     animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both;
   }
   .title span { display: block; }
-  .fast {
-    font-size: 6.2cqw;
-    line-height: .95;
-    letter-spacing: -.02em;
-  }
+  .fast,
   .main span {
-    font-size: 6.2cqw;
+    font-size: 5.2cqw;
     line-height: .95;
     letter-spacing: -.02em;
   }
@@ -109,8 +93,6 @@
 </style>
 </head>
 <body>
-  <div class="backdrop"><img src="FINAL%20DESKTOP.png" alt=""></div>
-
   <main class="stage">
     <img src="FINAL%20DESKTOP.png" alt="Students sitting under a banyan tree at sunset in front of the FAST campus">
 
