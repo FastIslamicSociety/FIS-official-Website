@@ -39,8 +39,11 @@
     overflow: hidden;
     --focus: 50% 80%;
   }
-  .hero > img {
+  .hero picture {
     position: absolute; inset: 0;
+    display: block;
+  }
+  .hero img {
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: var(--focus);
@@ -238,7 +241,6 @@
     justify-content: center;
     align-items: center;
   }
-  /* cream sticker outline around the image */
   .cut {
     display: block;
     width: clamp(190px, 22vw, 290px);
@@ -309,6 +311,7 @@
   }
   .card:nth-child(even) { margin-top: 8vh; --r: 2.5deg; }
   .card:nth-child(3n) { --r: -4deg; }
+  .card picture { display: block; }
   .card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: var(--op, 50% 50%); display: block; }
   .card span {
     position: absolute; left: 0; right: 0; bottom: 8px;
@@ -369,9 +372,12 @@
     html { scroll-behavior: auto; }
   }
 
+  /* ---------- PHONES ---------- */
   @media (max-width: 800px) {
     :root { --drop: 60px; }
-    .hero { --focus: 68% 50%; }
+
+    /* the phone image is tall, so it fills the screen with the tree, students and building */
+    .hero { --focus: 45% 50%; }
     .nav { font-size: 11px; top: 2.5vh; }
     .title { top: 11svh; right: 6vw; max-width: none; }
     .fast { font-size: 4vw; margin-bottom: 1.2svh; }
@@ -383,8 +389,18 @@
     .note { position: static; width: auto; text-align: center !important; }
     .note .ar { display: none; }
 
-    .hhead { width: 62vw; }
-    .card { width: 58vw; }
+    /* archive: bigger cards so the pinned screen is not mostly empty */
+    .hz { height: 260vh; }
+    .track { gap: 8vw; padding: 0 8vw; }
+    .hhead { width: 78vw; }
+    .hhead h2 { font-size: 13vw; }
+    .hhead p { font-size: 15px; }
+    .card { width: 72vw; padding: 3vw 3vw 12vw; }
+    .card:nth-child(even) { margin-top: 0; }
+    .card span { font-size: 7vw; bottom: 2.5vw; }
+    .card img { object-position: var(--opm, 50% 50%); }
+    .hbar { bottom: 8vh; }
+
     .sheets { grid-template-columns: 1fr; gap: 7vh; }
     .sheet { padding: 5vh 7vw 4vh; }
     .sheet:nth-child(2) { margin-top: 0; }
@@ -394,7 +410,10 @@
 <body>
 
   <main class="hero">
-    <img src="FINAL%20DESKTOP.png" alt="Students sitting under a banyan tree at sunset in front of the FAST campus">
+    <picture>
+      <source media="(max-width: 800px)" srcset="PHONEVFINAL.png">
+      <img src="FINAL%20DESKTOP.png" alt="Students sitting under a banyan tree at sunset in front of the FAST campus">
+    </picture>
 
     <nav class="nav">
       <a href="#">FIS — 2026</a>
@@ -439,7 +458,8 @@
     </div>
   </section>
 
-  <!-- ARCHIVE: warm brown, scrolls sideways -->
+  <!-- ARCHIVE: warm brown, scrolls sideways.
+       --op = crop on desktop, --opm = crop on phone (portrait image: y% picks which slice) -->
   <section class="hz" id="archive" style="--c:#3a2d20; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
     <div class="hpin">
@@ -448,12 +468,31 @@
           <h2>Archive <em>moments we kept</em></h2>
           <p>Scroll to move through our past events.</p>
         </div>
-        <figure class="card" style="--op: 20% 85%"><img src="FINAL%20DESKTOP.png" alt=""><span>Event title</span></figure>
-        <figure class="card" style="--op: 60% 90%"><img src="FINAL%20DESKTOP.png" alt=""><span>Event title</span></figure>
-        <figure class="card" style="--op: 85% 50%"><img src="FINAL%20DESKTOP.png" alt=""><span>Event title</span></figure>
-        <figure class="card" style="--op: 10% 40%"><img src="FINAL%20DESKTOP.png" alt=""><span>Event title</span></figure>
-        <figure class="card" style="--op: 50% 20%"><img src="FINAL%20DESKTOP.png" alt=""><span>Event title</span></figure>
-        <figure class="card" style="--op: 70% 80%"><img src="FINAL%20DESKTOP.png" alt=""><span>Event title</span></figure>
+
+        <figure class="card" style="--op: 20% 85%; --opm: 50% 100%">
+          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
+          <span>Event title</span>
+        </figure>
+        <figure class="card" style="--op: 60% 90%; --opm: 50% 72%">
+          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
+          <span>Event title</span>
+        </figure>
+        <figure class="card" style="--op: 85% 50%; --opm: 50% 42%">
+          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
+          <span>Event title</span>
+        </figure>
+        <figure class="card" style="--op: 10% 40%; --opm: 50% 0%">
+          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
+          <span>Event title</span>
+        </figure>
+        <figure class="card" style="--op: 50% 20%; --opm: 50% 88%">
+          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
+          <span>Event title</span>
+        </figure>
+        <figure class="card" style="--op: 70% 80%; --opm: 50% 58%">
+          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
+          <span>Event title</span>
+        </figure>
       </div>
       <div class="hbar" aria-hidden="true"><i></i></div>
     </div>
