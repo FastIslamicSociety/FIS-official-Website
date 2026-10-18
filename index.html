@@ -11,10 +11,17 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { background: #0f0f0f; }
+
+  :root {
+    /* THE MAGIC COLOR: must match the bottom of the hero image AND the background of the section below */
+    --next: #2c4222;
+  }
+
+  html { scroll-behavior: smooth; }
+  html, body { background: var(--next); }
 
   .hero {
     position: relative;
@@ -36,6 +43,42 @@
     position: absolute; inset: 0;
     background: radial-gradient(ellipse 38% 40% at 80% 26%, rgba(25,12,0,.22), transparent 72%);
     pointer-events: none;
+  }
+
+  /* soft eased fade from the image into the next section (no hard edge) */
+  .fade {
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 42%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to bottom,
+      color-mix(in srgb, var(--next) 0%,   transparent) 0%,
+      color-mix(in srgb, var(--next) 6%,   transparent) 14%,
+      color-mix(in srgb, var(--next) 20%,  transparent) 30%,
+      color-mix(in srgb, var(--next) 45%,  transparent) 50%,
+      color-mix(in srgb, var(--next) 72%,  transparent) 70%,
+      color-mix(in srgb, var(--next) 92%,  transparent) 88%,
+      var(--next) 100%);
+  }
+
+  /* little scroll hint so people know there's more */
+  .hint {
+    position: absolute;
+    left: 50%; bottom: 4.5vh;
+    z-index: 3;
+    width: 22px; height: 22px;
+    margin-left: -11px;
+    border-right: 2px solid #fff4dc;
+    border-bottom: 2px solid #fff4dc;
+    transform: rotate(45deg);
+    opacity: .85;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.4));
+    animation: nudge 2.2s ease-in-out infinite;
+  }
+  @keyframes nudge {
+    0%, 100% { transform: translateY(0) rotate(45deg); }
+    50%      { transform: translateY(8px) rotate(45deg); }
   }
 
   .nav {
@@ -86,8 +129,6 @@
             drop-shadow(0 6px 22px rgba(20,8,0,.4));
     animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both;
   }
-
-  /* ------- FAST ------- : lines stretch to fill the full width of the title */
   .fast {
     display: flex;
     align-items: center;
@@ -106,7 +147,6 @@
     border-radius: 2px;
   }
   .fast span { margin-right: -.35em; }
-
   .main {
     display: block;
     font-size: min(4.6vw, 10vh);
@@ -115,11 +155,27 @@
     white-space: nowrap;
   }
 
+  /* section under the hero: same color as --next so the join is invisible */
+  .after {
+    position: relative;
+    z-index: 1;
+    margin-top: -1px;
+    background: var(--next);
+    color: #f6efdc;
+    padding: 12vh 6vw 16vh;
+    font-family: "Playfair Display", Georgia, serif;
+  }
+  .after h2 { font-size: clamp(28px, 4vw, 56px); margin-bottom: 2vh; }
+  .after p  { font-family: "Archivo", system-ui, sans-serif; font-weight: 700; max-width: 60ch; line-height: 1.6; }
+
   @keyframes rise {
     from { opacity: 0; transform: translateY(2vh); }
     to   { opacity: 1; transform: none; }
   }
-  @media (prefers-reduced-motion: reduce) { .title { animation: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .title, .hint { animation: none; }
+    html { scroll-behavior: auto; }
+  }
 
   @media (max-width: 800px) {
     .hero { --focus: 68% 50%; }
@@ -128,68 +184,14 @@
     .fast { font-size: 4vw; margin-bottom: 1.2svh; }
     .fast::before, .fast::after { height: 1.5px; }
     .main { font-size: 9vw; }
+    .fade { height: 36%; }
   }
-
-  /* ===== below the hero ===== */
-  :root { --grass: #55652a; }   /* the color the blurred grass fades into; tweak if you want it greener/yellower */
-
-  /* soft mirror of the painting's own grass, fading into the first section color */
-  .blend {
-    position: relative;
-    height: 42vh;
-    overflow: hidden;
-    background: var(--grass);
-  }
-  .blend::before {
-    content: "";
-    position: absolute;
-    inset: -6vh -6vw 0;
-    background: url("FINAL%20DESKTOP.png") center bottom / cover no-repeat;
-    transform: scaleY(-1);          /* mirror, so it continues from the hero's last rows */
-    filter: blur(26px) saturate(1.05);
-  }
-  .blend::after {
-    content: "";
-    position: absolute; inset: 0;
-    background: linear-gradient(to bottom, rgba(85,101,42,0) 0%, rgba(85,101,42,.6) 45%, var(--grass) 100%);
-  }
-
-  .rest {
-    background: linear-gradient(180deg,
-      var(--grass) 0%,
-      #6b7b32 20%,
-      #8a9644 42%,
-      #c3ca8f 70%,
-      #f1eed6 100%);
-    font-family: "Archivo", system-ui, sans-serif;
-  }
-  .rest section {
-    min-height: 90vh;
-    padding: 14vh 8vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 2.4vh;
-  }
-  .rest h2 {
-    font-family: "Playfair Display", Georgia, serif;
-    font-weight: 900;
-    font-size: clamp(34px, 5vw, 76px);
-    line-height: 1;
-  }
-  .rest p {
-    font-weight: 400;
-    font-size: clamp(16px, 1.3vw, 21px);
-    line-height: 1.6;
-    max-width: 56ch;
-  }
-  .rest .on-dark  { color: #fff4dc; text-shadow: 0 1px 12px rgba(20,25,5,.35); }
-  .rest .on-light { color: #26290d; }
 </style>
 </head>
 <body>
   <main class="hero">
     <img src="FINAL%20DESKTOP.png" alt="Students sitting under a banyan tree at sunset in front of the FAST campus">
+    <div class="fade"></div>
 
     <nav class="nav">
       <a href="#">FIS — 2026</a>
@@ -201,27 +203,14 @@
       <div class="fast"><span>FAST</span></div>
       <span class="main">ISLAMIC SOCIETY</span>
     </h1>
+
+    <div class="hint" aria-hidden="true"></div>
   </main>
 
-  <div class="blend"></div>
-
-  <div class="rest">
-    <section class="on-dark">
-      <h2>About</h2>
-      <p>Who we are and what FIS is about.</p>
-    </section>
-    <section class="on-dark">
-      <h2>Events</h2>
-      <p>Gatherings, talks and what's coming up.</p>
-    </section>
-    <section class="on-light">
-      <h2>Team</h2>
-      <p>The people behind the society.</p>
-    </section>
-    <section class="on-light">
-      <h2>Join</h2>
-      <p>How to get involved.</p>
-    </section>
-  </div>
+  <!-- PUT YOUR NEXT SECTION HERE (keep background: var(--next)) -->
+  <section class="after">
+    <h2>About FIS</h2>
+    <p>Your about text goes here.</p>
+  </section>
 </body>
 </html>
