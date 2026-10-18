@@ -15,11 +15,11 @@
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  /* these 3 are updated live by the script as you scroll */
+  /* --bg and --acc are updated live by the script. text color never changes, so it is always readable */
   :root {
     --bg:  #2c4222;
-    --ink: #f6efdc;
     --acc: #d9a441;
+    --ink: #f6efdc;
   }
 
   html { scroll-behavior: smooth; }
@@ -49,7 +49,6 @@
     pointer-events: none;
   }
 
-  /* tiny fade, follows the live page color so there is never a visible edge */
   .fade {
     position: absolute;
     left: 0; right: 0; bottom: -1px;
@@ -154,7 +153,6 @@
     white-space: nowrap;
   }
 
-  /* sections are transparent: the page color morphs behind them */
   .morph {
     position: relative;
     z-index: 1;
@@ -222,26 +220,27 @@
     <div class="hint" aria-hidden="true"></div>
   </main>
 
-  <!-- data-bg = page color, data-ink = text color, data-acc = accent line color -->
-  <section class="morph" data-bg="#f3ead7" data-ink="#2a2118" data-acc="#2f5d3a">
+  <!-- data-bg = this section's page color, data-acc = accent line color.
+       all backgrounds are dark so the cream text stays readable. -->
+  <section class="morph" data-bg="#2a4b34" data-acc="#d9a441">
     <div class="bar"></div>
     <h2>About FIS</h2>
     <p>Your about text goes here.</p>
   </section>
 
-  <section class="morph" data-bg="#1f3d2a" data-ink="#f6efdc" data-acc="#d9a441">
+  <section class="morph" data-bg="#1f4846" data-acc="#e0b455">
     <div class="bar"></div>
     <h2>Messages</h2>
     <p>President and CP messages go here.</p>
   </section>
 
-  <section class="morph" data-bg="#f3ead7" data-ink="#2a2118" data-acc="#2f5d3a">
+  <section class="morph" data-bg="#3f4a2a" data-acc="#e8b85c">
     <div class="bar"></div>
     <h2>Archive</h2>
     <p>Polaroids and past events go here.</p>
   </section>
 
-  <section class="morph" data-bg="#17120d" data-ink="#f6e9cf" data-acc="#e8b85c">
+  <section class="morph" data-bg="#3a2d20" data-acc="#e8b85c">
     <div class="bar"></div>
     <h2>Closing hadith</h2>
     <p>Closing line goes here.</p>
@@ -253,11 +252,10 @@
   const rgb = a => "rgb(" + a[0] + "," + a[1] + "," + a[2] + ")";
   const ease = t => t * t * (3 - 2 * t);
 
-  const base = { bg: hex("#2c4222"), ink: hex("#f6efdc"), acc: hex("#d9a441") };
+  const base = { bg: hex("#2c4222"), acc: hex("#d9a441") };
   const secs = [...document.querySelectorAll(".morph")].map(el => ({
     el,
     bg: hex(el.dataset.bg),
-    ink: hex(el.dataset.ink),
     acc: hex(el.dataset.acc)
   }));
 
@@ -267,21 +265,19 @@
   function paint() {
     ticking = false;
     const vh = window.innerHeight;
-    let bg = base.bg, ink = base.ink, acc = base.acc;
+    let bg = base.bg, acc = base.acc;
 
     secs.forEach(s => {
       const top = s.el.getBoundingClientRect().top;
-      /* color starts changing when the section top reaches 85% down the screen, done by 35% */
-      const p = ease(Math.min(1, Math.max(0, (vh * 0.85 - top) / (vh * 0.5))));
+      /* long, gentle blend: starts when the section is 95% down the screen, finishes about 90% of a screen later */
+      const p = ease(Math.min(1, Math.max(0, (vh * 0.95 - top) / (vh * 0.9))));
       if (p > 0) {
         bg  = mix(bg,  s.bg,  p);
-        ink = mix(ink, s.ink, p);
         acc = mix(acc, s.acc, p);
       }
     });
 
     root.style.setProperty("--bg",  rgb(bg));
-    root.style.setProperty("--ink", rgb(ink));
     root.style.setProperty("--acc", rgb(acc));
   }
 
