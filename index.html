@@ -16,7 +16,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    /* THE MAGIC COLOR: must match the bottom of the hero image AND the background of the section below */
+    /* must match the grass at the very bottom of the hero image AND the section below */
     --next: #2c4222;
   }
 
@@ -29,7 +29,8 @@
     height: 100vh;
     height: 100svh;
     overflow: hidden;
-    --focus: 50% 62%;
+    /* y bigger = image shifts up (students sit higher, away from the fade). try 70% to 90% */
+    --focus: 50% 80%;
   }
   .hero > img {
     position: absolute; inset: 0;
@@ -45,27 +46,24 @@
     pointer-events: none;
   }
 
-  /* soft eased fade from the image into the next section (no hard edge) */
+  /* short fade: only the last sliver of grass melts into the next section */
   .fade {
     position: absolute;
     left: 0; right: 0; bottom: -1px;
-    height: 42%;
+    height: 12%;
     z-index: 2;
     pointer-events: none;
     background: linear-gradient(to bottom,
-      color-mix(in srgb, var(--next) 0%,   transparent) 0%,
-      color-mix(in srgb, var(--next) 6%,   transparent) 14%,
-      color-mix(in srgb, var(--next) 20%,  transparent) 30%,
-      color-mix(in srgb, var(--next) 45%,  transparent) 50%,
-      color-mix(in srgb, var(--next) 72%,  transparent) 70%,
-      color-mix(in srgb, var(--next) 92%,  transparent) 88%,
+      color-mix(in srgb, var(--next) 0%,  transparent) 0%,
+      color-mix(in srgb, var(--next) 18%, transparent) 30%,
+      color-mix(in srgb, var(--next) 55%, transparent) 62%,
+      color-mix(in srgb, var(--next) 90%, transparent) 88%,
       var(--next) 100%);
   }
 
-  /* little scroll hint so people know there's more */
   .hint {
     position: absolute;
-    left: 50%; bottom: 4.5vh;
+    left: 50%; bottom: 3vh;
     z-index: 3;
     width: 22px; height: 22px;
     margin-left: -11px;
@@ -155,7 +153,6 @@
     white-space: nowrap;
   }
 
-  /* section under the hero: same color as --next so the join is invisible */
   .after {
     position: relative;
     z-index: 1;
@@ -184,7 +181,7 @@
     .fast { font-size: 4vw; margin-bottom: 1.2svh; }
     .fast::before, .fast::after { height: 1.5px; }
     .main { font-size: 9vw; }
-    .fade { height: 36%; }
+    .fade { height: 10%; }
   }
 </style>
 </head>
@@ -207,7 +204,6 @@
     <div class="hint" aria-hidden="true"></div>
   </main>
 
-  <!-- PUT YOUR NEXT SECTION HERE (keep background: var(--next)) -->
   <section class="after">
     <h2>About FIS</h2>
     <p>Your about text goes here.</p>
