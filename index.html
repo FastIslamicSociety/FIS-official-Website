@@ -77,10 +77,10 @@
   /* main heading: Playfair Display Black, cream, big */
   .title {
     position: absolute;
-    top: 11vh;
+       top: 17vh;
     right: 5vw;
     z-index: 2;
-    text-align: right;
+    text-align: center;
     color: #fff4dc;
     font-family: "Playfair Display", Georgia, "Times New Roman", serif;
     font-weight: 900;
@@ -90,15 +90,15 @@
     animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both;
   }
   .title span { display: block; }
-    .fast {
+     .fast {
     font-size: min(2.6vw, 5vh);
     letter-spacing: .32em;
-    margin-right: -.32em;   /* cancels the trailing gap so FAST lines up with the right edge */
+    padding-left: .32em;    /* balances the trailing letter-spacing so FAST is truly centered */
     line-height: 1;
-    margin-bottom: .5vh;
+    margin-bottom: 1vh;
   }
   .main {
-    font-size: min(5.4vw, 10vh);
+    font-size: min(6.2vw, 13vh);
     line-height: .95;
     letter-spacing: -.025em;
     white-space: nowrap;
