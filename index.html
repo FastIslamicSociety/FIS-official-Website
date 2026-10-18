@@ -90,17 +90,18 @@
     animation: rise 1.2s cubic-bezier(.2,.7,.2,1) both;
   }
   .title span { display: block; }
-     .fast {
+    .fast {
+    display: flex;
+    justify-content: space-between;   /* spreads F A S T across the full width of the line below */
     font-size: min(2.6vw, 5vh);
-    letter-spacing: .32em;
-    padding-left: .32em;    /* balances the trailing letter-spacing so FAST is truly centered */
     line-height: 1;
-    margin-bottom: 1vh;
+    margin-bottom: 1.2vh;
   }
+  .fast i { font-style: normal; }
   .main {
-    font-size: min(6.2vw, 13vh);
-    line-height: .95;
-    letter-spacing: -.025em;
+    font-size: min(4vw, 9vh);
+    line-height: 1;
+    letter-spacing: .02em;
     white-space: nowrap;
   }
 
@@ -116,8 +117,8 @@
     .hero { --focus: 68% 50%; }
     .nav { font-size: 11px; top: 2.5vh; }
     .title { top: 11svh; right: 6vw; max-width: 88vw; }
-    .fast { font-size: min(5vw, 3.2svh); }
-    .main { font-size: min(15vw, 9.5svh); white-space: normal; }
+    .fast { font-size: min(6vw, 3.4svh); }
+    .main { font-size: min(11vw, 7.5svh); white-space: normal; }
   }
 </style>
 </head>
@@ -131,9 +132,9 @@
       <a href="#">homepage</a>
     </nav>
 
-   <h1 class="title">
-  <span class="fast">FAST</span>
-  <span class="main">Islamic Society</span>
+  <h1 class="title">
+  <span class="fast"><i>F</i><i>A</i><i>S</i><i>T</i></span>
+  <span class="main">ISLAMIC SOCIETY</span>
 </h1>
   </main>
 </body>
