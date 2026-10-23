@@ -6,7 +6,7 @@
 <title>FAST Islamic Society | Archives</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Kalam:wght@700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Kalam:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #fff4dc;
@@ -16,7 +16,7 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: var(--bg); min-height: 100%; }
-  body { color: var(--cream); font-family: "Montserrat", sans-serif; font-weight: 600; line-height: 1.6; }
+  body { color: var(--cream); font-family: "Montserrat", sans-serif; font-weight: 600; line-height: 1.6; overflow-x: hidden; }
 
   /* Poster: 16:9, everything scales with its own width (cqw) */
   .poster {
@@ -38,7 +38,6 @@
     background: radial-gradient(ellipse 45% 50% at 80% 20%, rgba(0,0,0,.35), transparent 70%);
     pointer-events: none;
   }
-
   .title {
     position: absolute;
     top: 5cqw;
@@ -78,60 +77,79 @@
   }
   .main span { display: block; }
 
-  /* Archives */
-  .archives { max-width: 1040px; margin: 0 auto; padding: 90px 5vw 60px; }
-  .archives > h2 {
-    font-family: "Anton", "Impact", sans-serif; font-weight: 400;
-    font-size: clamp(48px, 8vw, 96px); line-height: 1; text-transform: uppercase;
-    display: flex; align-items: center; gap: 24px; margin-bottom: 60px;
+  /* ================= ARCHIVES ================= */
+  .archives { position: relative; padding-bottom: 40px; }
+  .hand { font-family: "Kalam", cursive; font-weight: 700; }
+  svg.doodle {
+    position: absolute; fill: none; stroke: var(--gold); stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round; pointer-events: none;
   }
-  .archives > h2::before {
-    content: ""; height: 4px; width: 90px; flex: none;
-    background: linear-gradient(to right, transparent, var(--gold));
+
+  .a-hero { text-align: center; padding: 90px 5vw 30px; position: relative; }
+  .a-hero small {
+    display: block; color: var(--gold); font-weight: 700;
+    letter-spacing: .9em; font-size: 14px; padding-left: .9em;
   }
+  .a-hero h2 {
+    font-family: "Anton", "Impact", sans-serif; font-weight: 400; text-transform: uppercase;
+    font-size: clamp(70px, 14vw, 150px); line-height: .95; margin: 8px 0 0;
+  }
+  .a-hero .swoosh { position: static; display: block; width: 200px; margin: 6px auto 0; stroke-width: 2.4; }
+  .a-hero p { color: var(--soft); max-width: 30ch; margin: 14px auto 0; }
+  .a-hero .arrow { position: static; display: block; margin: 18px auto 0; width: 30px; }
+
   .entry {
-    display: grid; grid-template-columns: 1.2fr 1fr; gap: 5vw;
-    align-items: center; padding: 40px 0;
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 6vw; align-items: center;
+    max-width: 1040px; margin: 0 auto; padding: 60px 5vw; position: relative;
   }
-  .entry.flip .photo { order: 2; }
-  .photo {
-    background: linear-gradient(160deg, #2a2a2a, #121212);
-    aspect-ratio: 4 / 3; overflow: hidden; border-radius: 4px;
+  .entry.flip .polaroid { order: 2; transform: rotate(2.5deg); }
+  .entry.flip .tape { transform: rotate(4deg); }
+
+  .polaroid {
+    position: relative; background: var(--cream); padding: 14px 14px 54px;
+    box-shadow: 0 14px 30px rgba(0,0,0,.6); transform: rotate(-3deg); max-width: 430px;
   }
-  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .polaroid .ph { aspect-ratio: 4 / 3.2; background: linear-gradient(160deg, #3a3a3a, #161616); overflow: hidden; }
+  .polaroid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .polaroid .cap { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-size: 22px; color: #0f0f0f; }
+  .tape {
+    position: absolute; top: -16px; left: 50%; width: 110px; height: 32px; margin-left: -55px;
+    background: var(--gold); opacity: .85; transform: rotate(-3deg);
+    clip-path: polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,96% 50%,100% 100%,8% 100%,4% 92%,0 100%,3% 50%);
+  }
+
+  .oval {
+    display: inline-block; border: 2px solid var(--gold); color: var(--gold); border-radius: 50%;
+    padding: 2px 22px; font-size: 22px; transform: rotate(-3deg); margin-bottom: 12px;
+  }
   .entry h3 {
-    font-family: "Anton", "Impact", sans-serif; font-weight: 400;
-    font-size: clamp(36px, 5vw, 60px); line-height: 1; text-transform: uppercase;
-    margin-bottom: 14px;
+    font-family: "Anton", "Impact", sans-serif; font-weight: 400; text-transform: uppercase;
+    font-size: clamp(36px, 5vw, 60px); line-height: 1; margin-bottom: 14px;
   }
-  .entry p { color: var(--soft); max-width: 34ch; margin-bottom: 18px; }
-  .more {
-    color: var(--cream); text-decoration: none; font-weight: 700;
-    border-bottom: 2px solid var(--gold); padding-bottom: 2px;
-  }
+  .entry p { color: var(--soft); max-width: 32ch; margin-bottom: 16px; }
+  .more { color: var(--cream); text-decoration: none; border-bottom: 2px solid var(--gold); padding-bottom: 2px; font-weight: 700; }
+  .margin-note { display: block; font-size: 26px; margin-top: 18px; transform: rotate(-2deg); }
+  .margin-note u { text-decoration: none; border-bottom: 3px solid var(--gold); border-radius: 0 0 50% 50% / 0 0 8px 8px; }
 
-  .grid { columns: 3 200px; column-gap: 12px; margin-top: 50px; }
-  .grid .photo { margin-bottom: 12px; break-inside: avoid; min-height: 140px; aspect-ratio: auto; }
-  .grid .photo img { height: auto; }
-
-  /* Closing dua, handwritten */
-  .dua { text-align: center; padding: 70px 5vw 110px; }
-  .dua p {
-    font-family: "Kalam", cursive; font-weight: 700;
-    font-size: clamp(28px, 4vw, 44px); line-height: 1.35;
-    max-width: 18ch; margin: 0 auto;
-  }
-  .dua svg { width: 150px; display: block; margin: 10px auto 0; }
+  /* Closing dua */
+  .dua { text-align: center; padding: 60px 5vw 70px; position: relative; }
+  .dua p { font-size: clamp(28px, 4vw, 44px); line-height: 1.35; max-width: 18ch; margin: 0 auto; }
+  .dua .swoosh2 { position: static; display: block; width: 150px; margin: 10px auto 0; stroke: var(--cream); }
 
   @keyframes rise {
     from { opacity: 0; transform: translateY(2cqw); }
     to   { opacity: 1; transform: none; }
   }
   @media (max-width: 760px) {
-    .entry { grid-template-columns: 1fr; }
-    .entry.flip .photo { order: 0; }
+    .entry { grid-template-columns: 1fr; padding: 50px 8vw; }
+    .entry.flip .polaroid { order: 0; }
+    .hide-m { display: none; }
   }
   @media (prefers-reduced-motion: reduce) { .title { animation: none; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .polaroid { transition: transform .25s; }
+    .polaroid:hover { transform: rotate(0) scale(1.02); }
+  }
   a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 </style>
 </head>
@@ -145,48 +163,72 @@
   </main>
 
   <section class="archives">
-    <h2>Archives</h2>
+
+    <header class="a-hero">
+      <svg class="doodle hide-m" style="left:8vw;top:100px;width:36px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
+      <svg class="doodle hide-m" style="right:10vw;top:150px;width:34px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
+      <svg class="doodle hide-m" style="right:7vw;top:90px;width:30px" viewBox="0 0 30 28"><path d="M15 26C4 17 2 10 6 6c4-3 8-1 9 3 1-4 5-6 9-3 4 4 2 11-9 20z"/></svg>
+
+      <small>THE FIS</small>
+      <h2>Archives</h2>
+      <svg class="doodle swoosh" viewBox="0 0 200 24"><path d="M4 18C50 6 120 4 188 12c8 1 2 8-6 4"/></svg>
+      <p>Moments, milestones and memories, through the years.</p>
+      <svg class="doodle arrow" viewBox="0 0 30 50"><path d="M15 2c-4 14 2 26 0 42M7 35l8 11 9-10"/></svg>
+    </header>
 
     <article class="entry">
-      <div class="photo"><img src="p1.png" alt="" onerror="this.style.display='none'"></div>
+      <svg class="doodle hide-m" style="right:6vw;top:40px;width:30px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="ph"><img src="p1.png" alt="" onerror="this.style.display='none'"></div>
+        <div class="cap hand">the front gate</div>
+      </div>
       <div>
+        <div class="oval hand">chapter one</div>
         <h3>Another year, another chapter.</h3>
         <p>From new beginnings to lasting friendships, this year was truly special.</p>
-        <a class="more" href="#grid">View memories</a>
+        <a class="more" href="#">View memories</a>
+        <span class="margin-note hand"><u>Sports Day</u> · Cultural Fest · Friendships ♡</span>
       </div>
     </article>
 
     <article class="entry flip">
-      <div class="photo"><img src="p2.png" alt="" onerror="this.style.display='none'"></div>
+      <svg class="doodle hide-m" style="left:5vw;bottom:50px;width:90px" viewBox="0 0 100 40"><path d="M4 30c20-30 30 20 46-6 12-18 24-8 46 4"/></svg>
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="ph"><img src="p2.png" alt="" onerror="this.style.display='none'"></div>
+        <div class="cap hand">huddle at sunset</div>
+      </div>
       <div>
+        <div class="oval hand">chapter two</div>
         <h3>Moments that made us.</h3>
         <p>A year filled with achievements, celebrations and unforgettable memories.</p>
-        <a class="more" href="#grid">View memories</a>
+        <a class="more" href="#">View memories</a>
+        <span class="margin-note hand">good times. great company. ☺</span>
       </div>
     </article>
 
     <article class="entry">
-      <div class="photo"><img src="p3.png" alt="" onerror="this.style.display='none'"></div>
+      <svg class="doodle hide-m" style="left:44vw;top:50px;width:30px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
+      <div class="polaroid">
+        <div class="tape"></div>
+        <div class="ph"><img src="p3.png" alt="" onerror="this.style.display='none'"></div>
+        <div class="cap hand">opening night</div>
+      </div>
       <div>
+        <div class="oval hand">chapter three</div>
         <h3>A year to remember.</h3>
         <p>Performances, victories and moments that brought us together.</p>
-        <a class="more" href="#grid">View memories</a>
+        <a class="more" href="#">View memories</a>
+        <span class="margin-note hand">performances · <u>sports</u> · FIS family ♡</span>
       </div>
     </article>
 
-    <div class="grid" id="grid">
-      <div class="photo"><img src="p4.png" alt="" onerror="this.style.display='none'"></div>
-      <div class="photo" style="height:200px"><img src="p5.png" alt="" onerror="this.style.display='none'"></div>
-      <div class="photo"><img src="p6.png" alt="" onerror="this.style.display='none'"></div>
-      <div class="photo" style="height:170px"><img src="p7.png" alt="" onerror="this.style.display='none'"></div>
-      <div class="photo"><img src="p8.png" alt="" onerror="this.style.display='none'"></div>
-      <div class="photo" style="height:190px"><img src="p9.png" alt="" onerror="this.style.display='none'"></div>
-    </div>
-  </section>
+    <section class="dua">
+      <p class="hand">May Allah bless these memories and keep us together. Ameen.</p>
+      <svg class="doodle swoosh2" viewBox="0 0 150 14"><path d="M4 9C40 2 100 2 146 8"/></svg>
+    </section>
 
-  <section class="dua">
-    <p>May Allah bless these memories and keep us together. Ameen.</p>
-    <svg viewBox="0 0 150 14" fill="none" stroke="#fff4dc" stroke-width="2" stroke-linecap="round"><path d="M4 9C40 2 100 2 146 8"/></svg>
   </section>
 </body>
 </html>
