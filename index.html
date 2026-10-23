@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Playfair+Display:ital,wght@0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Kalam:wght@700&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -21,6 +21,7 @@
     --gold:  #d9a441;
     --serif: "Playfair Display", Georgia, "Times New Roman", serif;
     --sans: "Archivo", system-ui, sans-serif;
+    --hand: "Kalam", cursive;
     /* how far the hero runs past the screen bottom, so the whole image shows before the tear */
     --drop: 80px;
   }
@@ -151,20 +152,20 @@
   }
 
   /* ---------- TORN PAPER ---------- */
-  .sec, .hz {
+  .sec {
     position: relative;
     z-index: 1;
     background: var(--c);
     color: var(--t);
   }
-  .sec::after, .hz::after {
+  .sec::after {
     content: "";
     position: absolute; inset: 0;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .15 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
     pointer-events: none;
     z-index: 0;
   }
-  .sec > *:not(.tear):not(.hpin) { position: relative; z-index: 1; }
+  .sec > *:not(.tear) { position: relative; z-index: 1; }
 
   .tear {
     position: absolute;
@@ -177,22 +178,11 @@
   .tear .rim { fill: var(--rim); }
   .tear .fl  { fill: var(--c); }
 
-  .sec h2, .hz h2 {
+  .sec h2 {
     font-family: var(--serif);
     font-weight: 900;
     font-size: clamp(34px, 5vw, 76px);
     line-height: 1;
-  }
-  /* plain small subtitle under a heading (replaces the script font) */
-  .sub {
-    display: block;
-    margin-top: 1.4vh;
-    font-family: var(--sans);
-    font-weight: 700;
-    font-size: clamp(13px, 1.15vw, 17px);
-    line-height: 1.4;
-    letter-spacing: .02em;
-    color: var(--cream);
   }
   .sec p {
     font-family: var(--sans);
@@ -282,56 +272,76 @@
   .n3 .ar { left: 24px;  top: -66px; transform: scaleY(-1); }
   .n4 .ar { right: 24px; top: -66px; transform: scale(-1, -1); }
 
-  /* ---------- SIDEWAYS ARCHIVE ---------- */
-  .hz { height: 320vh; }
-  .hpin {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    height: 100svh;
-    overflow: hidden;
-    z-index: 1;
-    display: flex;
-    align-items: center;
+  /* ---------- ARCHIVE (polaroids + handwritten notes) ---------- */
+  #archive { padding-bottom: 40px; overflow: hidden; }
+  #archive .hand { font-family: var(--hand); font-weight: 700; }
+  #archive svg.doodle {
+    position: absolute; fill: none; stroke: var(--gold); stroke-width: 2;
+    stroke-linecap: round; stroke-linejoin: round; pointer-events: none;
   }
-  .track {
-    display: flex;
-    align-items: center;
-    gap: 5vw;
-    padding: 0 8vw;
-    width: max-content;
-    will-change: transform;
+
+  #archive .arc-hero { text-align: center; padding: 110px 5vw 30px; }
+  #archive .arc-hero small {
+    display: block; color: var(--gold); font-family: var(--sans); font-weight: 700;
+    letter-spacing: .9em; font-size: 14px; padding-left: .9em;
   }
-  .hhead { flex: 0 0 auto; width: min(34vw, 420px); }
-  .hhead p { margin-top: 2vh; font-family: var(--sans); font-weight: 700; line-height: 1.6; font-size: clamp(14px, 1.1vw, 17px); }
-  .card {
-    flex: 0 0 auto;
-    width: clamp(190px, 22vw, 300px);
-    background: #fbf5e6;
-    padding: 10px 10px 40px;
-    position: relative;
-    transform: rotate(var(--r, -2deg));
+  #archive .arc-hero h2 {
+    font-size: clamp(64px, 13vw, 140px); line-height: 1; margin: 8px 0 0; color: var(--cream);
   }
-  .card:nth-child(even) { margin-top: 8vh; --r: 2.5deg; }
-  .card:nth-child(3n) { --r: -4deg; }
-  .card picture { display: block; }
-  .card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: var(--op, 50% 50%); display: block; }
-  .card span {
-    position: absolute; left: 0; right: 0; bottom: 12px;
-    text-align: center;
-    font-family: var(--sans);
-    font-weight: 700;
-    font-size: 14px;
-    color: var(--ink);
+  #archive .arc-hero .swoosh { position: static; display: block; width: 200px; margin: 6px auto 0; stroke-width: 2.4; }
+  #archive .arc-hero p { color: rgba(246,239,220,.75); max-width: 30ch; margin: 14px auto 0; }
+  #archive .arc-hero .arrow { position: static; display: block; margin: 18px auto 0; width: 30px; }
+
+  #archive .arc-entry {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 6vw; align-items: center;
+    max-width: 1040px; margin: 0 auto; padding: 60px 5vw;
   }
-  .hbar {
-    position: absolute;
-    left: 8vw; right: 8vw; bottom: 5vh;
-    height: 2px;
-    background: rgba(246,239,220,.22);
-    z-index: 2;
+  #archive .arc-entry.flip .arc-polaroid { order: 2; transform: rotate(2.5deg); }
+  #archive .arc-entry.flip .arc-tape { transform: rotate(4deg); }
+
+  #archive .arc-polaroid {
+    position: relative; background: #fbf5e6; padding: 14px 14px 54px;
+    box-shadow: 0 16px 34px rgba(0,0,0,.55); transform: rotate(-3deg); max-width: 430px;
   }
-  .hbar i { display: block; height: 100%; width: 0; background: var(--gold); }
+  #archive .arc-ph { aspect-ratio: 4 / 3.2; background: linear-gradient(160deg, #4a3d2e, #231c14); overflow: hidden; }
+  #archive .arc-ph img { width: 100%; height: 100%; object-fit: cover; object-position: var(--op, 50% 50%); display: block; }
+  #archive .arc-cap {
+    position: absolute; bottom: 12px; left: 0; right: 0; text-align: center;
+    font-size: 22px; color: var(--ink);
+  }
+  #archive .arc-tape {
+    position: absolute; top: -16px; left: 50%; width: 110px; height: 32px; margin-left: -55px;
+    background: var(--gold); opacity: .85; transform: rotate(-3deg);
+    clip-path: polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,96% 50%,100% 100%,8% 100%,4% 92%,0 100%,3% 50%);
+  }
+
+  #archive .arc-oval {
+    display: inline-block; border: 2px solid var(--gold); color: var(--gold);
+    border-radius: 50%; padding: 2px 22px; font-size: 22px; transform: rotate(-3deg); margin-bottom: 12px;
+  }
+  #archive .arc-entry h3 {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(34px, 5vw, 52px); line-height: 1.1; margin: 0 0 12px; color: var(--cream);
+  }
+  #archive .arc-entry p { color: rgba(246,239,220,.75); max-width: 32ch; margin: 0 0 16px; }
+  #archive .arc-more {
+    color: var(--cream); text-decoration: none; font-family: var(--sans); font-weight: 700;
+    border-bottom: 2px solid var(--gold); padding-bottom: 2px;
+  }
+  #archive .arc-note { display: block; font-size: 26px; margin-top: 18px; transform: rotate(-2deg); }
+  #archive .arc-note u {
+    text-decoration: none; border-bottom: 3px solid var(--gold);
+    border-radius: 0 0 50% 50% / 0 0 8px 8px;
+  }
+
+  #archive .arc-dua { text-align: center; padding: 60px 5vw 70px; }
+  #archive .arc-dua p { font-size: clamp(28px, 4vw, 44px); line-height: 1.35; max-width: 18ch; margin: 0 auto; color: var(--cream); }
+  #archive .arc-dua .swoosh2 { position: static; display: block; width: 150px; margin: 10px auto 0; stroke: var(--cream); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    #archive .arc-polaroid { transition: transform .25s; }
+    #archive .arc-polaroid:hover { transform: rotate(0) scale(1.02); }
+  }
 
   /* ---------- MESSAGES ---------- */
   #messages { padding: 18vh 6vw 20vh; }
@@ -393,8 +403,7 @@
     .fast::before, .fast::after { height: 1.5px; }
     .main { font-size: min(9vw, 56px); }
 
-    .sec h2, .hz h2 { font-size: clamp(26px, 7.5vw, 42px); }
-    .sub { font-size: 13px; margin-top: 1vh; }
+    .sec h2 { font-size: clamp(26px, 7.5vw, 42px); }
 
     /* ABOUT: smaller, arrows stay */
     #about { padding: 12vh 5vw 12vh; }
@@ -441,17 +450,10 @@
     .n3 .ar { left: calc(100% - var(--aw) / 2);  right: auto; top: auto; bottom: calc(100% + 2px); transform: scaleY(-1); }
     .n4 .ar { right: calc(100% - var(--aw) / 2); left: auto;  top: auto; bottom: calc(100% + 2px); transform: scale(-1, -1); }
 
-    /* ARCHIVE: smaller cards */
-    .hz { height: 240vh; }
-    .track { gap: 6vw; padding: 0 7vw; }
-    .hhead { width: clamp(190px, 60vw, 320px); }
-    .hhead h2 { font-size: clamp(30px, 9vw, 44px); }
-    .hhead p { font-size: 13px; margin-top: 1.4vh; }
-    .card { width: clamp(150px, 50vw, 230px); padding: 8px 8px 30px; }
-    .card:nth-child(even) { margin-top: 0; }
-    .card span { font-size: 12px; bottom: 9px; }
-    .card img { object-position: var(--opm, 50% 50%); }
-    .hbar { left: 7vw; right: 7vw; bottom: 8vh; }
+    /* ARCHIVE */
+    #archive .arc-entry { grid-template-columns: 1fr; padding: 50px 8vw; }
+    #archive .arc-entry.flip .arc-polaroid { order: 0; }
+    #archive .hide-m { display: none; }
 
     /* MESSAGES */
     #messages { padding: 12vh 6vw 14vh; }
@@ -519,105 +521,39 @@
     </div>
   </section>
 
-  <!-- ARCHIVE: warm brown, scrolls sideways.
-       --op = crop on desktop, --opm = crop on phone (portrait image: y% picks which slice) -->
-  <section class="hz" id="archive" style="--c:#3a2d20; --t:#f6efdc; --rim:#e9dcc0">
+  <!-- ARCHIVE: warm brown, polaroids + handwritten notes.
+       Photos: p1.png, p2.png, p3.png (falls back to FINAL DESKTOP.png until they exist).
+       --op = crop of the fallback image -->
+  <section class="sec" id="archive" style="--c:#3a2d20; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-    <div class="hpin">
-      <div class="track">
-        <div class="hhead">
-          <h2>Archive <span class="sub">Moments we kept</span></h2>
-          <p>Scroll to move through our past events.</p>
-        </div>
 
-        <figure class="card" style="--op: 20% 85%; --opm: 50% 100%">
-          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
-          <span>Event title</span>
-        </figure>
-        <figure class="card" style="--op: 60% 90%; --opm: 50% 72%">
-          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
-          <span>Event title</span>
-        </figure>
-        <figure class="card" style="--op: 85% 50%; --opm: 50% 42%">
-          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
-          <span>Event title</span>
-        </figure>
-        <figure class="card" style="--op: 10% 40%; --opm: 50% 0%">
-          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
-          <span>Event title</span>
-        </figure>
-        <figure class="card" style="--op: 50% 20%; --opm: 50% 88%">
-          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
-          <span>Event title</span>
-        </figure>
-        <figure class="card" style="--op: 70% 80%; --opm: 50% 58%">
-          <picture><source media="(max-width: 800px)" srcset="PHONEVFINAL.png"><img src="FINAL%20DESKTOP.png" alt=""></picture>
-          <span>Event title</span>
-        </figure>
+    <header class="arc-hero">
+      <svg class="doodle hide-m" style="left:8vw;top:120px;width:36px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
+      <svg class="doodle hide-m" style="right:10vw;top:170px;width:34px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
+      <svg class="doodle hide-m" style="right:7vw;top:110px;width:30px" viewBox="0 0 30 28"><path d="M15 26C4 17 2 10 6 6c4-3 8-1 9 3 1-4 5-6 9-3 4 4 2 11-9 20z"/></svg>
+
+      <small>THE FIS</small>
+      <h2>Archives</h2>
+      <svg class="doodle swoosh" viewBox="0 0 200 24"><path d="M4 18C50 6 120 4 188 12c8 1 2 8-6 4"/></svg>
+      <p>Moments, milestones and memories, through the years.</p>
+      <svg class="doodle arrow" viewBox="0 0 30 50"><path d="M15 2c-4 14 2 26 0 42M7 35l8 11 9-10"/></svg>
+    </header>
+
+    <article class="arc-entry">
+      <svg class="doodle hide-m" style="right:6vw;top:40px;width:30px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
+      <div class="arc-polaroid">
+        <div class="arc-tape"></div>
+        <div class="arc-ph"><img src="p1.png" alt="" style="--op:20% 85%" onerror="this.onerror=null;this.src='FINAL%20DESKTOP.png'"></div>
+        <div class="arc-cap hand">the front gate</div>
       </div>
-      <div class="hbar" aria-hidden="true"><i></i></div>
-    </div>
-  </section>
+      <div>
+        <div class="arc-oval hand">chapter one</div>
+        <h3>Another year, another chapter.</h3>
+        <p>From new beginnings to lasting friendships, this year was truly special.</p>
+        <a class="arc-more" href="#">View memories</a>
+        <span class="arc-note hand"><u>Sports Day</u> · Cultural Fest · Friendships ♡</span>
+      </div>
+    </article>
 
-  <!-- MESSAGES: parchment -->
-  <section class="sec" id="messages" style="--c:#efe3c6; --t:#2a2118; --rim:#d8c9a3">
-    <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-    <h2>Messages</h2>
-    <div class="sheets">
-      <article class="sheet">
-        <span class="tape"></span>
-        <h3>From the President</h3>
-        <p>President's message goes here.</p>
-      </article>
-      <article class="sheet">
-        <span class="tape"></span>
-        <h3>From the CP</h3>
-        <p>CP's message goes here.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- CLOSING: night -->
-  <section class="sec" id="closing" style="--c:#17120d; --t:#f6e9cf; --rim:#d8c9a3">
-    <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-    <blockquote>Closing hadith goes here.</blockquote>
-    <small>FAST Islamic Society, 2026</small>
-  </section>
-
-<script>
-  function rnd(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
-  document.querySelectorAll(".tear").forEach((el, k) => {
-    const r = rnd(k * 97 + 13), W = 1200, n = 80, a = [], b = [];
-    for (let i = 0; i <= n; i++) {
-      const x = (i * W / n).toFixed(0);
-      const base = 14 + Math.sin(i * 0.33 + k * 2) * 3;
-      a.push(x + "," + (base + r() * 7).toFixed(1));
-      b.push(x + "," + (base + 7 + r() * 7).toFixed(1));
-    }
-    el.innerHTML =
-      '<polygon class="rim" points="0,40 ' + a.join(" ") + ' 1200,40"/>' +
-      '<polygon class="fl" points="0,40 ' + b.join(" ") + ' 1200,40"/>';
-  });
-
-  const hz = document.querySelector(".hz");
-  const track = hz.querySelector(".track");
-  const bar = hz.querySelector(".hbar i");
-  let ticking = false;
-
-  function paint() {
-    ticking = false;
-    const total = hz.offsetHeight - window.innerHeight;
-    const p = Math.min(1, Math.max(0, -hz.getBoundingClientRect().top / total));
-    const dist = Math.max(0, track.scrollWidth - window.innerWidth);
-    track.style.transform = "translateX(" + (-p * dist) + "px)";
-    bar.style.width = (p * 100) + "%";
-  }
-  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(paint); } }
-
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
-  window.addEventListener("load", paint);
-  paint();
-</script>
-</body>
-</html>
+    <article class="arc-entry flip">
+      <svg class="doodle hide-m" style="left:5vw;bottom:50px;width:90px" viewBox="0 0 100 40"><path d="M4 30c20-30 30 20 46-6
