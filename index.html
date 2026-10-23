@@ -273,48 +273,40 @@
   .n4 .ar { right: 24px; top: -66px; transform: scale(-1, -1); }
 
   /* ---------- ARCHIVE (polaroids + handwritten notes) ---------- */
-  #archive { padding-bottom: 40px; overflow: hidden; }
+  #archive { padding-bottom: 60px; overflow-x: clip; } /* clip, NOT hidden, so the torn edge stays visible */
   #archive .hand { font-family: var(--hand); font-weight: 700; }
   #archive svg.doodle {
     position: absolute; fill: none; stroke: var(--gold); stroke-width: 2;
     stroke-linecap: round; stroke-linejoin: round; pointer-events: none;
   }
-
-  #archive .arc-hero { text-align: center; padding: 110px 5vw 30px; }
+  #archive .arc-hero { text-align: center; padding: 110px 5vw 30px; position: relative; }
   #archive .arc-hero small {
     display: block; color: var(--gold); font-family: var(--sans); font-weight: 700;
     letter-spacing: .9em; font-size: 14px; padding-left: .9em;
   }
-  #archive .arc-hero h2 {
-    font-size: clamp(64px, 13vw, 140px); line-height: 1; margin: 8px 0 0; color: var(--cream);
-  }
+  #archive .arc-hero h2 { font-size: clamp(64px, 13vw, 140px); line-height: 1; margin: 8px 0 0; color: var(--cream); }
   #archive .arc-hero .swoosh { position: static; display: block; width: 200px; margin: 6px auto 0; stroke-width: 2.4; }
   #archive .arc-hero p { color: rgba(246,239,220,.75); max-width: 30ch; margin: 14px auto 0; }
   #archive .arc-hero .arrow { position: static; display: block; margin: 18px auto 0; width: 30px; }
 
   #archive .arc-entry {
     display: grid; grid-template-columns: 1.1fr 1fr; gap: 6vw; align-items: center;
-    max-width: 1040px; margin: 0 auto; padding: 60px 5vw;
+    max-width: 1040px; margin: 0 auto; padding: 60px 5vw; position: relative;
   }
   #archive .arc-entry.flip .arc-polaroid { order: 2; transform: rotate(2.5deg); }
   #archive .arc-entry.flip .arc-tape { transform: rotate(4deg); }
-
   #archive .arc-polaroid {
     position: relative; background: #fbf5e6; padding: 14px 14px 54px;
     box-shadow: 0 16px 34px rgba(0,0,0,.55); transform: rotate(-3deg); max-width: 430px;
   }
   #archive .arc-ph { aspect-ratio: 4 / 3.2; background: linear-gradient(160deg, #4a3d2e, #231c14); overflow: hidden; }
   #archive .arc-ph img { width: 100%; height: 100%; object-fit: cover; object-position: var(--op, 50% 50%); display: block; }
-  #archive .arc-cap {
-    position: absolute; bottom: 12px; left: 0; right: 0; text-align: center;
-    font-size: 22px; color: var(--ink);
-  }
+  #archive .arc-cap { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-size: 22px; color: var(--ink); }
   #archive .arc-tape {
     position: absolute; top: -16px; left: 50%; width: 110px; height: 32px; margin-left: -55px;
     background: var(--gold); opacity: .85; transform: rotate(-3deg);
     clip-path: polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,96% 50%,100% 100%,8% 100%,4% 92%,0 100%,3% 50%);
   }
-
   #archive .arc-oval {
     display: inline-block; border: 2px solid var(--gold); color: var(--gold);
     border-radius: 50%; padding: 2px 22px; font-size: 22px; transform: rotate(-3deg); margin-bottom: 12px;
@@ -329,15 +321,7 @@
     border-bottom: 2px solid var(--gold); padding-bottom: 2px;
   }
   #archive .arc-note { display: block; font-size: 26px; margin-top: 18px; transform: rotate(-2deg); }
-  #archive .arc-note u {
-    text-decoration: none; border-bottom: 3px solid var(--gold);
-    border-radius: 0 0 50% 50% / 0 0 8px 8px;
-  }
-
-  #archive .arc-dua { text-align: center; padding: 60px 5vw 70px; }
-  #archive .arc-dua p { font-size: clamp(28px, 4vw, 44px); line-height: 1.35; max-width: 18ch; margin: 0 auto; color: var(--cream); }
-  #archive .arc-dua .swoosh2 { position: static; display: block; width: 150px; margin: 10px auto 0; stroke: var(--cream); }
-
+  #archive .arc-note u { text-decoration: none; border-bottom: 3px solid var(--gold); border-radius: 0 0 50% 50% / 0 0 8px 8px; }
   @media (prefers-reduced-motion: no-preference) {
     #archive .arc-polaroid { transition: transform .25s; }
     #archive .arc-polaroid:hover { transform: rotate(0) scale(1.02); }
@@ -405,7 +389,7 @@
 
     .sec h2 { font-size: clamp(26px, 7.5vw, 42px); }
 
-    /* ABOUT: smaller, arrows stay */
+    /* ABOUT */
     #about { padding: 12vh 5vw 12vh; }
     #about .hi { font-size: clamp(30px, 8.5vw, 52px); }
     #about .since { font-size: 10px; letter-spacing: .16em; }
@@ -522,8 +506,7 @@
   </section>
 
   <!-- ARCHIVE: warm brown, polaroids + handwritten notes.
-       Photos: p1.png, p2.png, p3.png (falls back to FINAL DESKTOP.png until they exist).
-       --op = crop of the fallback image -->
+       Uses p1.png, p2.png, p3.png; falls back to FINAL DESKTOP.png until those exist. -->
   <section class="sec" id="archive" style="--c:#3a2d20; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
 
@@ -531,7 +514,6 @@
       <svg class="doodle hide-m" style="left:8vw;top:120px;width:36px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
       <svg class="doodle hide-m" style="right:10vw;top:170px;width:34px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
       <svg class="doodle hide-m" style="right:7vw;top:110px;width:30px" viewBox="0 0 30 28"><path d="M15 26C4 17 2 10 6 6c4-3 8-1 9 3 1-4 5-6 9-3 4 4 2 11-9 20z"/></svg>
-
       <small>THE FIS</small>
       <h2>Archives</h2>
       <svg class="doodle swoosh" viewBox="0 0 200 24"><path d="M4 18C50 6 120 4 188 12c8 1 2 8-6 4"/></svg>
@@ -540,7 +522,6 @@
     </header>
 
     <article class="arc-entry">
-      <svg class="doodle hide-m" style="right:6vw;top:40px;width:30px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
       <div class="arc-polaroid">
         <div class="arc-tape"></div>
         <div class="arc-ph"><img src="p1.png" alt="" style="--op:20% 85%" onerror="this.onerror=null;this.src='FINAL%20DESKTOP.png'"></div>
@@ -556,4 +537,76 @@
     </article>
 
     <article class="arc-entry flip">
-      <svg class="doodle hide-m" style="left:5vw;bottom:50px;width:90px" viewBox="0 0 100 40"><path d="M4 30c20-30 30 20 46-6
+      <svg class="doodle hide-m" style="left:5vw;bottom:50px;width:90px" viewBox="0 0 100 40"><path d="M4 30c20-30 30 20 46-6 12-18 24-8 46 4"/></svg>
+      <div class="arc-polaroid">
+        <div class="arc-tape"></div>
+        <div class="arc-ph"><img src="p2.png" alt="" style="--op:60% 90%" onerror="this.onerror=null;this.src='FINAL%20DESKTOP.png'"></div>
+        <div class="arc-cap hand">huddle at sunset</div>
+      </div>
+      <div>
+        <div class="arc-oval hand">chapter two</div>
+        <h3>Moments that made us.</h3>
+        <p>A year filled with achievements, celebrations and unforgettable memories.</p>
+        <a class="arc-more" href="#">View memories</a>
+        <span class="arc-note hand">good times. great company. ☺</span>
+      </div>
+    </article>
+
+    <article class="arc-entry">
+      <div class="arc-polaroid">
+        <div class="arc-tape"></div>
+        <div class="arc-ph"><img src="p3.png" alt="" style="--op:85% 50%" onerror="this.onerror=null;this.src='FINAL%20DESKTOP.png'"></div>
+        <div class="arc-cap hand">opening night</div>
+      </div>
+      <div>
+        <div class="arc-oval hand">chapter three</div>
+        <h3>A year to remember.</h3>
+        <p>Performances, victories and moments that brought us together.</p>
+        <a class="arc-more" href="#">View memories</a>
+        <span class="arc-note hand">performances · <u>sports</u> · FIS family ♡</span>
+      </div>
+    </article>
+  </section>
+
+  <!-- MESSAGES: parchment -->
+  <section class="sec" id="messages" style="--c:#efe3c6; --t:#2a2118; --rim:#d8c9a3">
+    <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
+    <h2>Messages</h2>
+    <div class="sheets">
+      <article class="sheet">
+        <span class="tape"></span>
+        <h3>From the President</h3>
+        <p>President's message goes here.</p> <!-- PUT YOUR TEXT -->
+      </article>
+      <article class="sheet">
+        <span class="tape"></span>
+        <h3>From the CP</h3>
+        <p>CP's message goes here.</p> <!-- PUT YOUR TEXT -->
+      </article>
+    </div>
+  </section>
+
+  <!-- CLOSING: night -->
+  <section class="sec" id="closing" style="--c:#17120d; --t:#f6e9cf; --rim:#d8c9a3">
+    <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
+    <blockquote>Closing hadith goes here.</blockquote> <!-- PUT YOUR TEXT -->
+    <small>FAST Islamic Society, 2026</small>
+  </section>
+
+<script>
+  function rnd(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+  document.querySelectorAll(".tear").forEach((el, k) => {
+    const r = rnd(k * 97 + 13), W = 1200, n = 80, a = [], b = [];
+    for (let i = 0; i <= n; i++) {
+      const x = (i * W / n).toFixed(0);
+      const base = 14 + Math.sin(i * 0.33 + k * 2) * 3;
+      a.push(x + "," + (base + r() * 7).toFixed(1));
+      b.push(x + "," + (base + 7 + r() * 7).toFixed(1));
+    }
+    el.innerHTML =
+      '<polygon class="rim" points="0,40 ' + a.join(" ") + ' 1200,40"/>' +
+      '<polygon class="fl" points="0,40 ' + b.join(" ") + ' 1200,40"/>';
+  });
+</script>
+</body>
+</html>
