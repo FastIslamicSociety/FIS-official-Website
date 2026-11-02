@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Kalam:wght@700&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Kalam:wght@700&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -198,80 +198,126 @@
     z-index: 4;
   }
 
-  /* ---------- ABOUT (What is FIS ?) ---------- */
-  #about { padding: 14vh 6vw 10vh; text-align: center; }
-  #about .hi {
-    font-family: var(--serif);
-    font-weight: 900;
-    font-size: clamp(42px, 7.4vw, 112px);   /* original size, untouched */
+  /* ---------- ABOUT (Why FIS ?) : slide-deck style ---------- */
+  #about { padding: 12vh 6vw 14vh; overflow-x: clip; } /* clip, NOT hidden, so the torn edge stays visible */
+  #about .wrap { max-width: 1000px; margin: 0 auto; }
+
+  #about .a-head { text-align: center; margin-bottom: 8vh; }
+  #about .a-head h2 {
+    font-family: var(--hand);
+    font-weight: 700;
+    font-size: clamp(40px, 6vw, 80px);
     line-height: 1;
-    letter-spacing: -.01em;
     color: var(--cream);
   }
-  #about .hi em {
-    font-family: var(--serif);
-    font-style: italic;
-    font-weight: 400;
-    font-size: 1em;
-    margin-left: .12em;
+  #about .a-head h2 em { font-style: normal; color: var(--gold); }
+  #about .a-head .swoosh {
+    display: block; width: 190px; height: auto; margin: 6px auto 0;
+    fill: none; stroke: var(--gold); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
   }
-  #about .since {
-    margin: 1.8vh auto 0;
-    max-width: none;
-    font-size: clamp(10px, .85vw, 13px);
-    letter-spacing: .24em;
-    text-transform: uppercase;
-    color: var(--cream);
-    opacity: .75;
+  #about .a-head small {
+    display: block; margin-top: 14px;
+    font-family: var(--sans); font-weight: 500;
+    font-size: clamp(11px, .9vw, 14px);
+    letter-spacing: .2em; text-transform: uppercase;
+    color: var(--cream); opacity: .75;
   }
 
-  .stage {
+  #about .slide {
     position: relative;
-    width: min(900px, 100%);
-    min-height: 420px;                      /* was 560px */
-    margin: 4vh auto 0;                     /* was 7vh */
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 4vw;
     align-items: center;
+    background: #2a5a3e;
+    border-radius: 6px;
+    padding: clamp(26px, 4vw, 52px);
+    margin-bottom: 8vh;
+    box-shadow: 0 8px 0 rgba(0,0,0,.18), 0 18px 40px rgba(0,0,0,.25);
   }
-  .cut {
+  #about .slide:nth-of-type(odd)  { transform: rotate(-.5deg); }
+  #about .slide:nth-of-type(even) { transform: rotate(.5deg); }
+  #about .slide.flip .side { order: 2; }
+
+  #about .slide h3 {
+    font-family: var(--hand);
+    font-weight: 700;
+    font-size: clamp(26px, 3.2vw, 42px);
+    line-height: 1.05;
+    color: var(--cream);
+  }
+  #about .slide p {
+    font-weight: 500;
+    font-size: clamp(14px, 1.05vw, 16.5px);
+    line-height: 1.8;
+    max-width: 52ch;
+    color: rgba(246,239,220,.92);
+  }
+  #about .hnote {
+    margin-top: 12px;
+    font-family: var(--hand); font-weight: 700;
+    font-size: clamp(17px, 1.7vw, 23px); line-height: 1.25;
+    color: var(--gold);
+    transform: rotate(-2deg);
     display: block;
-    width: clamp(170px, 19vw, 250px);
-    height: auto;
-    filter:
-      drop-shadow(3px 0 0 var(--cream))
-      drop-shadow(-3px 0 0 var(--cream))
-      drop-shadow(0 3px 0 var(--cream))
-      drop-shadow(0 -3px 0 var(--cream));
+  }
+  #about .ar2 {
+    display: block; width: 64px; height: auto; aspect-ratio: 3 / 2; margin-top: 12px;
+    fill: none; stroke: var(--gold); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  }
+  #about .ar2 path { vector-effect: non-scaling-stroke; }
+  #about .slide.flip .ar2 { transform: scaleX(-1); margin-left: auto; }
+
+  /* polaroid with the logo */
+  #about .pol {
+    position: relative;
+    background: #fbf5e6;
+    padding: 16px 16px 54px;
+    box-shadow: 0 14px 28px rgba(0,0,0,.45);
+    transform: rotate(-3deg);
+    max-width: 290px;
+    margin: 0 auto;
+  }
+  #about .pol .ph { aspect-ratio: 1 / 1; background: #fffaf0; display: grid; place-items: center; }
+  #about .pol img { width: 76%; height: auto; display: block; }
+  #about .pol .cap {
+    position: absolute; bottom: 12px; left: 0; right: 0; text-align: center;
+    font-family: var(--hand); font-weight: 700; font-size: 21px; color: var(--ink);
+  }
+  #about .a-tape {
+    position: absolute; top: -14px; left: 50%; width: 100px; height: 30px; margin-left: -50px;
+    background: var(--gold); opacity: .85; transform: rotate(-3deg); z-index: 4;
+    clip-path: polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,96% 50%,100% 100%,8% 100%,4% 92%,0 100%,3% 50%);
   }
 
-  .note {
-    position: absolute;
-    width: clamp(140px, 15vw, 200px);
-    font-family: var(--sans);
-    font-weight: 500;                       /* was 700 */
-    font-size: clamp(12px, 1vw, 15px);      /* was clamp(13px, 1.15vw, 17px) */
-    line-height: 1.5;
-    color: rgba(246,239,220,.88);
+  /* little paper note (Hudoodullah, couplet) */
+  #about .paper {
+    position: relative;
+    background: #fbf5e6; color: var(--ink);
+    padding: 26px 26px 18px;
+    transform: rotate(-1.5deg);
+    box-shadow: 0 12px 26px rgba(0,0,0,.4);
+    text-align: center;
   }
-  .note .ar {
-    position: absolute;
-    width: 70px; height: 47px;
-    fill: none;
-    stroke: var(--gold);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+  #about .paper .a-tape { width: 84px; height: 26px; margin-left: -42px; top: -13px; }
+  #about .ur {
+    font-family: "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+    font-weight: 500; direction: rtl; line-height: 2.2;
+    font-size: clamp(20px, 2.2vw, 30px);
   }
-  .note .ar path { vector-effect: non-scaling-stroke; }
-  .n1 { left: 2%;  top: 8%;    text-align: left; }
-  .n2 { right: 2%; top: 8%;    text-align: right; }
-  .n3 { left: 2%;  bottom: 8%; text-align: left; }
-  .n4 { right: 2%; bottom: 8%; text-align: right; }
-  .n1 .ar { left: calc(100% + 6px);  top: 14px; }
-  .n2 .ar { right: calc(100% + 6px); top: 14px;  transform: scaleX(-1); }
-  .n3 .ar { left: 20px;  top: -54px; transform: scaleY(-1); }
-  .n4 .ar { right: 20px; top: -54px; transform: scale(-1, -1); }
+  #about .paper .hand {
+    display: block; margin-top: 4px;
+    font-family: var(--hand); font-weight: 700; font-size: 18px; color: #6b5a3a;
+  }
+
+  /* closing slide */
+  #about .slide.end { display: block; text-align: center; margin-bottom: 0; }
+  #about .slide.end blockquote {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(20px, 2.6vw, 34px); line-height: 1.35;
+    max-width: 30ch; margin: 0 auto 5vh; color: var(--cream);
+  }
+  #about .slide.end .paper { max-width: 520px; margin: 0 auto; }
 
   /* ---------- ARCHIVE (polaroids + handwritten notes) ---------- */
   #archive { padding-bottom: 60px; overflow-x: clip; } /* clip, NOT hidden, so the torn edge stays visible */
@@ -391,49 +437,15 @@
     .sec h2 { font-size: clamp(26px, 7.5vw, 42px); }
 
     /* ABOUT */
-    #about { padding: 10vh 5vw 10vh; }
-    #about .hi { font-size: clamp(30px, 8.5vw, 52px); }   /* original mobile size */
-    #about .since { font-size: 9px; letter-spacing: .16em; }
-
-    .stage {
-      display: block;
-      width: 100%;
-      max-width: 520px;
-      height: clamp(280px, 78vw, 400px);
-      min-height: 0;
-      margin: 4vh auto 0;
-    }
-    .cut {
-      position: absolute;
-      left: 50%; top: 50%;
-      transform: translate(-50%, -50%);
-      width: clamp(110px, 32vw, 170px);
-      filter:
-        drop-shadow(2px 0 0 var(--cream))
-        drop-shadow(-2px 0 0 var(--cream))
-        drop-shadow(0 2px 0 var(--cream))
-        drop-shadow(0 -2px 0 var(--cream));
-    }
-    .note {
-      --aw: clamp(30px, 9vw, 48px);
-      width: clamp(100px, 36vw, 180px);
-      font-size: clamp(10.5px, 2.9vw, 13px);
-      line-height: 1.4;
-    }
-    .note .ar {
-      width: var(--aw);
-      height: auto;
-      aspect-ratio: 3 / 2;
-      stroke-width: 2;
-    }
-    .n1 { left: 0;  top: 0; }
-    .n2 { right: 0; top: 0; }
-    .n3 { left: 0;  bottom: 0; }
-    .n4 { right: 0; bottom: 0; }
-    .n1 .ar { left: calc(100% + 2px);  top: 12px; }
-    .n2 .ar { right: calc(100% + 2px); top: 12px; transform: scaleX(-1); }
-    .n3 .ar { left: calc(100% - var(--aw) / 2);  right: auto; top: auto; bottom: calc(100% + 2px); transform: scaleY(-1); }
-    .n4 .ar { right: calc(100% - var(--aw) / 2); left: auto;  top: auto; bottom: calc(100% + 2px); transform: scale(-1, -1); }
+    #about { padding: 9vh 5vw 10vh; }
+    #about .a-head { margin-bottom: 5vh; }
+    #about .a-head h2 { font-size: clamp(34px, 11vw, 52px); }
+    #about .slide { grid-template-columns: 1fr; gap: 22px; padding: 26px 20px; margin-bottom: 5vh; transform: none !important; }
+    #about .slide.flip .side { order: 0; }
+    #about .pol { max-width: 220px; }
+    #about .ar2 { display: none; }
+    #about .slide p { font-size: 14.5px; }
+    #about .slide.end blockquote { font-size: clamp(19px, 5.4vw, 26px); }
 
     /* ARCHIVE */
     #archive .arc-entry { grid-template-columns: 1fr; padding: 50px 8vw; }
@@ -477,33 +489,81 @@
     <div class="hint" aria-hidden="true"></div>
   </main>
 
-  <!-- ABOUT: deep green -->
+  <!-- ABOUT: deep green, slide-deck style -->
   <section class="sec" id="about" style="--c:#1f3d2a; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
 
-    <h2 class="hi">What is <em>FIS</em> ?</h2>
-    <!-- TODO: replace 20XX with the real year (appears twice in this section) -->
-    <p class="since">FAST Islamic Society since 20XX</p>
+    <div class="wrap">
 
-    <div class="stage">
-      <img class="cut" src="/favicon.png?v=2" alt="FIS">
+      <header class="a-head">
+        <h2>Why <em>FIS</em>?</h2>
+        <svg class="swoosh" viewBox="0 0 200 24" aria-hidden="true"><path d="M4 18C50 6 120 4 188 12c8 1 2 8-6 4"/></svg>
+        <small>FAST Islamic Society &middot; est. 2025</small>
+      </header>
 
-      <div class="note n1">
-        <svg class="ar" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
-        Founded in 20XX,<br>right here at FAST
-      </div>
-      <div class="note n2">
-        <svg class="ar" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
-        Open to every<br>student on campus
-      </div>
-      <div class="note n3">
-        <svg class="ar" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
-        Learning together<br>under one tree
-      </div>
-      <div class="note n4">
-        <svg class="ar" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
-        Talks, blogs,<br>events and more
-      </div>
+      <!-- 1: who we are (logo at the side) -->
+      <article class="slide">
+        <div class="side">
+          <div class="pol">
+            <div class="a-tape"></div>
+            <div class="ph"><img src="/favicon.png?v=2" alt="FIS logo"></div>
+            <div class="cap">FIS</div>
+          </div>
+        </div>
+        <div>
+          <h3>Who we are</h3>
+          <p style="margin-top:14px">Founded in 2025, FAST Islamic Society (FIS), formerly known as FAST Quran and Sunnah Society (FQSS), was established with the hope of nurturing a deeper connection with Islam and, above all, with Allah SWT. We envision a community where faith is not confined to our acts of worship, but becomes a living part of our everyday experiences, guiding the way we think, grow, connect, and carry ourselves.</p>
+        </div>
+      </article>
+
+      <!-- 2: purpose -->
+      <article class="slide flip">
+        <div class="side">
+          <h3>Our purpose</h3>
+          <span class="hnote">khalifah of Allah SWT on this earth</span>
+          <svg class="ar2" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+        </div>
+        <div>
+          <p>We believe that our purpose extends far beyond simply going through life. As the khalifah of Allah SWT on this earth, we have been blessed with abilities, opportunities, and potential that come with a responsibility to use them meaningfully. Our ambitions, knowledge, relationships, and everyday pursuits can all become means of earning His pleasure when rooted in the right intentions and guided by His teachings.</p>
+        </div>
+      </article>
+
+      <!-- 3: what shapes FIS -->
+      <article class="slide">
+        <div class="side">
+          <h3>What shapes FIS</h3>
+          <div class="paper" style="margin-top:22px">
+            <div class="a-tape"></div>
+            <div class="ur">حدودُ اللہ</div>
+            <span class="hand">divine boundaries</span>
+          </div>
+        </div>
+        <div>
+          <p>This understanding is what shapes FIS. Whether it is a gathering, a trip, a speaker session, or even a simple social media post, we strive to bring our values into everything we do. We recognise Hudoodullah (حدودُ اللہ) as divine boundaries that guide and protect us, helping us distinguish not just between what is permissible and impermissible, but between what brings us closer to Allah and what takes us away from Him.</p>
+        </div>
+      </article>
+
+      <!-- 4: faith and dunya -->
+      <article class="slide flip">
+        <div class="side">
+          <h3>Faith &amp; dunya</h3>
+          <span class="hnote">excellence &middot; friendships &middot; beautiful memories</span>
+          <svg class="ar2" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+        </div>
+        <div>
+          <p>Through FIS, we hope to show that one does not have to compromise on their deen to embrace the joys of this dunya. We can pursue excellence, explore our potential, build friendships, and make beautiful memories, all while keeping our connection with Allah SWT at the centre of it all.</p>
+        </div>
+      </article>
+
+      <!-- 5: closing line + couplet -->
+      <article class="slide end">
+        <blockquote>Because Islam is not simply a part of the life we live. It is the purpose, guidance, and meaning behind it.</blockquote>
+        <div class="paper">
+          <div class="a-tape"></div>
+          <div class="ur">تو رازِ کن فکاں ہے، اپنی آنکھوں پر عیاں ہو جا<br>خودی کا رازداں ہو جا، خدا کا ترجماں ہو جا</div>
+        </div>
+      </article>
+
     </div>
   </section>
 
