@@ -2,13 +2,14 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireStaff } from "@/lib/auth";
 import PostForm from "../post-form";
+import StatusPanel from "./status-panel";
 
 export default async function EditPostPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { supabase } = await requireStaff();
+  const { supabase, role } = await requireStaff();
   const { id } = await params;
 
   const { data: post } = await supabase
@@ -25,6 +26,7 @@ export default async function EditPostPage({
         ← Back to posts
       </Link>
       <h1 className="mb-6 mt-2 text-2xl font-bold">Edit post</h1>
+      <StatusPanel id={post.id} status={post.status} role={role} />
       <PostForm post={post} />
     </main>
   );
