@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Caveat:wght@700&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Reenie+Beanie&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -21,7 +21,7 @@
     --gold:  #d9a441;
     --serif: "Playfair Display", Georgia, "Times New Roman", serif;
     --sans: "Archivo", system-ui, sans-serif;
-    --hand: "Caveat", cursive;
+    --hand: "Reenie Beanie", cursive;
     /* how far the hero runs past the screen bottom, so the whole image shows before the tear */
     --drop: 80px;
   }
@@ -199,7 +199,7 @@
   }
 
   /* ---------- ABOUT (Why FIS ?) : written straight on the page, no cards ---------- */
-  #about { padding: 14vh 6vw 14vh; overflow-x: clip; } /* clip, NOT hidden, so the torn edge stays visible */
+  #about { padding: 14vh 6vw 14vh; overflow-x: clip; }
   #about .wrap { max-width: 1000px; margin: 0 auto; }
 
   #about .a-head { text-align: center; }
@@ -243,8 +243,8 @@
   #about .note {
     position: absolute;
     width: clamp(150px, 17vw, 230px);
-    font-family: var(--hand); font-weight: 700;
-    font-size: clamp(22px, 2.3vw, 32px); line-height: 1.2;
+    font-family: var(--hand); font-weight: 400;
+    font-size: clamp(28px, 3vw, 42px); line-height: 1.05;
     color: var(--cream);
   }
   #about .note .ar {
@@ -285,9 +285,9 @@
     color: var(--cream);
   }
   #about .hnote {
-    display: inline-block; margin-top: 14px;
-    font-family: var(--hand); font-weight: 700;
-    font-size: clamp(22px, 2.2vw, 30px); line-height: 1.2;
+    display: inline-block; margin-top: 10px;
+    font-family: var(--hand); font-weight: 400;
+    font-size: clamp(28px, 2.8vw, 38px); line-height: 1.05;
     color: var(--gold); max-width: 17ch;
     transform: rotate(-2deg);
   }
@@ -325,8 +325,8 @@
   #about .end .ur { color: var(--cream); font-size: clamp(20px, 2.2vw, 30px); }
 
   /* ---------- ARCHIVE (polaroids + handwritten notes) ---------- */
-  #archive { padding-bottom: 60px; overflow-x: clip; } /* clip, NOT hidden, so the torn edge stays visible */
-  #archive .hand { font-family: var(--hand); font-weight: 700; }
+  #archive { padding-bottom: 60px; overflow-x: clip; }
+  #archive .hand { font-family: var(--hand); font-weight: 400; }
   #archive svg.doodle {
     position: absolute; fill: none; stroke: var(--gold); stroke-width: 2;
     stroke-linecap: round; stroke-linejoin: round; pointer-events: none;
@@ -353,7 +353,7 @@
   }
   #archive .arc-ph { aspect-ratio: 4 / 3.2; background: linear-gradient(160deg, #4a3d2e, #231c14); overflow: hidden; }
   #archive .arc-ph img { width: 100%; height: 100%; object-fit: cover; object-position: var(--op, 50% 50%); display: block; }
-  #archive .arc-cap { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-size: 26px; color: var(--ink); }
+  #archive .arc-cap { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 32px; color: var(--ink); }
   #archive .arc-tape {
     position: absolute; top: -16px; left: 50%; width: 110px; height: 32px; margin-left: -55px;
     background: var(--gold); opacity: .85; transform: rotate(-3deg);
@@ -361,7 +361,7 @@
   }
   #archive .arc-oval {
     display: inline-block; border: 2px solid var(--gold); color: var(--gold);
-    border-radius: 50%; padding: 2px 22px; font-size: 26px; transform: rotate(-3deg); margin-bottom: 12px;
+    border-radius: 50%; padding: 2px 22px; font-size: 32px; transform: rotate(-3deg); margin-bottom: 12px;
   }
   #archive .arc-entry h3 {
     font-family: var(--serif); font-weight: 500;
@@ -372,7 +372,7 @@
     color: var(--cream); text-decoration: none; font-family: var(--sans); font-weight: 700;
     border-bottom: 2px solid var(--gold); padding-bottom: 2px;
   }
-  #archive .arc-note { display: block; font-size: 30px; margin-top: 18px; transform: rotate(-2deg); }
+  #archive .arc-note { display: block; font-size: 36px; margin-top: 18px; transform: rotate(-2deg); }
   #archive .arc-note u { text-decoration: none; border-bottom: 3px solid var(--gold); border-radius: 0 0 50% 50% / 0 0 8px 8px; }
   @media (prefers-reduced-motion: no-preference) {
     #archive .arc-polaroid { transition: transform .25s; }
@@ -463,7 +463,7 @@
     #about .note {
       --aw: clamp(34px, 10vw, 54px);
       width: clamp(105px, 36vw, 190px);
-      font-size: clamp(18px, 5vw, 24px);
+      font-size: clamp(22px, 6vw, 32px);
     }
     #about .note .ar { width: var(--aw); height: auto; aspect-ratio: 3 / 2; stroke-width: 2; }
     #about .n1 { left: 0;  top: 0; }
@@ -670,12 +670,12 @@
       <article class="sheet">
         <span class="tape"></span>
         <h3>From the President</h3>
-        <p>President's message goes here.</p> <!-- PUT YOUR TEXT -->
+        <p>President's message goes here.</p>
       </article>
       <article class="sheet">
         <span class="tape"></span>
         <h3>From the CP</h3>
-        <p>CP's message goes here.</p> <!-- PUT YOUR TEXT -->
+        <p>CP's message goes here.</p>
       </article>
     </div>
   </section>
@@ -683,7 +683,7 @@
   <!-- CLOSING: night -->
   <section class="sec" id="closing" style="--c:#17120d; --t:#f6e9cf; --rim:#d8c9a3">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-    <blockquote>Closing hadith goes here.</blockquote> <!-- PUT YOUR TEXT -->
+    <blockquote>Closing hadith goes here.</blockquote>
     <small>FAST Islamic Society, 2026</small>
   </section>
 
