@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Kalam:wght@700&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Caveat:wght@700&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -21,7 +21,7 @@
     --gold:  #d9a441;
     --serif: "Playfair Display", Georgia, "Times New Roman", serif;
     --sans: "Archivo", system-ui, sans-serif;
-    --hand: "Kalam", cursive;
+    --hand: "Caveat", cursive;
     /* how far the hero runs past the screen bottom, so the whole image shows before the tear */
     --drop: 80px;
   }
@@ -244,7 +244,7 @@
     position: absolute;
     width: clamp(150px, 17vw, 230px);
     font-family: var(--hand); font-weight: 700;
-    font-size: clamp(18px, 1.9vw, 26px); line-height: 1.25;
+    font-size: clamp(22px, 2.3vw, 32px); line-height: 1.2;
     color: var(--cream);
   }
   #about .note .ar {
@@ -257,10 +257,12 @@
   #about .n2 { right: 2%; top: 8%;    text-align: right; transform: rotate(3deg); }
   #about .n3 { left: 2%;  bottom: 8%; text-align: left;  transform: rotate(2deg); }
   #about .n4 { right: 2%; bottom: 8%; text-align: right; transform: rotate(-2deg); }
+  /* top notes: arrow to the side, curving DOWN toward the logo */
   #about .n1 .ar { left: calc(100% + 6px);  top: 22px; }
   #about .n2 .ar { right: calc(100% + 6px); top: 22px;  transform: scaleX(-1); }
-  #about .n3 .ar { left: 24px;  top: -66px; transform: scaleY(-1); }
-  #about .n4 .ar { right: 24px; top: -66px; transform: scale(-1, -1); }
+  /* bottom notes: arrow to the side, curving UP toward the logo */
+  #about .n3 .ar { left: calc(100% + 6px);  bottom: 16px; transform: scaleY(-1); }
+  #about .n4 .ar { right: calc(100% + 6px); bottom: 16px; transform: scale(-1, -1); }
 
   #about .intro-p {
     max-width: 62ch; margin: 5vh auto 0; text-align: center;
@@ -285,7 +287,7 @@
   #about .hnote {
     display: inline-block; margin-top: 14px;
     font-family: var(--hand); font-weight: 700;
-    font-size: clamp(18px, 1.8vw, 25px); line-height: 1.25;
+    font-size: clamp(22px, 2.2vw, 30px); line-height: 1.2;
     color: var(--gold); max-width: 17ch;
     transform: rotate(-2deg);
   }
@@ -351,7 +353,7 @@
   }
   #archive .arc-ph { aspect-ratio: 4 / 3.2; background: linear-gradient(160deg, #4a3d2e, #231c14); overflow: hidden; }
   #archive .arc-ph img { width: 100%; height: 100%; object-fit: cover; object-position: var(--op, 50% 50%); display: block; }
-  #archive .arc-cap { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-size: 22px; color: var(--ink); }
+  #archive .arc-cap { position: absolute; bottom: 12px; left: 0; right: 0; text-align: center; font-size: 26px; color: var(--ink); }
   #archive .arc-tape {
     position: absolute; top: -16px; left: 50%; width: 110px; height: 32px; margin-left: -55px;
     background: var(--gold); opacity: .85; transform: rotate(-3deg);
@@ -359,7 +361,7 @@
   }
   #archive .arc-oval {
     display: inline-block; border: 2px solid var(--gold); color: var(--gold);
-    border-radius: 50%; padding: 2px 22px; font-size: 22px; transform: rotate(-3deg); margin-bottom: 12px;
+    border-radius: 50%; padding: 2px 22px; font-size: 26px; transform: rotate(-3deg); margin-bottom: 12px;
   }
   #archive .arc-entry h3 {
     font-family: var(--serif); font-weight: 500;
@@ -370,7 +372,7 @@
     color: var(--cream); text-decoration: none; font-family: var(--sans); font-weight: 700;
     border-bottom: 2px solid var(--gold); padding-bottom: 2px;
   }
-  #archive .arc-note { display: block; font-size: 26px; margin-top: 18px; transform: rotate(-2deg); }
+  #archive .arc-note { display: block; font-size: 30px; margin-top: 18px; transform: rotate(-2deg); }
   #archive .arc-note u { text-decoration: none; border-bottom: 3px solid var(--gold); border-radius: 0 0 50% 50% / 0 0 8px 8px; }
   @media (prefers-reduced-motion: no-preference) {
     #archive .arc-polaroid { transition: transform .25s; }
@@ -461,7 +463,7 @@
     #about .note {
       --aw: clamp(34px, 10vw, 54px);
       width: clamp(105px, 36vw, 190px);
-      font-size: clamp(15px, 4.2vw, 20px);
+      font-size: clamp(18px, 5vw, 24px);
     }
     #about .note .ar { width: var(--aw); height: auto; aspect-ratio: 3 / 2; stroke-width: 2; }
     #about .n1 { left: 0;  top: 0; }
@@ -470,8 +472,8 @@
     #about .n4 { right: 0; bottom: 0; }
     #about .n1 .ar { left: calc(100% + 2px);  top: 12px; }
     #about .n2 .ar { right: calc(100% + 2px); top: 12px; transform: scaleX(-1); }
-    #about .n3 .ar { left: calc(100% - var(--aw) / 2);  right: auto; top: auto; bottom: calc(100% + 2px); transform: scaleY(-1); }
-    #about .n4 .ar { right: calc(100% - var(--aw) / 2); left: auto;  top: auto; bottom: calc(100% + 2px); transform: scale(-1, -1); }
+    #about .n3 .ar { left: calc(100% + 2px);  right: auto; top: auto; bottom: 8px; transform: scaleY(-1); }
+    #about .n4 .ar { right: calc(100% + 2px); left: auto;  top: auto; bottom: 8px; transform: scale(-1, -1); }
 
     #about .intro-p { margin-top: 4vh; text-align: left; }
     #about .row { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 6vh 0; margin-top: 6vh; }
@@ -522,8 +524,8 @@
     <div class="hint" aria-hidden="true"></div>
   </main>
 
-  <!-- ABOUT: deep green, written straight on the page -->
-  <section class="sec" id="about" style="--c:#2d7550; --t:#f6efdc; --rim:#e9dcc0">
+  <!-- ABOUT: DARK forest green, written straight on the page -->
+  <section class="sec" id="about" style="--c:#173d2a; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
 
     <div class="wrap">
