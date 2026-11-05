@@ -99,8 +99,11 @@ Do this together, with the outgoing and incoming technical teams in the same ses
 
 ## Status (November 2026)
 
-Built: homepage, admin login, posts list and editor, save draft, submit for review, approve, publish, unpublish, delete, cover images, Markdown preview, database setup.
+Built: homepage, admin login, posts list and editor, save draft, submit for review, approve, publish, unpublish, delete, cover images, Markdown preview, database 
+setup.
 
 Not built yet: public blog pages, email to members when a post is published, newsletter, anonymous questions, events, in-app chat.
 
 Known limits: cover images that are uploaded but never saved with a post stay in storage. Supabase's free plan pauses a project after about a week of no activity, so an uptime ping is planned.
+
+
