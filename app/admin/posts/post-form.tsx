@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useTransition, type ChangeEvent } from "react";
+import { createClient } from "@/lib/supabase/client";
 import { savePost, type SaveIntent } from "./actions";
 
 export type Post = {
@@ -10,7 +11,16 @@ export type Post = {
   excerpt: string | null;
   content: string;
   author_name: string;
+  cover_image_path: string | null;
+  cover_image_alt: string | null;
   status: "draft" | "in_review" | "approved" | "published";
+};
+
+// Allowed image types and the file ending we give each one.
+const imageTypes: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
 };
 
 export default function PostForm({ post }: { post?: Post }) {
@@ -19,12 +29,50 @@ export default function PostForm({ post }: { post?: Post }) {
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
   const [authorName, setAuthorName] = useState(post?.author_name ?? "");
+  const [coverPath, setCoverPath] = useState(post?.cover_image_path ?? "");
+  const [coverAlt, setCoverAlt] = useState(post?.cover_image_alt ?? "");
+  const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
 
   // Published posts cannot change their slug (the database blocks it).
   const slugLocked = post?.status === "published";
   const locked = post?.status === "approved" || post?.status === "published";
+
+  const coverUrl = coverPath
+    ? createClient().storage.from("blog-images").getPublicUrl(coverPath).data
+        .publicUrl
+    : "";
+
+  async function onPickImage(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = ""; // lets the same file be chosen again later
+    if (!file) return;
+
+    const ext = imageTypes[file.type];
+    if (!ext) {
+      setError("Please choose a JPG, PNG or WebP image.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError("The image must be smaller than 5 MB.");
+      return;
+    }
+
+    setError("");
+    setUploading(true);
+    const path = `covers/${crypto.randomUUID()}.${ext}`;
+    const { error: uploadError } = await createClient()
+      .storage.from("blog-images")
+      .upload(path, file, { contentType: file.type });
+    setUploading(false);
+
+    if (uploadError) {
+      setError(`Image upload failed: ${uploadError.message}`);
+      return;
+    }
+    setCoverPath(path);
+  }
 
   function submit(intent: SaveIntent) {
     setError("");
@@ -37,6 +85,8 @@ export default function PostForm({ post }: { post?: Post }) {
           excerpt,
           content,
           author_name: authorName,
+          cover_image_path: coverPath,
+          cover_image_alt: coverAlt,
         },
         intent
       );
@@ -45,6 +95,7 @@ export default function PostForm({ post }: { post?: Post }) {
   }
 
   const input = "rounded border border-gray-400 p-2";
+  const busy = pending || uploading;
 
   return (
     <div className="flex flex-col gap-4">
@@ -83,6 +134,53 @@ export default function PostForm({ post }: { post?: Post }) {
         />
       </label>
 
+      <fieldset className="flex flex-col gap-2 rounded border border-gray-400 p-3">
+        <legend className="px-1 text-sm">Cover image (optional)</legend>
+
+        {coverUrl && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={coverUrl}
+            alt={coverAlt || "Cover image preview"}
+            className="max-h-56 w-full rounded object-cover"
+          />
+        )}
+
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          onChange={onPickImage}
+          disabled={busy}
+          className="text-sm"
+        />
+        {uploading && <p className="text-sm">Uploading...</p>}
+        <p className="text-xs text-gray-500">JPG, PNG or WebP, up to 5 MB.</p>
+
+        {coverPath && (
+          <>
+            <label className="flex flex-col gap-1 text-sm">
+              Describe the image (alt text, for screen readers)
+              <input
+                className={input}
+                value={coverAlt}
+                onChange={(e) => setCoverAlt(e.target.value)}
+                placeholder="Students sitting under a banyan tree"
+              />
+            </label>
+            <button
+              type="button"
+              onClick={() => {
+                setCoverPath("");
+                setCoverAlt("");
+              }}
+              className="self-start text-sm underline"
+            >
+              Remove image
+            </button>
+          </>
+        )}
+      </fieldset>
+
       <label className="flex flex-col gap-1 text-sm">
         Short summary (optional)
         <textarea
@@ -107,7 +205,7 @@ export default function PostForm({ post }: { post?: Post }) {
         {locked ? (
           <button
             type="button"
-            disabled={pending}
+            disabled={busy}
             onClick={() => submit("save")}
             className="rounded bg-green-800 px-4 py-2 font-semibold text-white disabled:opacity-50"
           >
@@ -117,7 +215,7 @@ export default function PostForm({ post }: { post?: Post }) {
           <>
             <button
               type="button"
-              disabled={pending}
+              disabled={busy}
               onClick={() => submit("draft")}
               className="rounded border border-gray-400 px-4 py-2 disabled:opacity-50"
             >
@@ -125,7 +223,7 @@ export default function PostForm({ post }: { post?: Post }) {
             </button>
             <button
               type="button"
-              disabled={pending}
+              disabled={busy}
               onClick={() => submit("review")}
               className="rounded bg-green-800 px-4 py-2 font-semibold text-white disabled:opacity-50"
             >

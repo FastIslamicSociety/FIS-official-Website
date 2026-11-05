@@ -10,6 +10,8 @@ export type PostInput = {
   excerpt: string;
   content: string;
   author_name: string;
+  cover_image_path: string;
+  cover_image_alt: string;
 };
 
 // "draft"  = save as draft
@@ -38,9 +40,19 @@ export async function savePost(
   const content = input.content.trim();
   const authorName = input.author_name.trim();
   const excerpt = input.excerpt.trim();
+  const coverPath = input.cover_image_path.trim();
+  const coverAlt = input.cover_image_alt.trim();
 
   if (!title || !content || !authorName) {
     return { error: "Title, content and author name are required." };
+  }
+
+  // Cover images are uploaded by the editor into the covers/ folder.
+  if (coverPath && !/^covers\/[a-z0-9-]+\.(jpg|png|webp)$/.test(coverPath)) {
+    return { error: "The cover image path is not valid. Upload the image again." };
+  }
+  if (coverPath && !coverAlt) {
+    return { error: "Please describe the cover image (alt text) for readers who cannot see it." };
   }
 
   const slug = slugify(input.slug.trim() || title);
@@ -57,6 +69,8 @@ export async function savePost(
     excerpt: excerpt || null,
     content,
     author_name: authorName,
+    cover_image_path: coverPath || null,
+    cover_image_alt: coverPath ? coverAlt : null,
   };
 
   if (!input.id) {
