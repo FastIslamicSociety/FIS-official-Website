@@ -22,7 +22,6 @@
     --serif: "Playfair Display", Georgia, "Times New Roman", serif;
     --sans: "Archivo", system-ui, sans-serif;
     --hand: "Reenie Beanie", cursive;
-    /* how far the hero runs past the screen bottom, so the whole image shows before the tear */
     --drop: 80px;
   }
 
@@ -198,7 +197,7 @@
     z-index: 4;
   }
 
-  /* ---------- ABOUT (Why FIS ?) : written straight on the page, no cards ---------- */
+  /* ---------- ABOUT ---------- */
   #about { padding: 14vh 6vw 14vh; overflow-x: clip; }
   #about .wrap { max-width: 1000px; margin: 0 auto; }
 
@@ -222,7 +221,7 @@
     color: var(--cream); opacity: .85;
   }
 
-  /* logo with handwritten notes + arrows around it */
+  /* logo stage notes */
   #about .stage {
     position: relative;
     width: min(900px, 100%);
@@ -257,10 +256,9 @@
   #about .n2 { right: 2%; top: 8%;    text-align: right; transform: rotate(3deg); }
   #about .n3 { left: 2%;  bottom: 8%; text-align: left;  transform: rotate(2deg); }
   #about .n4 { right: 2%; bottom: 8%; text-align: right; transform: rotate(-2deg); }
-  /* top notes: arrow to the side, curving DOWN toward the logo */
+  
   #about .n1 .ar { left: calc(100% + 6px);  top: 22px; }
   #about .n2 .ar { right: calc(100% + 6px); top: 22px;  transform: scaleX(-1); }
-  /* bottom notes: arrow to the side, curving UP toward the logo */
   #about .n3 .ar { left: calc(100% + 6px);  bottom: 16px; transform: scaleY(-1); }
   #about .n4 .ar { right: calc(100% + 6px); bottom: 16px; transform: scale(-1, -1); }
 
@@ -268,7 +266,7 @@
     max-width: 62ch; margin: 5vh auto 0; text-align: center;
   }
 
-  /* text rows: heading + handwritten note on the side, paragraph on the other */
+  /* text rows */
   #about .row {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
@@ -285,19 +283,24 @@
     color: var(--cream);
   }
   #about .hnote {
-    display: inline-block; margin-top: 10px;
+    display: block; margin-top: 10px;
     font-family: var(--hand); font-weight: 400;
     font-size: clamp(28px, 2.8vw, 38px); line-height: 1.05;
-    color: var(--gold); max-width: 17ch;
+    color: var(--gold); max-width: 22ch;
     transform: rotate(-2deg);
   }
+  
   #about .ar2 {
-    display: block; width: 64px; height: auto; aspect-ratio: 3 / 2; margin-top: 10px;
-    fill: none; stroke: var(--gold); stroke-width: 2.4;
+    display: block; width: 90px; height: 45px; margin-top: 12px;
+    fill: none; stroke: var(--gold); stroke-width: 2.5;
     stroke-linecap: round; stroke-linejoin: round;
   }
   #about .ar2 path { vector-effect: non-scaling-stroke; }
-  #about .row.flip .ar2 { transform: scaleX(-1); margin-left: auto; }
+  #about .row.flip .ar2 { 
+    transform: scaleX(-1); 
+    margin-left: auto; 
+  }
+  
   #about .row p {
     font-family: var(--sans); font-weight: 500;
     font-size: clamp(15px, 1.15vw, 18px); line-height: 1.85;
@@ -324,7 +327,7 @@
   }
   #about .end .ur { color: var(--cream); font-size: clamp(20px, 2.2vw, 30px); }
 
-  /* ---------- ARCHIVE (polaroids + handwritten notes) ---------- */
+  /* ---------- ARCHIVE ---------- */
   #archive { padding-bottom: 60px; overflow-x: clip; }
   #archive .hand { font-family: var(--hand); font-weight: 400; }
   #archive svg.doodle {
@@ -448,12 +451,12 @@
 
     #about .stage {
       display: block; width: 100%; max-width: 520px;
-      height: clamp(300px, 84vw, 420px); min-height: 0; margin: 4vh auto 0;
+      height: clamp(260px, 70vw, 360px); min-height: 0; margin: 2vh auto 0;
     }
     #about .cut {
       position: absolute; left: 50%; top: 50%;
       transform: translate(-50%, -50%);
-      width: clamp(120px, 34vw, 180px);
+      width: clamp(130px, 36vw, 190px);
       filter:
         drop-shadow(2px 0 0 var(--cream))
         drop-shadow(-2px 0 0 var(--cream))
@@ -461,19 +464,17 @@
         drop-shadow(0 -2px 0 var(--cream));
     }
     #about .note {
-      --aw: clamp(34px, 10vw, 54px);
-      width: clamp(105px, 36vw, 190px);
-      font-size: clamp(22px, 6vw, 32px);
+      width: clamp(130px, 40vw, 200px);
+      font-size: clamp(22px, 5.5vw, 28px);
     }
-    #about .note .ar { width: var(--aw); height: auto; aspect-ratio: 3 / 2; stroke-width: 2; }
-    #about .n1 { left: 0;  top: 0; }
-    #about .n2 { right: 0; top: 0; }
-    #about .n3 { left: 0;  bottom: 0; }
-    #about .n4 { right: 0; bottom: 0; }
-    #about .n1 .ar { left: calc(100% + 2px);  top: 12px; }
-    #about .n2 .ar { right: calc(100% + 2px); top: 12px; transform: scaleX(-1); }
-    #about .n3 .ar { left: calc(100% + 2px);  right: auto; top: auto; bottom: 8px; transform: scaleY(-1); }
-    #about .n4 .ar { right: calc(100% + 2px); left: auto;  top: auto; bottom: 8px; transform: scale(-1, -1); }
+    
+    /* HIDE SIDE ARROWS ON MOBILE SO THEY DON'T COLLIDE */
+    #about .note .ar { display: none; }
+
+    #about .n1 { left: 4%;  top: 2%; }
+    #about .n2 { right: 4%; top: 2%; text-align: right; }
+    #about .n3 { left: 4%;  bottom: 2%; }
+    #about .n4 { right: 4%; bottom: 2%; text-align: right; }
 
     #about .intro-p { margin-top: 4vh; text-align: left; }
     #about .row { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 6vh 0; margin-top: 6vh; }
@@ -524,7 +525,7 @@
     <div class="hint" aria-hidden="true"></div>
   </main>
 
-  <!-- ABOUT: DARK forest green, written straight on the page -->
+  <!-- ABOUT -->
   <section class="sec" id="about" style="--c:#173d2a; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
 
@@ -535,7 +536,7 @@
         <small>FAST Islamic Society &middot; est. 2025</small>
       </header>
 
-      <!-- who we are: logo with handwritten notes + arrows -->
+      <!-- who we are -->
       <div class="stage">
         <img class="cut" src="/favicon.png?v=2" alt="FIS">
 
@@ -564,7 +565,10 @@
         <div class="side">
           <h3>Our purpose</h3>
           <span class="hnote">khalifah of Allah SWT on this earth</span>
-          <svg class="ar2" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+          <svg class="ar2" viewBox="0 0 90 45" aria-hidden="true">
+            <path d="M 4,4 Q 40,40 78,22"/>
+            <path d="M 64,18 L 80,22 L 76,34"/>
+          </svg>
         </div>
         <p>We believe that our purpose extends far beyond simply going through life. As the khalifah of Allah SWT on this earth, we have been blessed with abilities, opportunities, and potential that come with a responsibility to use them meaningfully. Our ambitions, knowledge, relationships, and everyday pursuits can all become means of earning His pleasure when rooted in the right intentions and guided by His teachings.</p>
       </div>
@@ -575,7 +579,10 @@
           <h3>What shapes FIS</h3>
           <div class="ur">حدودُ اللہ</div>
           <span class="hnote">divine boundaries</span>
-          <svg class="ar2" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+          <svg class="ar2" viewBox="0 0 90 45" aria-hidden="true">
+            <path d="M 4,4 Q 40,40 78,22"/>
+            <path d="M 64,18 L 80,22 L 76,34"/>
+          </svg>
         </div>
         <p>This understanding is what shapes FIS. Whether it is a gathering, a trip, a speaker session, or even a simple social media post, we strive to bring our values into everything we do. We recognise Hudoodullah (حدودُ اللہ) as divine boundaries that guide and protect us, helping us distinguish not just between what is permissible and impermissible, but between what brings us closer to Allah and what takes us away from Him.</p>
       </div>
@@ -585,7 +592,10 @@
         <div class="side">
           <h3>Faith &amp; dunya</h3>
           <span class="hnote">excellence, friendships, beautiful memories</span>
-          <svg class="ar2" viewBox="0 0 90 60" aria-hidden="true"><path d="M4 8 C30 2 66 14 82 50"/><path d="M70 46 L82 52 L86 38"/></svg>
+          <svg class="ar2" viewBox="0 0 90 45" aria-hidden="true">
+            <path d="M 4,4 Q 40,40 78,22"/>
+            <path d="M 64,18 L 80,22 L 76,34"/>
+          </svg>
         </div>
         <p>Through FIS, we hope to show that one does not have to compromise on their deen to embrace the joys of this dunya. We can pursue excellence, explore our potential, build friendships, and make beautiful memories, all while keeping our connection with Allah SWT at the centre of it all.</p>
       </div>
@@ -599,8 +609,7 @@
     </div>
   </section>
 
-  <!-- ARCHIVE: warm brown, polaroids + handwritten notes.
-       Uses p1.png, p2.png, p3.png; falls back to FINAL DESKTOP.png until those exist. -->
+  <!-- ARCHIVE -->
   <section class="sec" id="archive" style="--c:#3a2d20; --t:#f6efdc; --rim:#e9dcc0">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
 
@@ -662,7 +671,7 @@
     </article>
   </section>
 
-  <!-- MESSAGES: parchment -->
+  <!-- MESSAGES -->
   <section class="sec" id="messages" style="--c:#efe3c6; --t:#2a2118; --rim:#d8c9a3">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
     <h2>Messages</h2>
@@ -680,7 +689,7 @@
     </div>
   </section>
 
-  <!-- CLOSING: night -->
+  <!-- CLOSING -->
   <section class="sec" id="closing" style="--c:#17120d; --t:#f6e9cf; --rim:#d8c9a3">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
     <blockquote>Closing hadith goes here.</blockquote>
