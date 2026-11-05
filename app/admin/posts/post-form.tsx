@@ -2,6 +2,7 @@
 
 import { useState, useTransition, type ChangeEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
+import Markdown from "@/components/markdown";
 import { savePost, type SaveIntent } from "./actions";
 
 export type Post = {
@@ -31,6 +32,7 @@ export default function PostForm({ post }: { post?: Post }) {
   const [authorName, setAuthorName] = useState(post?.author_name ?? "");
   const [coverPath, setCoverPath] = useState(post?.cover_image_path ?? "");
   const [coverAlt, setCoverAlt] = useState(post?.cover_image_alt ?? "");
+  const [preview, setPreview] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
@@ -191,15 +193,35 @@ export default function PostForm({ post }: { post?: Post }) {
         />
       </label>
 
-      <label className="flex flex-col gap-1 text-sm">
-        Article (Markdown)
-        <textarea
-          className={`${input} font-mono`}
-          rows={16}
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </label>
+      <div className="flex flex-col gap-1 text-sm">
+        <div className="flex items-center justify-between">
+          <label htmlFor="article">Article (Markdown)</label>
+          <button
+            type="button"
+            onClick={() => setPreview(!preview)}
+            className="text-sm underline"
+          >
+            {preview ? "Back to writing" : "Preview"}
+          </button>
+        </div>
+        {preview ? (
+          <div className="min-h-[24rem] rounded border border-gray-400 p-4">
+            {content.trim() ? (
+              <Markdown>{content}</Markdown>
+            ) : (
+              <p className="text-gray-500">Nothing to preview yet.</p>
+            )}
+          </div>
+        ) : (
+          <textarea
+            id="article"
+            className={`${input} font-mono`}
+            rows={16}
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        )}
+      </div>
 
       <div className="flex flex-wrap gap-3">
         {locked ? (
