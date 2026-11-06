@@ -23,6 +23,7 @@
     --sans: "Archivo", system-ui, sans-serif;
     --hand: "Reenie Beanie", cursive;
     --drop: 80px;
+    --ix: clamp(70px, 9vw, 150px);
   }
 
   html { scroll-behavior: smooth; }
@@ -150,7 +151,7 @@
     to   { opacity: 1; transform: none; }
   }
 
-  /* ---------- TORN PAPER ---------- */
+  /* ---------- TORN PAPER (Archive, Messages, Closing only) ---------- */
   .sec {
     position: relative;
     z-index: 1;
@@ -197,57 +198,68 @@
     z-index: 4;
   }
 
-  /* ---------- WHY FIS : STACKED ROWS ---------- */
-  #about { position: relative; --strip: 84px; --ix: clamp(70px, 9vw, 150px); }
+  /* ---------- WHY FIS : STICKY STACK ---------- */
+  #about {
+    --c: #17352a;
+    --strip: 84px;      /* height of a collapsed row */
+    --n: 5;             /* number of rows */
+    background: var(--c);
+    color: var(--cream);
+    isolation: isolate;
+  }
 
   .pg {
     position: sticky;
     top: calc(var(--i) * var(--strip));
+    z-index: calc(var(--i) + 1);
+    /* offsets that make all rows release together as one block at the end */
+    margin-bottom: calc((var(--n) - 1 - var(--i)) * var(--strip));
     min-height: calc(100vh - var(--strip));
     min-height: calc(100svh - var(--strip));
-  }
-  .pg .tear { z-index: 5; }
 
-  /* header strip: this is the part that stays visible when pages stack */
-  .hd {
-    display: grid; grid-template-columns: var(--ix) minmax(0, 1fr);
-    align-items: center;
-    height: calc(var(--strip) - 26px);
-    padding: 0 6vw;
+    display: grid;
+    grid-template-columns: var(--ix) minmax(0, 1fr) clamp(170px, 22vw, 380px);
+    grid-template-rows: var(--strip) auto;
+    column-gap: 3vw;
+    align-content: start;
+    padding: 0 6vw 8vh;
+
+    background: var(--c);
+    border-top: 1px solid rgba(246,239,220,.22);
   }
+
   .idx {
+    grid-column: 1; grid-row: 1; align-self: center;
     display: flex; align-items: center; gap: 12px;
     font-family: var(--sans); font-weight: 700; letter-spacing: .2em;
     font-size: 13px; color: var(--gold);
   }
   .idx::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--gold); }
-  .hd .t {
+  .pg .t {
+    grid-column: 2; grid-row: 1; align-self: center;
     font-family: var(--serif); font-weight: 900; line-height: 1;
-    font-size: clamp(28px, 3.4vw, 48px); color: var(--cream);
+    font-size: clamp(30px, 3.8vw, 54px); color: var(--cream);
     letter-spacing: -.01em; white-space: nowrap;
   }
-  .hd .t em { font-style: italic; font-weight: 400; }
+  .pg .t em { font-style: italic; font-weight: 400; }
 
-  /* body: only seen when this page is on top */
-  .pg > .bd {
-    position: static;
-    padding: 3vh calc(6vw + 22vw + 3vw) 8vh calc(6vw + var(--ix));
-  }
+  .pg .bd { grid-column: 2; grid-row: 2; padding-top: 3vh; }
   .bd p {
     font-family: var(--sans); font-weight: 500;
     font-size: clamp(15px, 1.2vw, 19px); line-height: 1.85;
     color: rgba(246,239,220,.94); max-width: 54ch;
   }
 
-  /* photo slot (drop images in later: why1.jpg ... why5.jpg) */
-  .bd .pic {
-    position: absolute; top: 12px; right: 6vw; z-index: 2;
-    width: clamp(170px, 22vw, 380px); aspect-ratio: 4 / 3.3;
+  /* photo: sits in the strip row so it peeks out when the row is collapsed (why1.jpg ... why5.jpg) */
+  .pg .pic {
+    grid-column: 3; grid-row: 1 / span 2; align-self: start;
+    margin-top: 12px;
+    aspect-ratio: 4 / 3.3;
     overflow: hidden;
     border: 1px solid rgba(246,239,220,.25);
     background: linear-gradient(150deg, rgba(217,164,65,.3), rgba(0,0,0,.35));
   }
-  .bd .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   /* reveal */
   .rv { opacity: 0; transform: translateY(22px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
@@ -317,7 +329,7 @@
   .jr i { display: block; margin-top: 6px; font-family: var(--serif); font-size: clamp(13px, 1.3vw, 19px); color: var(--gold); }
 
   /* closing words: plain text after the stack */
-  .after { padding: 14vh 6vw 18vh calc(6vw + var(--ix)); }
+  .after { background: #17352a; color: var(--cream); padding: 14vh 6vw 18vh calc(6vw + var(--ix) + 3vw); }
   .after blockquote {
     font-family: var(--serif); font-style: italic; font-weight: 400;
     font-size: clamp(22px, 2.8vw, 40px); line-height: 1.4;
@@ -446,13 +458,13 @@
 
     /* WHY FIS rows */
     #about { --strip: 72px; }
-    .hd { grid-template-columns: 46px minmax(0, 1fr); padding: 0 7vw; }
+    .pg { grid-template-columns: 46px minmax(0, 1fr); column-gap: 0; padding: 0 7vw 8vh; }
     .idx { font-size: 11px; gap: 6px; letter-spacing: .12em; }
     .idx::before { width: 7px; height: 7px; }
-    .hd .t { font-size: clamp(20px, 6vw, 28px); }
-    .pg > .bd { padding: 2vh 7vw 8vh; }
+    .pg .t { font-size: clamp(20px, 6vw, 28px); }
+    .pg .bd { grid-column: 1 / -1; padding-top: 2vh; }
     .bd p { font-size: 15px; line-height: 1.75; }
-    .bd .pic { position: static; width: 100%; margin-top: 4vh; aspect-ratio: 16 / 10; }
+    .pg .pic { grid-column: 1 / -1; grid-row: 3; margin-top: 4vh; aspect-ratio: 16 / 10; }
     .brand { flex-direction: column; text-align: center; gap: 2vh; }
     .brand .cut { width: clamp(110px, 32vw, 150px); }
     .brand small { letter-spacing: .22em; font-size: 10px; }
@@ -508,14 +520,14 @@
     <div class="hint" aria-hidden="true"></div>
   </main>
 
-  <!-- WHY FIS : STACKED ROWS -->
+  <!-- WHY FIS : STICKY STACK -->
   <div id="about">
 
-    <section class="sec pg" style="--c:#17352a; --t:#f6efdc; --rim:#e9dcc0; --i:0; z-index:1">
-      <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-      <div class="hd"><div class="idx">01</div><div class="t">About <em>FIS</em></div></div>
+    <section class="pg" style="--i:0">
+      <div class="idx">01</div>
+      <div class="t">About <em>FIS</em></div>
+      <div class="pic"><img src="why1.jpg" alt="" onerror="this.parentElement.remove()"></div>
       <div class="bd">
-        <div class="pic"><img src="why1.jpg" alt="" onerror="this.parentElement.remove()"></div>
         <div class="brand rv">
           <img class="cut" src="/favicon.png?v=2" alt="FIS">
           <div>
@@ -533,39 +545,39 @@
       </div>
     </section>
 
-    <section class="sec pg" style="--c:#17352a; --t:#f6efdc; --rim:#e9dcc0; --i:1; z-index:2">
-      <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-      <div class="hd"><div class="idx">02</div><div class="t">Our purpose</div></div>
+    <section class="pg" style="--i:1">
+      <div class="idx">02</div>
+      <div class="t">Our purpose</div>
+      <div class="pic"><img src="why2.jpg" alt="" onerror="this.parentElement.remove()"></div>
       <div class="bd">
-        <div class="pic"><img src="why2.jpg" alt="" onerror="this.parentElement.remove()"></div>
         <p class="rv">We believe that our purpose extends far beyond simply going through life. As the khalifah of Allah SWT on this earth, we have been blessed with abilities, opportunities, and potential that come with a responsibility to use them meaningfully. Our ambitions, knowledge, relationships, and everyday pursuits can all become means of earning His pleasure when rooted in the right intentions and guided by His teachings.</p>
       </div>
     </section>
 
-    <section class="sec pg" style="--c:#17352a; --t:#f6efdc; --rim:#e9dcc0; --i:2; z-index:3">
-      <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-      <div class="hd"><div class="idx">03</div><div class="t">What shapes FIS</div></div>
+    <section class="pg" style="--i:2">
+      <div class="idx">03</div>
+      <div class="t">What shapes FIS</div>
+      <div class="pic"><img src="why3.jpg" alt="" onerror="this.parentElement.remove()"></div>
       <div class="bd">
-        <div class="pic"><img src="why3.jpg" alt="" onerror="this.parentElement.remove()"></div>
         <p class="rv">This understanding is what shapes FIS. Whether it is a gathering, a trip, a speaker session, or even a simple social media post, we strive to bring our values into everything we do. We recognise Hudoodullah (حدودُ اللہ) as divine boundaries that guide and protect us, helping us distinguish not just between what is permissible and impermissible, but between what brings us closer to Allah and what takes us away from Him.</p>
         <div class="ur rv d1">حدودُ اللہ</div>
       </div>
     </section>
 
-    <section class="sec pg" style="--c:#17352a; --t:#f6efdc; --rim:#e9dcc0; --i:3; z-index:4">
-      <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-      <div class="hd"><div class="idx">04</div><div class="t">Faith &amp; dunya</div></div>
+    <section class="pg" style="--i:3">
+      <div class="idx">04</div>
+      <div class="t">Faith &amp; dunya</div>
+      <div class="pic"><img src="why4.jpg" alt="" onerror="this.parentElement.remove()"></div>
       <div class="bd">
-        <div class="pic"><img src="why4.jpg" alt="" onerror="this.parentElement.remove()"></div>
         <p class="rv">Through FIS, we hope to show that one does not have to compromise on their deen to embrace the joys of this dunya. We can pursue excellence, explore our potential, build friendships, and make beautiful memories, all while keeping our connection with Allah SWT at the centre of it all.</p>
       </div>
     </section>
 
-    <section class="sec pg" style="--c:#17352a; --t:#f6efdc; --rim:#e9dcc0; --i:4; z-index:5">
-      <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-      <div class="hd"><div class="idx">05</div><div class="t">Our journey</div></div>
+    <section class="pg" style="--i:4">
+      <div class="idx">05</div>
+      <div class="t">Our journey</div>
+      <div class="pic"><img src="why5.jpg" alt="" onerror="this.parentElement.remove()"></div>
       <div class="bd">
-        <div class="pic"><img src="why5.jpg" alt="" onerror="this.parentElement.remove()"></div>
         <div class="jr rv">
           <div><b>FQSS</b><i>Our beginnings</i></div>
           <div><b>2024</b><i>DeenFest</i></div>
@@ -574,16 +586,16 @@
       </div>
     </section>
 
-    <section class="sec after" style="--c:#17352a; --t:#f6efdc; --rim:#e9dcc0; z-index:7">
-      <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-      <blockquote class="rv">Because Islam is not simply a part of the life we live. It is the purpose, guidance, and meaning behind it.</blockquote>
-      <div class="ur couplet">
-        <span class="rv d1">تو رازِ کن فکاں ہے، اپنی آنکھوں پر عیاں ہو جا</span>
-        <span class="rv" style="transition-delay:1.1s">خودی کا رازداں ہو جا، خدا کا ترجماں ہو جا</span>
-      </div>
-    </section>
-
   </div>
+
+  <!-- CLOSING WORDS: normal flow, after the stack releases -->
+  <section class="after">
+    <blockquote class="rv">Because Islam is not simply a part of the life we live. It is the purpose, guidance, and meaning behind it.</blockquote>
+    <div class="ur couplet">
+      <span class="rv d1">تو رازِ کن فکاں ہے، اپنی آنکھوں پر عیاں ہو جا</span>
+      <span class="rv" style="transition-delay:1.1s">خودی کا رازداں ہو جا، خدا کا ترجماں ہو جا</span>
+    </div>
+  </section>
 
   <!-- ARCHIVE -->
   <section class="sec" id="archive" style="--c:#3a2d20; --t:#f6efdc; --rim:#e9dcc0; z-index:10">
@@ -673,7 +685,7 @@
   </section>
 
 <script>
-  /* torn edges */
+  /* torn edges (Archive, Messages, Closing only) */
   function rnd(seed) { let s = seed; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
   document.querySelectorAll(".tear").forEach((el, k) => {
     const r = rnd(k * 97 + 13), W = 1200, n = 80, a = [], b = [];
