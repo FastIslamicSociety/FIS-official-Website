@@ -342,8 +342,8 @@
   .fin .couplet { font-size: clamp(17px, 1.7vw, 25px); line-height: 2.2; text-align: center; }
   .fin .couplet span { display: block; }
 
-  /* ---------- ARCHIVE ---------- */
-  #archive { padding-bottom: 60px; overflow-x: clip; }
+  /* ---------- ARCHIVE (film strips) ---------- */
+  #archive { padding-bottom: 80px; overflow-x: clip; }
   #archive .hand { font-family: var(--hand); font-weight: 400; }
   #archive svg.doodle {
     position: absolute; fill: none; stroke: var(--gold); stroke-width: 2;
@@ -359,43 +359,86 @@
   #archive .arc-hero p { color: rgba(246,239,220,.75); max-width: 30ch; margin: 14px auto 0; }
   #archive .arc-hero .arrow { position: static; display: block; margin: 18px auto 0; width: 30px; }
 
-  #archive .arc-entry {
-    display: grid; grid-template-columns: 1.1fr 1fr; gap: 6vw; align-items: center;
-    max-width: 1040px; margin: 0 auto; padding: 60px 5vw; position: relative;
+  #archive .reel { position: relative; margin: 70px 0 90px; }
+  #archive .reel + .reel { margin-top: 110px; }
+
+  #archive .film {
+    position: relative;
+    width: 108vw; margin-left: -4vw;
+    padding: 46px 4vw 66px;
+    display: flex; gap: 14px;
+    background: #120e0a;
+    transform: rotate(-2deg);
+    box-shadow: 0 16px 34px rgba(0,0,0,.55);
   }
-  #archive .arc-entry.flip .arc-polaroid { order: 2; transform: rotate(2.5deg); }
-  #archive .arc-entry.flip .arc-tape { transform: rotate(4deg); }
-  #archive .arc-polaroid {
-    position: relative; background: #fbf5e6; padding: 14px 14px 54px;
-    box-shadow: 0 16px 34px rgba(0,0,0,.55); transform: rotate(-3deg); max-width: 430px;
+  #archive .film.alt { transform: rotate(1.5deg); }
+  #archive .film::before,
+  #archive .film::after {
+    content: ""; position: absolute; left: 0; right: 0; height: 14px;
+    background: repeating-linear-gradient(90deg, rgba(246,239,220,.92) 0 14px, transparent 14px 30px);
+    border-radius: 2px;
   }
-  #archive .arc-ph { aspect-ratio: 4 / 3.2; background: linear-gradient(160deg, #4a3d2e, #231c14); overflow: hidden; }
-  #archive .arc-ph img { width: 100%; height: 100%; object-fit: cover; object-position: var(--op, 50% 50%); display: block; }
-  #archive .arc-cap { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 32px; color: var(--ink); }
-  #archive .arc-tape {
-    position: absolute; top: -16px; left: 50%; width: 110px; height: 32px; margin-left: -55px;
-    background: var(--gold); opacity: .85; transform: rotate(-3deg);
-    clip-path: polygon(0 8%,4% 0,8% 10%,12% 0,100% 0,96% 50%,100% 100%,8% 100%,4% 92%,0 100%,3% 50%);
+  #archive .film::before { top: 15px; }
+  #archive .film::after  { bottom: 15px; }
+
+  #archive .frame { flex: 1 1 0; min-width: 0; margin: 0; }
+  #archive .frame button {
+    display: block; width: 100%; padding: 0; border: 0;
+    aspect-ratio: 4 / 3.2; overflow: hidden; position: relative;
+    background: #231c14; border-radius: 6px;
+    cursor: zoom-in; font: inherit;
   }
-  #archive .arc-oval {
-    display: inline-block; border: 2px solid var(--gold); color: var(--gold);
-    border-radius: 50%; padding: 2px 22px; font-size: 32px; transform: rotate(-3deg); margin-bottom: 12px;
+  #archive .frame button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  #archive .frame img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: sepia(.18) saturate(1.05) contrast(1.03);
+    transition: transform .4s ease, filter .4s ease;
   }
-  #archive .arc-entry h3 {
-    font-family: var(--serif); font-weight: 500;
-    font-size: clamp(34px, 5vw, 52px); line-height: 1.1; margin: 0 0 12px; color: var(--cream);
+  #archive .frame button:hover img { transform: scale(1.05); filter: none; }
+  #archive .frame figcaption {
+    margin-top: 10px; text-align: center; color: var(--cream);
+    font-size: clamp(20px, 1.9vw, 28px); line-height: 1; opacity: .92;
   }
-  #archive .arc-entry p { color: rgba(246,239,220,.75); max-width: 32ch; margin: 0 0 16px; }
-  #archive .arc-more {
-    color: var(--cream); text-decoration: none; font-family: var(--sans); font-weight: 700;
-    border-bottom: 2px solid var(--gold); padding-bottom: 2px;
+
+  /* little handwritten notes */
+  #archive .note {
+    position: absolute; z-index: 5; color: var(--gold);
+    font-size: clamp(26px, 2.6vw, 38px); line-height: 1; white-space: nowrap;
+    pointer-events: none;
   }
-  #archive .arc-note { display: block; font-size: 36px; margin-top: 18px; transform: rotate(-2deg); }
-  #archive .arc-note u { text-decoration: none; border-bottom: 3px solid var(--gold); border-radius: 0 0 50% 50% / 0 0 8px 8px; }
-  @media (prefers-reduced-motion: no-preference) {
-    #archive .arc-polaroid { transition: transform .25s; }
-    #archive .arc-polaroid:hover { transform: rotate(0) scale(1.02); }
+  #archive .note u { text-decoration: none; border-bottom: 3px solid var(--gold); border-radius: 0 0 50% 50% / 0 0 8px 8px; }
+  #archive .note svg.doodle { position: absolute; }
+  #archive .n1 { top: -52px; right: 9vw; transform: rotate(-3deg); }
+  #archive .n1 svg { left: -52px; top: 8px; width: 42px; }
+  #archive .n2 { bottom: -58px; left: 8vw; transform: rotate(-2deg); }
+  #archive .n3 { top: -48px; left: 6vw; transform: rotate(2deg); }
+
+  /* ---------- LIGHTBOX ---------- */
+  .lb {
+    position: fixed; inset: 0; z-index: 300;
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    padding: 5vh 4vw; background: rgba(10,7,4,.93);
   }
+  .lb.open { display: flex; }
+  .lb figure { text-align: center; }
+  .lb img {
+    display: block; max-width: 90vw; max-height: 76vh; object-fit: contain;
+    border: 10px solid #fbf5e6; box-shadow: 0 20px 50px rgba(0,0,0,.6);
+  }
+  .lb figcaption {
+    margin-top: 14px; color: var(--cream);
+    font-family: var(--hand); font-size: clamp(28px, 3vw, 40px); line-height: 1;
+  }
+  .lb button {
+    position: absolute; background: none; border: 0; cursor: pointer;
+    color: var(--cream); font-family: var(--sans); font-weight: 700;
+  }
+  .lb .x { top: 20px; right: 4vw; font-size: 12px; letter-spacing: .2em; text-transform: uppercase;
+           padding: 8px 14px; border: 1px solid rgba(246,239,220,.4); }
+  .lb .pv, .lb .nx { top: 50%; margin-top: -30px; font-size: 56px; line-height: 1; padding: 0 14px; font-family: var(--serif); font-weight: 500; }
+  .lb .pv { left: 1.5vw; } .lb .nx { right: 1.5vw; }
+  .lb button:hover { color: var(--gold); }
+  .lb button:focus-visible { outline: 2px solid var(--gold); }
 
   /* ---------- MESSAGES ---------- */
   #messages { padding: 18vh 6vw 20vh; }
@@ -485,10 +528,19 @@
     .fin blockquote { font-size: clamp(16px, 4.6vw, 22px); }
     .fin .couplet { font-size: clamp(16px, 4.6vw, 22px); }
 
-    /* ARCHIVE */
-    #archive .arc-entry { grid-template-columns: 1fr; padding: 50px 8vw; }
-    #archive .arc-entry.flip .arc-polaroid { order: 0; }
+    /* ARCHIVE: strips become swipeable rows */
     #archive .hide-m { display: none; }
+    #archive .reel { margin: 56px 0 70px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    #archive .reel::-webkit-scrollbar { display: none; }
+    #archive .film, #archive .film.alt {
+      width: max-content; margin-left: 0; padding: 46px 6vw 66px;
+      transform: none;
+    }
+    #archive .frame { flex: none; width: 62vw; }
+    #archive .note { position: static; display: block; margin: 0 6vw 14px; transform: rotate(-2deg); font-size: 28px; }
+    #archive .note svg { display: none; }
+    #archive .n2 { margin: 14px 6vw 0; }
+    .lb .pv, .lb .nx { font-size: 40px; padding: 0 6px; }
 
     /* MESSAGES */
     #messages { padding: 12vh 6vw 14vh; }
@@ -604,52 +656,48 @@
       <svg class="doodle arrow" viewBox="0 0 30 50"><path d="M15 2c-4 14 2 26 0 42M7 35l8 11 9-10"/></svg>
     </header>
 
-    <article class="arc-entry">
-      <div class="arc-polaroid">
-        <div class="arc-tape"></div>
-        <div class="arc-ph"><img src="p1.png" alt="" style="--op:20% 85%" onerror="this.onerror=null;this.src='FINAL%20DESKTOP.png'"></div>
-        <div class="arc-cap hand">the front gate</div>
+    <!-- reel one -->
+    <div class="reel">
+      <div class="note n1 hand">
+        <svg class="doodle hide-m" viewBox="0 0 50 40"><path d="M46 6C26 2 10 12 8 30M2 22l6 10 10-6"/></svg>
+        tap any frame to see it bigger
       </div>
-      <div>
-        <div class="arc-oval hand">chapter one</div>
-        <h3>Another year, another chapter.</h3>
-        <p>From new beginnings to lasting friendships, this year was truly special.</p>
-        <a class="arc-more" href="#">View memories</a>
-        <span class="arc-note hand"><u>Sports Day</u> · Cultural Fest · Friendships ♡</span>
+      <div class="film">
+        <figure class="frame"><button type="button" data-cap="girls gupshup session"><img src="images/p1.png" alt="Girls gupshup session" loading="lazy"></button><figcaption class="hand">girls gupshup session</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="girls walk"><img src="images/p3.png" alt="Girls walk" loading="lazy"></button><figcaption class="hand">girls walk</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="tafakkur circles"><img src="images/p4.png" alt="Tafakkur circles" loading="lazy"></button><figcaption class="hand">tafakkur circles</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="bethaks"><img src="images/p5.png" alt="Bethaks" loading="lazy"></button><figcaption class="hand">bethaks</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="ramadhan halaqah"><img src="images/p6.png" alt="Ramadhan halaqah" loading="lazy"></button><figcaption class="hand">ramadhan halaqah</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="boys halaqah"><img src="images/p7.png" alt="Boys halaqah" loading="lazy"></button><figcaption class="hand">boys halaqah</figcaption></figure>
       </div>
-    </article>
+    </div>
 
-    <article class="arc-entry flip">
-      <svg class="doodle hide-m" style="left:5vw;bottom:50px;width:90px" viewBox="0 0 100 40"><path d="M4 30c20-30 30 20 46-6 12-18 24-8 46 4"/></svg>
-      <div class="arc-polaroid">
-        <div class="arc-tape"></div>
-        <div class="arc-ph"><img src="p2.png" alt="" style="--op:60% 90%" onerror="this.onerror=null;this.src='FINAL%20DESKTOP.png'"></div>
-        <div class="arc-cap hand">huddle at sunset</div>
+    <!-- reel two -->
+    <div class="reel">
+      <div class="note n3 hand">halaqahs, walks <u>and everything in between</u></div>
+      <svg class="doodle hide-m" style="right:6vw;top:-70px;width:44px" viewBox="0 0 40 40"><path d="M20 3l5 12 13 1-10 9 3 13-11-7-11 7 3-13L2 16l13-1z"/></svg>
+      <div class="film alt">
+        <figure class="frame"><button type="button" data-cap="general halaqah"><img src="images/p8.png" alt="General halaqah" loading="lazy"></button><figcaption class="hand">general halaqah</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="FIS x crochet"><img src="images/p9.png" alt="FIS x crochet" loading="lazy"></button><figcaption class="hand">FIS x crochet</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="general body recruitments"><img src="images/p10.png" alt="General body recruitments" loading="lazy"></button><figcaption class="hand">general body recruitments</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="thoughts on FIS"><img src="images/p11.png" alt="Thoughts on FIS" loading="lazy"></button><figcaption class="hand">thoughts on FIS</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="morning walk"><img src="images/p12.png" alt="Morning walk" loading="lazy"></button><figcaption class="hand">morning walk</figcaption></figure>
+        <figure class="frame"><button type="button" data-cap="girls halaqah"><img src="images/p13.png" alt="Girls halaqah" loading="lazy"></button><figcaption class="hand">girls halaqah</figcaption></figure>
       </div>
-      <div>
-        <div class="arc-oval hand">chapter two</div>
-        <h3>Moments that made us.</h3>
-        <p>A year filled with achievements, celebrations and unforgettable memories.</p>
-        <a class="arc-more" href="#">View memories</a>
-        <span class="arc-note hand">good times. great company. ☺</span>
-      </div>
-    </article>
-
-    <article class="arc-entry">
-      <div class="arc-polaroid">
-        <div class="arc-tape"></div>
-        <div class="arc-ph"><img src="p3.png" alt="" style="--op:85% 50%" onerror="this.onerror=null;this.src='FINAL%20DESKTOP.png'"></div>
-        <div class="arc-cap hand">opening night</div>
-      </div>
-      <div>
-        <div class="arc-oval hand">chapter three</div>
-        <h3>A year to remember.</h3>
-        <p>Performances, victories and moments that brought us together.</p>
-        <a class="arc-more" href="#">View memories</a>
-        <span class="arc-note hand">performances · <u>sports</u> · FIS family ♡</span>
-      </div>
-    </article>
+      <div class="note n2 hand">more memories coming soon</div>
+    </div>
   </section>
+
+  <!-- LIGHTBOX -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <button type="button" class="x" id="lbX">Close</button>
+    <button type="button" class="pv" id="lbP" aria-label="Previous photo">&lsaquo;</button>
+    <button type="button" class="nx" id="lbN" aria-label="Next photo">&rsaquo;</button>
+    <figure>
+      <img id="lbImg" src="" alt="">
+      <figcaption id="lbCap"></figcaption>
+    </figure>
+  </div>
 
   <!-- MESSAGES -->
   <section class="sec" id="messages" style="--c:#efe3c6; --t:#2a2118; --rim:#d8c9a3; z-index:11">
@@ -737,6 +785,46 @@
   } else {
     items.forEach(i => i.classList.add("on"));
   }
+
+  /* archive lightbox: click a frame to view the full photo */
+  (function () {
+    const lb = document.getElementById("lb");
+    const lbImg = document.getElementById("lbImg");
+    const lbCap = document.getElementById("lbCap");
+    const frames = [...document.querySelectorAll("#archive .frame button")];
+    let cur = 0, lastBtn = null;
+
+    function show(i) {
+      cur = (i + frames.length) % frames.length;
+      const b = frames[cur], im = b.querySelector("img");
+      lbImg.src = im.getAttribute("src");
+      lbImg.alt = im.alt;
+      lbCap.textContent = b.dataset.cap || "";
+    }
+    function open(i) {
+      lastBtn = frames[i];
+      show(i);
+      lb.classList.add("open");
+      document.body.style.overflow = "hidden";
+      document.getElementById("lbX").focus();
+    }
+    function close() {
+      lb.classList.remove("open");
+      document.body.style.overflow = "";
+      if (lastBtn) lastBtn.focus();
+    }
+    frames.forEach((b, i) => b.addEventListener("click", () => open(i)));
+    document.getElementById("lbX").addEventListener("click", close);
+    document.getElementById("lbP").addEventListener("click", () => show(cur - 1));
+    document.getElementById("lbN").addEventListener("click", () => show(cur + 1));
+    lb.addEventListener("click", e => { if (e.target === lb) close(); });
+    document.addEventListener("keydown", e => {
+      if (!lb.classList.contains("open")) return;
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") show(cur - 1);
+      else if (e.key === "ArrowRight") show(cur + 1);
+    });
+  })();
 </script>
 </body>
 </html>
