@@ -92,7 +92,7 @@
   .topnav[data-theme="messages"] { --nbg: rgba(239,227,198,.96); --nfg: #2a2118; --nline: rgba(42,33,24,.18); --nout: #2a2118; --nshadow: none; }
   .topnav[data-theme="closing"]  { --nbg: rgba(23,18,13,.96); --nfg: #f6efdc; --nline: rgba(246,239,220,.18); --nshadow: none; }
   .topnav:not([data-theme="home"]) { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-  .topnav .logo { display: block; line-height: 0; }
+  .topnav .logo { display: block; line-height: 0; color: var(--nfg); text-decoration: none; font-size: 12px; }
   .topnav .logo img {
     height: 38px; width: auto; display: block;
     filter:
@@ -199,6 +199,16 @@
   .tear .rim { fill: var(--rim); }
   .tear .fl  { fill: var(--c); }
 
+  /* About's torn edge stays pinned right under the nav while the stack is on screen */
+  #about > .tear {
+    position: sticky;
+    top: calc(var(--nav) - 10px);
+    left: auto;
+    z-index: 20;
+    margin-top: -39px;
+    margin-bottom: -1px;
+  }
+
   .sec h2 {
     font-family: var(--serif);
     font-weight: 900;
@@ -225,6 +235,7 @@
     --rim: #e9dcc0;
     --strip: 84px;      /* height of a collapsed row */
     --n: 4;             /* number of rows */
+    --lift: 30px;       /* room under the nav for the pinned torn edge */
     position: relative;
     z-index: 1;
     background: var(--c);
@@ -234,11 +245,12 @@
 
   .pg {
     position: sticky;
-    top: calc(var(--nav) + var(--i) * var(--strip));
+    top: calc(var(--nav) + var(--lift) + var(--i) * var(--strip));
     z-index: calc(var(--i) + 1);
     margin-bottom: calc((var(--n) - 1 - var(--i)) * var(--strip));
-    min-height: calc(100vh - var(--nav) - var(--strip));
-    min-height: calc(100svh - var(--nav) - var(--strip));
+    /* every row gets the SAME height (measured by the script below),
+       so all rows stay stacked and release together */
+    min-height: var(--rowh, calc(100vh - var(--nav) - var(--strip)));
 
     display: grid;
     grid-template-columns: minmax(0, 1fr) clamp(170px, 22vw, 380px);
@@ -250,7 +262,7 @@
     background: var(--c);
     border-top: 1px solid rgba(246,239,220,.2);
   }
-  .pg:last-child { padding-bottom: 9vh; }
+  .pg:last-child { padding-bottom: 13vh; }
 
   .pg .t {
     grid-column: 1; grid-row: 1; align-self: center;
@@ -707,14 +719,28 @@
     links.forEach((a, i) => a.classList.toggle("active", i === cur));
 
     /* nav colour follows the section under it */
-    const mid = nav.offsetHeight / 2;
+    /* switch when a section's torn edge reaches the bottom of the nav */
+    const edge = nav.offsetHeight + 26;
     let th = "home";
-    themeSecs.forEach(([id, el]) => { if (el && el.getBoundingClientRect().top <= mid) th = id; });
+    themeSecs.forEach(([id, el]) => { if (el && el.getBoundingClientRect().top <= edge) th = id; });
     if (nav.dataset.theme !== th) nav.dataset.theme = th;
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
   onScroll();
+
+  /* equal row heights for the sticky stack */
+  const aboutEl = document.getElementById("about");
+  const stackRows = [...aboutEl.querySelectorAll(".pg")];
+  function sizeRows() {
+    aboutEl.style.setProperty("--rowh", "0px");
+    const h = Math.max(...stackRows.map(r => r.offsetHeight));
+    aboutEl.style.setProperty("--rowh", h + "px");
+  }
+  sizeRows();
+  window.addEventListener("resize", sizeRows);
+  window.addEventListener("load", sizeRows);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeRows);
 
   /* reveal on scroll */
   const items = document.querySelectorAll(".rv");
