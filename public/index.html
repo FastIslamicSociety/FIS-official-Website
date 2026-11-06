@@ -87,7 +87,7 @@
     border-bottom: 1px solid var(--nline);
     transition: background-color .45s ease, border-color .45s ease;
   }
-  .topnav[data-theme="about"]    { --nbg: rgba(11,38,28,.96); --nfg: #f6efdc; --nline: rgba(246,239,220,.18); --nshadow: none; }
+  .topnav[data-theme="about"]    { --nbg: rgba(11,38,28,.96); --nfg: #f6efdc; --nline: transparent; --nshadow: none; }
   .topnav[data-theme="archive"]  { --nbg: rgba(58,45,32,.96); --nfg: #f6efdc; --nline: rgba(246,239,220,.18); --nshadow: none; }
   .topnav[data-theme="messages"] { --nbg: rgba(239,227,198,.96); --nfg: #2a2118; --nline: rgba(42,33,24,.18); --nout: #2a2118; --nshadow: none; }
   .topnav[data-theme="closing"]  { --nbg: rgba(23,18,13,.96); --nfg: #f6efdc; --nline: rgba(246,239,220,.18); --nshadow: none; }
@@ -197,19 +197,7 @@
     z-index: 3;
   }
   .tear .rim { fill: var(--rim); }
-  .tear .fl  { fill: var(--c); }
-
-  /* About's torn edge stays pinned right under the nav while the stack is on screen */
-  #about > .tear {
-    position: sticky;
-    top: calc(var(--nav) - 10px);
-    left: auto;
-    z-index: 20;
-    margin-top: -39px;
-    margin-bottom: -1px;
-  }
-
-  .sec h2 {
+  .tear .fl  { fill: var(--c); }  .sec h2 {
     font-family: var(--serif);
     font-weight: 900;
     font-size: clamp(34px, 5vw, 76px);
@@ -234,9 +222,7 @@
     --c: #0f2b20;   /* deep forest green */
     --rim: #e9dcc0;
     --strip: 84px;      /* height of a collapsed row */
-    --n: 4;             /* number of rows */
-    --lift: 30px;       /* room under the nav for the pinned torn edge */
-    position: relative;
+    --n: 4;             /* number of rows */    position: relative;
     z-index: 1;
     background: var(--c);
     color: var(--cream);
@@ -245,7 +231,7 @@
 
   .pg {
     position: sticky;
-    top: calc(var(--nav) + var(--lift) + var(--i) * var(--strip));
+    top: calc(var(--nav) + var(--i) * var(--strip));
     z-index: calc(var(--i) + 1);
     margin-bottom: calc((var(--n) - 1 - var(--i)) * var(--strip));
     /* every row gets the SAME height (measured by the script below),
@@ -263,7 +249,6 @@
     border-top: 1px solid rgba(246,239,220,.2);
   }
   .pg:last-child { padding-bottom: 13vh; }
-
   .pg .t {
     grid-column: 1; grid-row: 1; align-self: center;
     padding-bottom: .3em;   /* nudges the title up so it sits centred in its strip */
