@@ -553,7 +553,7 @@
     }, 750);
   });
 
-  /* answered list */
+  /* answered list: pulled live from the sheet (rows marked "yes"), plus any hand-written ones in ANSWERED */
   (function () {
     const list = document.getElementById("list");
     function el(tag, cls, text) {
@@ -562,22 +562,29 @@
       if (text) n.textContent = text;
       return n;
     }
-    if (!ANSWERED.length) {
-      list.appendChild(el("p", "empty", "Nothing answered yet. Ask the first one."));
-      return;
-    }
-    ANSWERED.forEach(item => {
-      const row = el("article", "qa");
-      if (item.cat) row.appendChild(el("span", "cat", item.cat));
-      row.appendChild(el("p", "q", item.q));
-      row.appendChild(el("p", "a", item.a));
-      if (item.link) {
-        const a = el("a", "more", "Read more");
-        a.href = item.link; a.target = "_blank"; a.rel = "noopener";
-        row.appendChild(a);
+    function render(items) {
+      list.textContent = "";
+      if (!items.length) {
+        list.appendChild(el("p", "empty", "Nothing answered yet. Ask the first one."));
+        return;
       }
-      list.appendChild(row);
-    });
+      items.forEach(item => {
+        const row = el("article", "qa");
+        if (item.cat) row.appendChild(el("span", "cat", item.cat));
+        row.appendChild(el("p", "q", item.q));
+        row.appendChild(el("p", "a", item.a));
+        if (item.link && /^https?:\/\//i.test(item.link)) {
+          const a = el("a", "more", "Read more");
+          a.href = item.link; a.target = "_blank"; a.rel = "noopener";
+          row.appendChild(a);
+        }
+        list.appendChild(row);
+      });
+    }
+    fetch(ENDPOINT)
+      .then(r => r.json())
+      .then(j => render((j && Array.isArray(j.answers) ? j.answers : []).concat(ANSWERED)))
+      .catch(() => render(ANSWERED));
   })();
 </script>
 </body>
