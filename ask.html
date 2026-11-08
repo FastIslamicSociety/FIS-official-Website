@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask Anything | FAST Islamic Society</title>
+
+<link rel="icon" type="image/png" href="/favicon.png?v=2">
+<link rel="shortcut icon" href="/favicon.png?v=2">
+<link rel="apple-touch-icon" href="/favicon.png?v=2">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Reenie+Beanie&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  :root {
+    --cream: #f6efdc;
+    --ink:   #2a2118;
+    --gold:  #d9a441;
+    --green: #0f2b20;
+    --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+    --sans: "Archivo", system-ui, sans-serif;
+    --hand: "Reenie Beanie", cursive;
+    --nav: 62px;
+  }
+
+  html { scroll-behavior: smooth; }
+  html, body { background: #3a2d20; }
+  body {
+    color: var(--cream);
+    font-family: var(--sans);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+  /* paper grain */
+  body::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .15 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+  }
+  main, footer { position: relative; z-index: 1; }
+
+  /* ---------- NAV ---------- */
+  .topnav {
+    position: fixed; top: 0; left: 0; right: 0;
+    height: var(--nav);
+    z-index: 100;
+    display: flex; align-items: center; justify-content: flex-end;
+    padding: 0 5vw;
+    background: rgba(58,45,32,.96);
+    border-bottom: 1px solid rgba(246,239,220,.18);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  }
+  .topnav ul {
+    list-style: none;
+    display: flex; align-items: center; gap: clamp(18px, 2.6vw, 44px);
+    font-weight: 700;
+    font-size: clamp(11px, .85vw, 13px);
+    letter-spacing: .18em; text-transform: uppercase;
+  }
+  .topnav ul a {
+    color: var(--cream); text-decoration: none; position: relative;
+    padding: .5em 0;
+    transition: transform .25s;
+  }
+  .topnav ul a::after {
+    content: ""; position: absolute; left: 0; bottom: 0;
+    width: 100%; height: 2px; background: var(--cream);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s ease;
+  }
+  .topnav ul a:hover { transform: translateY(-2px); }
+  .topnav ul a:hover::after,
+  .topnav ul a.active::after { transform: scaleX(1); }
+  .topnav .sm { display: none; }
+
+  /* ---------- HERO ---------- */
+  .hero { text-align: center; padding: calc(var(--nav) + 9vh) 6vw 4vh; }
+  .hero small {
+    display: block; color: var(--gold); font-weight: 700;
+    letter-spacing: .9em; font-size: 13px; padding-left: .9em;
+  }
+  .hero h1 {
+    font-family: var(--serif); font-weight: 900; line-height: 1;
+    font-size: clamp(42px, 7vw, 84px);
+    margin-top: 10px; color: var(--cream);
+  }
+  .hero p {
+    max-width: 38ch; margin: 18px auto 0;
+    font-weight: 500; line-height: 1.7;
+    font-size: clamp(15px, 1.2vw, 19px);
+    color: rgba(246,239,220,.8);
+  }
+
+  /* ---------- STAGE: slip + box ---------- */
+  .stage {
+    width: min(620px, 92vw);
+    margin: 4vh auto 0;
+    position: relative;
+  }
+  .slipwrap { position: relative; z-index: 4; }
+
+  .slip, .done {
+    position: relative;
+    background: #fbf5e6;
+    border: .5px solid #c9b88f;
+    color: var(--ink);
+    padding: 34px clamp(18px, 4vw, 36px) 26px;
+    box-shadow: 0 14px 30px rgba(0,0,0,.4);
+  }
+  .slip { transform: rotate(-1deg); }
+  .done { transform: rotate(1deg); text-align: center; padding: 44px clamp(18px, 4vw, 36px); }
+  .tape {
+    position: absolute; top: -12px; left: 50%;
+    width: 84px; height: 26px; margin-left: -42px;
+    background: rgba(217,164,65,.75);
+    transform: rotate(-3deg);
+  }
+  .slip label.lbl {
+    display: block;
+    font-family: var(--serif); font-weight: 900;
+    font-size: clamp(20px, 2.2vw, 26px);
+    margin-bottom: 4px;
+  }
+  .slip textarea {
+    display: block; width: 100%;
+    height: 180px;
+    resize: none; border: 0; outline: 0;
+    background-color: transparent;
+    background-image: repeating-linear-gradient(to bottom, transparent 0 35px, rgba(120,90,50,.22) 35px 36px);
+    background-attachment: local;
+    font-family: var(--hand);
+    font-size: 32px; line-height: 36px;
+    color: var(--ink);
+  }
+  .slip textarea::placeholder { color: rgba(42,33,24,.45); }
+  .slip textarea:focus-visible { outline: 2px dashed rgba(15,43,32,.45); outline-offset: 4px; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; border: 0; }
+  .chips legend {
+    font-weight: 700; font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(42,33,24,.6); margin-bottom: 8px; padding: 0;
+  }
+  .chip input { position: absolute; opacity: 0; pointer-events: none; }
+  .chip span {
+    display: inline-block; cursor: pointer;
+    padding: 8px 14px;
+    font-weight: 700; font-size: 13px; letter-spacing: .04em;
+    border: 1.5px solid rgba(42,33,24,.35);
+    border-radius: 999px;
+    color: var(--ink);
+    transition: background-color .2s, color .2s, border-color .2s;
+  }
+  .chip span:hover { border-color: var(--green); }
+  .chip input:checked + span { background: var(--green); color: var(--cream); border-color: var(--green); }
+  .chip input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  .meter { margin-top: 18px; display: flex; align-items: center; gap: 12px; }
+  .meter .bar { flex: 1; height: 4px; background: rgba(42,33,24,.12); border-radius: 4px; overflow: hidden; }
+  .meter .bar i { display: block; height: 100%; width: 0; background: var(--green); transition: width .15s, background-color .3s; }
+  .meter .bar i.low { background: #a8432b; }
+  .meter b { font-family: var(--hand); font-weight: 400; font-size: 24px; line-height: 1; min-width: 4.5ch; text-align: right; }
+
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+  .send {
+    display: block; margin: 22px auto 0;
+    cursor: pointer; border: 0;
+    background: var(--green); color: var(--cream);
+    font-family: var(--sans); font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+    font-size: 13px;
+    padding: 16px 34px;
+    clip-path: polygon(0 12%,4% 0,10% 10%,18% 0,30% 8%,42% 0,55% 9%,68% 0,80% 8%,92% 0,97% 10%,100% 4%,100% 90%,95% 100%,86% 91%,74% 100%,60% 92%,46% 100%,32% 90%,20% 100%,8% 92%,0 100%);
+    transition: transform .2s, background-color .2s;
+  }
+  .send:hover:not(:disabled) { transform: translateY(-2px); background: #17402f; }
+  .send:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+  .send:disabled { opacity: .6; cursor: default; }
+
+  .err { min-height: 1.4em; margin-top: 12px; text-align: center; font-weight: 700; font-size: 14px; color: #a8432b; }
+  .trust {
+    margin-top: 6px; text-align: center;
+    font-size: 13px; line-height: 1.5; color: rgba(42,33,24,.65);
+  }
+
+  .done h2 { font-family: var(--serif); font-weight: 900; font-size: clamp(26px, 3vw, 36px); }
+  .done p { margin: 12px auto 0; max-width: 40ch; line-height: 1.7; font-weight: 500; font-size: 16px; }
+  .done .hand { font-family: var(--hand); font-size: 34px; line-height: 1; color: #6b4e1f; margin-top: 8px; }
+  .again {
+    margin-top: 22px; cursor: pointer;
+    background: none; border: 1.5px solid var(--ink); color: var(--ink);
+    font-family: var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
+    padding: 12px 22px;
+    transition: background-color .2s, color .2s;
+  }
+  .again:hover { background: var(--ink); color: var(--cream); }
+  .again:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  /* the box */
+  .box {
+    position: relative; z-index: 3;
+    width: min(300px, 72%); height: 150px;
+    margin: 30px auto 0;
+    border-radius: 6px 6px 12px 12px;
+    background: linear-gradient(#8a6a43, #6a4f30);
+    box-shadow: 0 18px 28px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.12);
+  }
+  .box::before {
+    content: ""; position: absolute; inset: 0; border-radius: inherit;
+    background: repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 3px, transparent 3px 9px);
+    pointer-events: none;
+  }
+  .box .slot {
+    position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
+    width: 64%; height: 13px; border-radius: 7px;
+    background: #1b130b;
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.14);
+  }
+  .box .plate {
+    position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%) rotate(-2deg);
+    background: var(--cream); color: var(--ink);
+    padding: 6px 18px;
+    font-family: var(--hand); font-size: 30px; line-height: 1; white-space: nowrap;
+  }
+  .box.bump { animation: bump .6s ease; }
+  @keyframes bump {
+    0% { transform: none; } 25% { transform: translateY(6px) rotate(-1deg); }
+    55% { transform: translateY(-3px) rotate(.6deg); } 100% { transform: none; }
+  }
+
+  /* ---------- WALL ---------- */
+  .wall { padding: 14vh 6vw 10vh; max-width: 1100px; margin: 0 auto; }
+  .wall h2 {
+    text-align: center;
+    font-family: var(--serif); font-weight: 900; line-height: 1;
+    font-size: clamp(32px, 5vw, 60px);
+  }
+  .wall .sub {
+    text-align: center; margin: 14px auto 0; max-width: 40ch;
+    color: rgba(246,239,220,.75); line-height: 1.7; font-weight: 500;
+  }
+  .pins {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 46px 32px; margin-top: 7vh;
+  }
+  .pin {
+    position: relative; background: #efe3c6; color: var(--ink);
+    padding: 34px 24px 24px;
+    box-shadow: 0 10px 22px rgba(0,0,0,.4);
+    transform: rotate(-1.2deg);
+  }
+  .pin:nth-child(even) { transform: rotate(1.1deg); background: #fbf5e6; }
+  .pin:nth-child(3n) { transform: rotate(-.4deg); }
+  .pin .tape { width: 70px; margin-left: -35px; top: -11px; }
+  .pin .q { font-family: var(--hand); font-size: 30px; line-height: 1.05; }
+  .pin .a { margin-top: 14px; font-weight: 500; font-size: 15px; line-height: 1.7; }
+  .pin .cat {
+    display: block; margin-bottom: 8px;
+    font-weight: 700; font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
+    color: rgba(42,33,24,.55);
+  }
+  .pin a.more {
+    display: inline-block; margin-top: 12px;
+    color: var(--green); font-weight: 700; font-size: 13px; letter-spacing: .06em;
+  }
+
+  footer {
+    text-align: center; padding: 0 6vw 7vh;
+    font-weight: 500; font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(246,239,220,.4);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .box.bump { animation: none; }
+  }
+
+  @media (max-width: 800px) {
+    :root { --nav: 54px; }
+    .topnav { padding: 0 4vw; }
+    .topnav ul { gap: 14px; font-size: 9.5px; letter-spacing: .08em; }
+    .topnav .lg { display: none; }
+    .topnav .sm { display: inline; }
+    .hero { padding-top: calc(var(--nav) + 6vh); }
+    .hero small { letter-spacing: .6em; padding-left: .6em; font-size: 11px; }
+    .slip textarea { height: 216px; font-size: 30px; }
+    .send { width: 100%; }
+    .wall { padding: 10vh 6vw 8vh; }
+    .pins { gap: 40px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About FIS</a></li>
+      <li><a href="/#archive">Archive</a></li>
+      <li><a href="/#messages"><span class="lg">President's Note</span><span class="sm">Note</span></a></li>
+      <li><a href="/ask.html" class="active">Ask</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <small>THE FIS</small>
+      <h1>Ask anything</h1>
+      <p>No name. No email. Write your question on a slip and drop it in the box.</p>
+    </header>
+
+    <section class="stage" aria-label="Ask a question">
+      <div class="slipwrap">
+        <form class="slip" id="slip" novalidate>
+          <span class="tape"></span>
+          <label class="lbl" for="q">Your question</label>
+          <textarea id="q" name="question" maxlength="600" placeholder="ask anything, nobody will know it's you..."></textarea>
+
+          <fieldset class="chips">
+            <legend>What is it about?</legend>
+            <label class="chip"><input type="radio" name="category" value="Aqeedah"><span>Aqeedah</span></label>
+            <label class="chip"><input type="radio" name="category" value="Fiqh"><span>Fiqh</span></label>
+            <label class="chip"><input type="radio" name="category" value="Daily life"><span>Daily life</span></label>
+            <label class="chip"><input type="radio" name="category" value="Uni life"><span>Uni life</span></label>
+            <label class="chip"><input type="radio" name="category" value="Other" checked><span>Other</span></label>
+          </fieldset>
+
+          <div class="meter" aria-hidden="true">
+            <div class="bar"><i id="ink"></i></div>
+            <b id="left">600</b>
+          </div>
+
+          <input class="hp" type="text" name="website" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <button class="send" id="send" type="submit">Drop it in the box</button>
+          <p class="err" id="err" role="alert" aria-live="polite"></p>
+          <p class="trust">We don't ask for or store your name or email.</p>
+        </form>
+
+        <div class="done" id="done" hidden tabindex="-1">
+          <span class="tape"></span>
+          <h2>Dropped in</h2>
+          <p class="hand">jazakAllahu khayran</p>
+          <p>Your question is in the box. If we answer it publicly, you'll find it on the wall below.</p>
+          <button class="again" id="again" type="button">Ask another</button>
+        </div>
+      </div>
+
+      <div class="box" id="box" aria-hidden="true">
+        <div class="slot" id="slot"></div>
+        <div class="plate">questions</div>
+      </div>
+    </section>
+
+    <section class="wall" id="wall">
+      <h2>Answered</h2>
+      <p class="sub">Questions we've answered, pinned for everyone.</p>
+      <div class="pins" id="pins"></div>
+    </section>
+  </main>
+
+  <footer>FAST Islamic Society, 2026</footer>
+
+<script>
+  /* ================= SETTINGS ================= */
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbxby3NUO--lHU8DRJZoWn7OHdtBuo0Pz6qhOmDL_jyCLIe_7D1j5zE2rD93DYZ3s4D2/exec";
+  const MAX = 600;          // max characters
+  const MIN = 5;            // min characters
+  const COOLDOWN = 30000;   // ms between sends from the same browser
+
+  /* Questions you've answered. Add one block per question, newest first.
+     link is optional (a blog post, a halaqah recording, etc).
+     Example:
+       { q: "Is it okay to ...?", a: "Short answer here.", cat: "Fiqh", link: "https://..." },
+  */
+  const ANSWERED = [
+  ];
+  /* ============================================= */
+
+  const form = document.getElementById("slip");
+  const ta = document.getElementById("q");
+  const hp = document.getElementById("hp");
+  const send = document.getElementById("send");
+  const err = document.getElementById("err");
+  const ink = document.getElementById("ink");
+  const leftEl = document.getElementById("left");
+  const done = document.getElementById("done");
+  const again = document.getElementById("again");
+  const box = document.getElementById("box");
+  const slot = document.getElementById("slot");
+  const label = send.textContent;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let anim = null;
+
+  /* ink meter */
+  function meter() {
+    const n = ta.value.length;
+    const left = MAX - n;
+    ink.style.width = Math.min(100, (n / MAX) * 100) + "%";
+    ink.classList.toggle("low", left < 60);
+    leftEl.textContent = left;
+  }
+  ta.addEventListener("input", meter);
+  meter();
+
+  /* cooldown (per browser, no personal data) */
+  function lastSent() { try { return +sessionStorage.getItem("fisAskLast") || 0; } catch (e) { return 0; } }
+  function markSent() { try { sessionStorage.setItem("fisAskLast", String(Date.now())); } catch (e) {} }
+
+  /* slip drops into the box */
+  function finish() {
+    form.hidden = true;
+    box.classList.add("bump");
+    done.hidden = false;
+    done.focus({ preventScroll: true });
+  }
+  function drop() {
+    if (reduced) { finish(); return; }
+    const s = form.getBoundingClientRect();
+    const t = slot.getBoundingClientRect();
+    const dx = (t.left + t.width / 2) - (s.left + s.width / 2);
+    const dy = (t.top + t.height / 2) - (s.top + s.height / 2);
+    anim = form.animate([
+      { transform: "rotate(-1deg) scale(1)", opacity: 1 },
+      { transform: "rotate(-2deg) scale(.62,.4)", opacity: 1, offset: .38 },
+      { transform: "translate(" + dx + "px," + dy + "px) rotate(5deg) scale(.1,.07)", opacity: .9, offset: .92 },
+      { transform: "translate(" + dx + "px," + dy + "px) rotate(5deg) scale(.05)", opacity: 0 }
+    ], { duration: 1100, easing: "ease-in-out", fill: "forwards" });
+    anim.onfinish = finish;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    err.textContent = "";
+    const q = ta.value.trim();
+    if (q.length < MIN) { err.textContent = "Write a little more first."; ta.focus(); return; }
+    const wait = COOLDOWN - (Date.now() - lastSent());
+    if (wait > 0) { err.textContent = "Give it " + Math.ceil(wait / 1000) + " seconds before sending another."; return; }
+
+    const cat = (form.querySelector('input[name="category"]:checked') || {}).value || "Other";
+    send.disabled = true;
+    send.textContent = "Sending...";
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ question: q, category: cat, website: hp.value })
+      });
+      let ok = res.ok;
+      try { const j = await res.json(); ok = j.ok !== false; } catch (x) {}
+      if (!ok) throw new Error("not ok");
+      markSent();
+      drop();
+    } catch (x) {
+      err.textContent = "Couldn't send that. Check your connection and try again.";
+      send.disabled = false;
+      send.textContent = label;
+    }
+  });
+
+  again.addEventListener("click", () => {
+    if (anim) { anim.cancel(); anim = null; }
+    form.reset();
+    meter();
+    err.textContent = "";
+    send.disabled = false;
+    send.textContent = label;
+    box.classList.remove("bump");
+    done.hidden = true;
+    form.hidden = false;
+    ta.focus();
+  });
+
+  /* answered wall */
+  (function () {
+    const pins = document.getElementById("pins");
+    function el(tag, cls, text) {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text) n.textContent = text;
+      return n;
+    }
+    if (!ANSWERED.length) {
+      const p = el("article", "pin");
+      p.appendChild(el("span", "tape"));
+      p.appendChild(el("p", "q", "Nothing pinned yet."));
+      p.appendChild(el("p", "a", "Ask the first question and we'll pin the answer here."));
+      pins.appendChild(p);
+      return;
+    }
+    ANSWERED.forEach(item => {
+      const p = el("article", "pin");
+      p.appendChild(el("span", "tape"));
+      if (item.cat) p.appendChild(el("span", "cat", item.cat));
+      p.appendChild(el("p", "q", item.q));
+      p.appendChild(el("p", "a", item.a));
+      if (item.link) {
+        const a = el("a", "more", "Read more");
+        a.href = item.link; a.target = "_blank"; a.rel = "noopener";
+        p.appendChild(a);
+      }
+      pins.appendChild(p);
+    });
+  })();
+</script>
+</body>
+</html>
