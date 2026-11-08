@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://script.googleusercontent.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Reenie+Beanie&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Caveat:wght@500;700&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   [hidden] { display: none !important; }
@@ -26,7 +26,7 @@
     --liner: #1b4a37;
     --serif: "Playfair Display", Georgia, "Times New Roman", serif;
     --sans: "Archivo", system-ui, sans-serif;
-    --hand: "Reenie Beanie", cursive;
+    --hand: "Caveat", cursive;
     --nav: 62px;
   }
 
@@ -149,8 +149,8 @@
     background-color: transparent;
     background-image: repeating-linear-gradient(to bottom, transparent 0 35px, rgba(120,90,50,.22) 35px 36px);
     background-attachment: local;
-    font-family: var(--hand);
-    font-size: 32px; line-height: 36px;
+    font-family: var(--hand); font-weight: 500;
+    font-size: 30px; line-height: 36px;
     color: var(--ink);
   }
   .letter textarea::placeholder { color: rgba(42,33,24,.45); }
@@ -179,8 +179,26 @@
   .chip input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
   .left {
     margin-left: auto;
-    font-family: var(--hand); font-size: 24px; line-height: 1; color: #a8432b;
+    font-family: var(--hand); font-weight: 700; font-size: 26px; line-height: 1; color: #a8432b;
   }
+
+  /* optional email for a personal reply */
+  .reply { margin-top: 20px; }
+  .reply label {
+    display: block;
+    font-weight: 700; font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: rgba(42,33,24,.55); margin-bottom: 2px;
+  }
+  .reply input {
+    width: 100%; border: 0; outline: 0;
+    border-bottom: 1.5px dashed rgba(42,33,24,.3);
+    background: transparent;
+    font-family: var(--hand); font-weight: 500; font-size: 26px; line-height: 1.3;
+    color: var(--ink); padding: 2px 0 4px;
+  }
+  .reply input::placeholder { color: rgba(42,33,24,.4); }
+  .reply input:focus-visible { border-bottom-color: var(--green); border-bottom-style: solid; }
+  .reply small { display: block; margin-top: 6px; font-size: 12px; line-height: 1.5; color: rgba(42,33,24,.55); }
 
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
@@ -192,7 +210,7 @@
     margin-top: 18px; padding-top: 16px;
     border-top: 1px solid rgba(120,90,50,.2);
   }
-  .trust { font-size: 12.5px; line-height: 1.5; color: rgba(42,33,24,.6); max-width: 24ch; }
+  .trust { font-size: 12.5px; line-height: 1.5; color: rgba(42,33,24,.6); max-width: 30ch; }
   .send {
     flex: none;
     display: inline-flex; align-items: center; gap: 10px;
@@ -298,7 +316,7 @@
     transition: opacity .6s 1.1s, transform .6s 1.1s, visibility 0s 1.1s;
   }
   .done:focus { outline: none; }
-  .done .hand { font-family: var(--hand); font-size: clamp(42px, 5vw, 64px); line-height: 1; color: var(--gold); }
+  .done .hand { font-family: var(--hand); font-weight: 700; font-size: clamp(38px, 4.4vw, 56px); line-height: 1; color: var(--gold); }
   .done h2 { font-family: var(--serif); font-weight: 900; font-size: clamp(24px, 3vw, 32px); margin-top: 6px; }
   .done p { margin: 10px 0 0; max-width: 38ch; line-height: 1.7; font-weight: 500; font-size: 15px; color: rgba(246,239,220,.8); }
   .again {
@@ -502,7 +520,7 @@
     #closing .cols { grid-template-columns: 1fr; gap: 7vh; }
     #closing .verse-ar { font-size: 6vw; text-align: left; }
     #closing .foot { margin-top: 9vh; }
-    .letter textarea { height: 200px; font-size: 30px; }
+    .letter textarea { height: 200px; font-size: 28px; }
     .sendrow { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
     .trust { max-width: none; text-align: center; }
     .send { width: 100%; justify-content: center; }
@@ -526,7 +544,7 @@
     <header class="hero">
       <small>THE FIS</small>
       <h1>Ask anything</h1>
-      <p>No name. No email. Write it down, seal it, send it.</p>
+      <p>No name needed. Add your email only if you want a personal reply. Write it down, seal it, send it.</p>
     </header>
 
     <section class="stage" aria-label="Ask a question">
@@ -555,12 +573,18 @@
             <span class="left" id="left" aria-live="polite"></span>
           </div>
 
+          <div class="reply">
+            <label for="email">Want a personal reply? (optional)</label>
+            <input type="email" id="email" name="email" maxlength="100" placeholder="your email" autocomplete="email" inputmode="email">
+            <small>Add your email and we'll send the answer to you. Leave it empty to stay anonymous.</small>
+          </div>
+
           <input class="hp" type="text" name="website" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
           <p class="err" id="err" role="alert" aria-live="polite"></p>
 
           <div class="sendrow">
-            <p class="trust">We don't ask for or store your name or email.</p>
+            <p class="trust">Your email is optional and only used to send your answer.</p>
             <button class="send" id="send" type="submit"><span class="txt">Send it off</span><svg class="plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button>
           </div>
         </form>
@@ -575,7 +599,7 @@
         <div class="done" id="done" tabindex="-1">
           <div class="hand">jazakAllahu khayran</div>
           <h2>Sealed &amp; sent</h2>
-          <p>Your question is in the envelope. If we answer it publicly, you'll find it below.</p>
+          <p id="donep">Your question is in the envelope. If we answer it publicly, you'll find it below.</p>
           <button class="again" id="again" type="button">Ask another</button>
         </div>
 
@@ -631,14 +655,18 @@
   const envBack = mail.querySelector(".env-back");
   const form = document.getElementById("slip");
   const ta = document.getElementById("q");
+  const emailEl = document.getElementById("email");
   const hp = document.getElementById("hp");
   const send = document.getElementById("send");
   const err = document.getElementById("err");
   const leftEl = document.getElementById("left");
   const done = document.getElementById("done");
+  const donep = document.getElementById("donep");
   const again = document.getElementById("again");
   const sendTxt = send.querySelector(".txt");
   const label = sendTxt.textContent;
+  const DONE_DEFAULT = donep.textContent;
+  const DONE_EMAIL = "Your question is in the envelope. We'll email you the answer, and if we answer it publicly you'll find it below.";
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let slide = null;
 
@@ -694,6 +722,14 @@
     err.textContent = "";
     const q = ta.value.trim();
     if (q.length < MIN) { err.textContent = "Write a little more first."; ta.focus(); return; }
+
+    const email = emailEl.value.trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      err.textContent = "That email doesn't look right. Fix it, or leave it empty to stay anonymous.";
+      emailEl.focus();
+      return;
+    }
+
     const wait = COOLDOWN - (Date.now() - lastSent());
     if (wait > 0) { err.textContent = "Give it " + Math.ceil(wait / 1000) + " seconds before sending another."; return; }
 
@@ -704,12 +740,13 @@
       const res = await fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ question: q, category: cat, website: hp.value })
+        body: JSON.stringify({ question: q, category: cat, email: email, website: hp.value })
       });
       let ok = res.ok;
       try { const j = await res.json(); ok = j.ok !== false; } catch (x) {}
       if (!ok) throw new Error("not ok");
       markSent();
+      donep.textContent = email ? DONE_EMAIL : DONE_DEFAULT;
       drop();
     } catch (x) {
       err.textContent = "Couldn't send that. Check your connection and try again.";
