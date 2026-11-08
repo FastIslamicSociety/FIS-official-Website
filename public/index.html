@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Reenie+Beanie&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Reenie+Beanie&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -425,28 +425,59 @@
   .lb button:hover { color: var(--gold); }
   .lb button:focus-visible { outline: 2px solid var(--gold); }
 
-  /* ---------- MESSAGES ---------- */
+  /* ---------- MESSAGES (postcards on the parchment section) ---------- */
   #messages { padding: 18vh 6vw 20vh; }
   #messages > h2 { text-align: center; margin-bottom: 8vh; }
-  .sheets {
+  .pcs {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 5vw;
-    max-width: 1000px;
+    gap: 6vh 3vw;
+    max-width: 1100px;
     margin: 0 auto;
   }
-  .sheet {
+  .pc {
     position: relative;
-    background: #fbf5e6;
-    border: .5px solid #c9b88f;
-    padding: 6vh 2.6vw 5vh;
-    color: var(--ink);
-    transform: rotate(-1.4deg);
+    padding: 9px;
+    background: radial-gradient(circle, transparent 5px, #fbf5e6 5.5px) -9px -9px / 18px 18px;
+    filter: drop-shadow(0 8px 14px rgba(42,33,24,.38));
+    transform: rotate(1deg);
   }
-  .sheet:nth-child(2) { transform: rotate(1.2deg); margin-top: 5vh; }
-  .sheet .tape { top: -12px; left: 50%; margin-left: -37px; transform: rotate(-3deg); }
-  .sheet h3 { font-family: var(--serif); font-weight: 900; font-size: clamp(22px, 2.2vw, 32px); }
-  .sheet p { margin-top: 2.4vh; max-width: none; }
+  .pc.pres { grid-column: 1 / -1; justify-self: center; width: calc(50% - 1.5vw); transform: rotate(-.8deg); }
+  .pc:nth-child(3) { transform: rotate(-1deg); }
+  .pi {
+    display: grid; grid-template-columns: 40% minmax(0, 1fr);
+    background: #e3cf9f; height: 100%; color: var(--ink);
+  }
+  .ph { position: relative; margin: 18px 0 18px 18px; min-height: 230px; }
+  .ph img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+    border: 1px solid rgba(60,40,25,.35);
+    filter: sepia(.12) contrast(1.02);
+  }
+  .ph svg { position: absolute; top: -12px; left: -6px; width: 18px; height: 48px; z-index: 2; }
+  .tx {
+    margin: 18px 0 18px 18px; padding: 0 20px;
+    border-left: 1px solid #5a4632;
+    display: flex; flex-direction: column;
+  }
+  .tx small {
+    font: 500 11px/1 "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+    letter-spacing: .28em; color: #4a3826;
+  }
+  .tx h3 {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(24px, 2.5vw, 36px); line-height: 1.05; margin: 8px 0 12px;
+  }
+  .tx hr { border: 0; border-top: 1px solid #5a4632; margin: 0 0 12px; }
+  .tx .fr {
+    font: 400 11px/1.4 "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+    letter-spacing: .22em; text-transform: uppercase; color: #6a5238;
+  }
+  .tx p { margin-top: 10px; max-width: none; font-weight: 500; font-size: 14px; line-height: 1.7; color: #3a2a1c; }
+  .sg { margin-top: auto; padding-top: 16px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .sg span { font-family: var(--hand); font-size: 30px; line-height: 1; color: var(--ink); }
+  .sg svg { width: 54px; height: 54px; flex: none; }
 
   /* ---------- CLOSING (ayah left, contacts right) ---------- */
   #closing { padding: 20vh 6vw 5vh; }
@@ -518,10 +549,10 @@
     .topnav ul { gap: 18px; font-size: 9.5px; letter-spacing: .08em; }
     .topnav .lg { display: none; }
     .topnav .sm { display: inline; }
-    .title { top: 11svh; right: 6vw; max-width: none; }
+    .title { top: 11svh; left: 0; right: 0; margin: 0 auto; max-width: 92vw; text-align: center; }
     .fast { font-size: min(4vw, 22px); margin-bottom: 1.2svh; }
     .fast::before, .fast::after { height: 1.5px; }
-    .main { font-size: min(9vw, 56px); }
+    .main { font-size: min(8vw, 56px); }
 
     .sec h2 { font-size: clamp(26px, 7.5vw, 42px); }
 
@@ -577,17 +608,21 @@
     /* MESSAGES */
     #messages { padding: 12vh 6vw 14vh; }
     #messages > h2 { margin-bottom: 5vh; }
-    .sheets { grid-template-columns: 1fr; gap: 5vh; }
-    .sheet { padding: 4vh 6vw 3.5vh; }
-    .sheet:nth-child(2) { margin-top: 0; }
-    .sheet h3 { font-size: clamp(18px, 5vw, 24px); }
-    .sheet p { font-size: 14px; margin-top: 1.4vh; }
+    .pcs { grid-template-columns: 1fr; gap: 5vh; }
+    .pc.pres { width: 100%; }
+    .tx p { font-size: 14px; }
 
     /* CLOSING */
     #closing { padding: 14vh 5vw 5vh; }
     #closing .cols { grid-template-columns: 1fr; gap: 7vh; }
     #closing .verse-ar { font-size: 6vw; text-align: left; }
     #closing .foot { margin-top: 9vh; }
+  }
+
+  @media (max-width: 520px) {
+    .pi { grid-template-columns: 1fr; }
+    .ph { margin: 16px 16px 0; min-height: 0; aspect-ratio: 4 / 3.2; }
+    .tx { margin: 16px; padding: 14px 0 0; border-left: 0; border-top: 1px solid #5a4632; }
   }
 </style>
 </head>
@@ -598,7 +633,7 @@
       <li><a href="#home" data-sec="home">Home</a></li>
       <li><a href="#about" data-sec="about">About FIS</a></li>
       <li><a href="#archive" data-sec="archive">Archive</a></li>
-      <li><a href="#messages" data-sec="messages"><span class="lg">President's Note</span><span class="sm">Note</span></a></li>
+      <li><a href="#messages" data-sec="messages"><span class="lg">EC's Message</span><span class="sm">EC</span></a></li>
       <li><a href="/ask.html">Ask</a></li>
     </ul>
   </nav>
@@ -727,18 +762,51 @@
   <!-- MESSAGES -->
   <section class="sec" id="messages" style="--c:#efe3c6; --t:#2a2118; --rim:#d8c9a3; z-index:11">
     <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
-    <h2>Messages</h2>
-    <div class="sheets">
-      <article class="sheet">
-        <span class="tape"></span>
-        <h3>From the President</h3>
-        <p>President's note goes here.</p>
-      </article>
-      <article class="sheet">
-        <span class="tape"></span>
-        <h3>From the CP</h3>
-        <p>CP's message goes here.</p>
-      </article>
+    <h2>Words from your EC</h2>
+    <div class="pcs">
+
+      <article class="pc pres"><div class="pi">
+        <div class="ph"><svg viewBox="0 0 18 48" aria-hidden="true"><path d="M5 40V9a4 4 0 0 1 8 0v28a6 6 0 0 1-12 0V11" fill="none" stroke="#9a8a72" stroke-width="1.6" stroke-linecap="round"/></svg><img src="/images/president.png" alt="President"></div>
+        <div class="tx">
+          <small>FIS</small>
+          <h3>President</h3>
+          <hr>
+          <div class="fr">From the President</div>
+          <p>President's note goes here.</p>
+          <div class="sg"><span>Name Surname</span>
+            <svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="25" fill="none" stroke="#6a5238" stroke-width="1.5"/><circle cx="27" cy="27" r="20" fill="none" stroke="#6a5238" stroke-width=".8"/><text x="27" y="31" text-anchor="middle" font-family="Playfair Display,serif" font-size="12" fill="#6a5238">FIS</text><path d="M27 34l1.3 2.7 2.7 1.3-2.7 1.3L27 42l-1.3-2.7L23 38l2.7-1.3z" fill="#6a5238"/></svg>
+          </div>
+        </div>
+      </div></article>
+
+      <article class="pc"><div class="pi">
+        <div class="ph"><svg viewBox="0 0 18 48" aria-hidden="true"><path d="M5 40V9a4 4 0 0 1 8 0v28a6 6 0 0 1-12 0V11" fill="none" stroke="#9a8a72" stroke-width="1.6" stroke-linecap="round"/></svg><img src="/images/copresident.png" alt="Co-President"></div>
+        <div class="tx">
+          <small>FIS</small>
+          <h3>Co-President</h3>
+          <hr>
+          <div class="fr">From the Co-President</div>
+          <p>Co-President's message goes here.</p>
+          <div class="sg"><span>Name Surname</span>
+            <svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="25" fill="none" stroke="#6a5238" stroke-width="1.5"/><circle cx="27" cy="27" r="20" fill="none" stroke="#6a5238" stroke-width=".8"/><text x="27" y="31" text-anchor="middle" font-family="Playfair Display,serif" font-size="12" fill="#6a5238">FIS</text><path d="M27 34l1.3 2.7 2.7 1.3-2.7 1.3L27 42l-1.3-2.7L23 38l2.7-1.3z" fill="#6a5238"/></svg>
+          </div>
+        </div>
+      </div></article>
+
+      <article class="pc"><div class="pi">
+        <div class="ph"><svg viewBox="0 0 18 48" aria-hidden="true"><path d="M5 40V9a4 4 0 0 1 8 0v28a6 6 0 0 1-12 0V11" fill="none" stroke="#9a8a72" stroke-width="1.6" stroke-linecap="round"/></svg><img src="/images/gensec.png" alt="General Secretary"></div>
+        <div class="tx">
+          <small>FIS</small>
+          <h3>General Secretary</h3>
+          <hr>
+          <div class="fr">From the General Secretary</div>
+          <p>General Secretary's message goes here.</p>
+          <div class="sg"><span>Name Surname</span>
+            <svg viewBox="0 0 54 54" aria-hidden="true"><circle cx="27" cy="27" r="25" fill="none" stroke="#6a5238" stroke-width="1.5"/><circle cx="27" cy="27" r="20" fill="none" stroke="#6a5238" stroke-width=".8"/><text x="27" y="31" text-anchor="middle" font-family="Playfair Display,serif" font-size="12" fill="#6a5238">FIS</text><path d="M27 34l1.3 2.7 2.7 1.3-2.7 1.3L27 42l-1.3-2.7L23 38l2.7-1.3z" fill="#6a5238"/></svg>
+          </div>
+        </div>
+      </div></article>
+
     </div>
   </section>
 
