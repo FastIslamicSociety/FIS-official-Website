@@ -11,7 +11,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Reenie+Beanie&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Reenie+Beanie&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   [hidden] { display: none !important; }
@@ -43,7 +43,7 @@
     position: fixed; inset: 0; pointer-events: none; z-index: 0;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .15 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
   }
-  main, footer { position: relative; z-index: 1; }
+  main { position: relative; z-index: 1; }
 
   /* ---------- NAV ---------- */
   .topnav {
@@ -87,7 +87,7 @@
     grid-template-rows: auto 1fr;
     column-gap: clamp(32px, 6vw, 110px);
     align-items: start;
-    padding: 0 5vw;
+    padding: 0 5vw 6vh;
   }
 
   /* ---------- HERO ---------- */
@@ -185,7 +185,7 @@
   .err { margin-top: 14px; font-weight: 700; font-size: 14px; color: #a8432b; }
   .err:empty { display: none; }
 
-  .foot {
+  .sendrow {
     display: flex; align-items: center; justify-content: space-between; gap: 18px;
     margin-top: 18px; padding-top: 16px;
     border-top: 1px solid rgba(120,90,50,.2);
@@ -239,7 +239,6 @@
   .flapwrap {
     position: absolute; left: 0; right: 0; bottom: calc(var(--eh) - var(--eh) * var(--flap));
     height: calc(var(--eh) * var(--flap));
-    /* sits on the envelope's top edge: bottom = eh - flap height */
     z-index: 1;
     filter: drop-shadow(0 4px 5px rgba(0,0,0,.3));
     transition: z-index 0s .4s;
@@ -311,7 +310,7 @@
   .again:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
   /* ---------- ANSWERED ---------- */
-  .wall { grid-area: wall; max-width: 760px; padding: 8vh 0 10vh; }
+  .wall { grid-area: wall; max-width: 760px; padding: 8vh 0 0; }
   .wall h2 {
     font-family: var(--serif); font-weight: 900; line-height: 1;
     font-size: clamp(32px, 5vw, 52px);
@@ -372,21 +371,110 @@
   .empty { padding: 28px 0; font-family: var(--serif); font-style: italic; color: rgba(246,239,220,.6); }
   @keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
-  footer {
-    text-align: left; padding: 0 5vw 6vh;
-    font-weight: 500; font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
-    color: rgba(246,239,220,.4);
+  /* ---------- TORN PAPER (copied from the home page) ---------- */
+  .sec {
+    position: relative;
+    z-index: 1;
+    background: var(--c);
+    color: var(--t);
+  }
+  .sec::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .15 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    z-index: 0;
+  }
+  .sec > *:not(.tear) { position: relative; z-index: 1; }
+
+  .tear {
+    position: absolute;
+    left: 0; top: -39px;
+    width: 100%; height: 40px;
+    display: block;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .tear .rim { fill: var(--rim); }
+  .tear .fl  { fill: var(--c); }
+  .sec p {
+    font-family: var(--sans);
+    font-weight: 700;
+    line-height: 1.7;
+    font-size: clamp(14px, 1.15vw, 18px);
+    max-width: 50ch;
+  }
+
+  /* reveal */
+  .rv { opacity: 0; transform: translateY(22px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+  .rv.on { opacity: 1; transform: none; }
+  .d1 { transition-delay: .12s; } .d2 { transition-delay: .24s; } .d3 { transition-delay: .36s; }
+
+  /* ---------- CLOSING (ayah left, contacts right) ---------- */
+  #closing { padding: 20vh 6vw 5vh; }
+  #closing .wrap { max-width: 1200px; margin: 0 auto; }
+  #closing .cols {
+    display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 5vw; align-items: center; text-align: left;
+  }
+  #closing .verse { text-align: left; }
+  #closing .verse-ar {
+    font-family: "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+    direction: rtl; text-align: left; font-weight: 500; max-width: none;
+    white-space: nowrap;
+    font-size: min(3.3vw, 46px); line-height: 2.1; color: var(--gold);
+  }
+  #closing .translit {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(14px, 1.3vw, 19px); color: rgba(246,239,220,.6);
+    margin-top: 2vh; max-width: none; text-align: left;
+  }
+  #closing .trans {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(20px, 2.3vw, 32px); line-height: 1.4;
+    max-width: 24ch; margin-top: 3.5vh; color: var(--cream); text-align: left;
+  }
+  #closing .ref {
+    display: block; margin-top: 2.4vh;
+    font-family: var(--sans); font-weight: 700;
+    font-size: clamp(10px, .85vw, 12px); letter-spacing: .28em; text-transform: uppercase;
+    color: rgba(246,239,220,.5);
+  }
+  #closing .rows {
+    width: 100%;
+    border-top: 1px solid rgba(246,239,220,.2);
+  }
+  #closing .row {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+    gap: 6px 24px; padding: 22px 0;
+    border-bottom: 1px solid rgba(246,239,220,.2);
+  }
+  #closing .row span {
+    font-family: var(--sans); font-weight: 700; font-size: 11px;
+    letter-spacing: .26em; text-transform: uppercase; color: rgba(246,239,220,.5);
+  }
+  #closing a {
+    font-family: var(--sans); font-weight: 500; font-size: clamp(13px, 1.1vw, 16px);
+    color: var(--cream); text-decoration: none; transition: color .25s ease;
+  }
+  #closing a:hover { color: var(--gold); }
+  #closing .foot {
+    display: flex; justify-content: space-between; gap: 16px;
+    margin-top: 14vh; padding-top: 3vh;
+    font-family: var(--sans); font-weight: 500; font-size: 11px;
+    letter-spacing: .22em; text-transform: uppercase; color: rgba(246,239,220,.4);
   }
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
+    .rv { opacity: 1; transform: none; transition: none; }
     .flap, .flapwrap, .seal, .done, .mail.sealed .seal, .mail.sealed .done { transition: none !important; }
   }
 
   @media (max-width: 960px) {
-    main { display: block; padding: 0 5vw; }
+    main { display: block; padding: 0 5vw 6vh; }
     .stage { position: static; width: min(600px, 100%); margin: 5vh 0 0; }
-    .wall { max-width: none; padding: 8vh 0 8vh; }
+    .wall { max-width: none; padding: 8vh 0 0; }
   }
 
   @media (max-width: 800px) {
@@ -398,11 +486,17 @@
     .hero { padding-top: calc(var(--nav) + 6vh); }
     .hero small { letter-spacing: .6em; font-size: 11px; }
     .letter { width: 94%; }
+
+    /* CLOSING */
+    #closing { padding: 14vh 5vw 5vh; }
+    #closing .cols { grid-template-columns: 1fr; gap: 7vh; }
+    #closing .verse-ar { font-size: 6vw; text-align: left; }
+    #closing .foot { margin-top: 9vh; }
     .letter textarea { height: 200px; font-size: 30px; }
-    .foot { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
+    .sendrow { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
     .trust { max-width: none; text-align: center; }
     .send { width: 100%; justify-content: center; }
-    .wall { padding: 10vh 0 8vh; }
+    .wall { padding: 10vh 0 0; }
   }
 </style>
 </head>
@@ -455,7 +549,7 @@
 
           <p class="err" id="err" role="alert" aria-live="polite"></p>
 
-          <div class="foot">
+          <div class="sendrow">
             <p class="trust">We don't ask for or store your name or email.</p>
             <button class="send" id="send" type="submit"><span class="txt">Send it off</span><svg class="plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button>
           </div>
@@ -485,7 +579,27 @@
     </section>
   </main>
 
-  <footer>FAST Islamic Society, 2026</footer>
+<!-- CLOSING (always visible, same as the home page) -->
+  <section class="sec" id="closing" style="--c:#17120d; --t:#f6e9cf; --rim:#d8c9a3; z-index:12">
+    <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
+    <div class="wrap">
+      <div class="cols">
+        <div class="verse">
+          <p class="verse-ar rv" lang="ar">وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ</p>
+          <p class="translit rv d1">Wa iẓā sa’alaka ʿibādī ʿannī fa innī qarīb</p>
+          <p class="trans rv d2">And when My servants ask you about Me, indeed, I am near.</p>
+          <span class="ref rv d3">Surah Al-Baqarah &middot; 2:186</span>
+        </div>
+        <div class="rows rv d1">
+          <div class="row"><span>Instagram</span><a href="https://www.instagram.com/fast.islamicsociety/" target="_blank" rel="noopener">@fast.islamicsociety</a></div>
+          <div class="row"><span>LinkedIn</span><a href="https://www.linkedin.com/company/fastislamicsociety/posts/" target="_blank" rel="noopener">FAST Islamic Society</a></div>
+          <div class="row"><span>Contact society</span><a href="mailto:fis.youtube.channel@gmail.com">fis.youtube.channel@gmail.com</a></div>
+          <div class="row"><span>Contact editorial</span><a href="mailto:fastislamicsociety@gmail.com">fastislamicsociety@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="foot"><span>FAST Islamic Society, 2026</span><span>Est. 2025</span></div>
+    </div>
+  </section>
 
 <script>
   /* ================= SETTINGS ================= */
@@ -539,16 +653,19 @@
     mail.style.height = mailH + "px";
     if (animate) { void mail.offsetHeight; mail.style.transition = "height .6s ease"; }
     mail.style.height = target + "px";
+    /* display:none (not visibility:hidden) so the slid-down letter can't leave
+       blank scrollable space below the page */
+    form.style.display = "none";
   }
   function sealUp() {
     form.inert = true;
     mail.classList.add("sealed");
-    if (reduced) { form.style.visibility = "hidden"; collapse(false); }
-    else setTimeout(() => { form.style.visibility = "hidden"; collapse(true); }, 1000);
+    if (reduced) collapse(false);
+    else setTimeout(() => collapse(true), 1000);
     setTimeout(() => done.focus({ preventScroll: true }), reduced ? 0 : 1300);
   }
   function drop() {
-    if (reduced) { form.style.visibility = "hidden"; sealUp(); return; }
+    if (reduced) { sealUp(); return; }
     const lr = form.getBoundingClientRect();
     const er = envBack.getBoundingClientRect();
     /* travel until the top of the letter is below the pocket's V edge */
@@ -609,6 +726,7 @@
       err.textContent = "";
       send.disabled = false;
       sendTxt.textContent = label;
+      form.style.display = "";
       form.style.visibility = "";
       form.inert = false;
       again.disabled = false;
@@ -616,6 +734,7 @@
     }
     if (reduced || !slide) { ready(); return; }
     setTimeout(() => {
+      form.style.display = "";
       form.style.visibility = "";
       slide.onfinish = ready;
       slide.reverse();
@@ -673,6 +792,37 @@
       .then(r => r.json())
       .then(j => render((j && Array.isArray(j.answers) ? j.answers : []).concat(ANSWERED)))
       .catch(() => render(ANSWERED));
+  })();
+
+  /* torn edge: same shape as on the home page (it is the 4th torn edge there) */
+  (function () {
+    function rnd(seed) { let t = seed; return () => (t = (t * 16807) % 2147483647) / 2147483647; }
+    document.querySelectorAll(".tear").forEach((el) => {
+      const k = 3;
+      const r = rnd(k * 97 + 13), W = 1200, n = 80, a = [], b = [];
+      for (let i = 0; i <= n; i++) {
+        const x = (i * W / n).toFixed(0);
+        const base = 14 + Math.sin(i * 0.33 + k * 2) * 3;
+        a.push(x + "," + (base + r() * 7).toFixed(1));
+        b.push(x + "," + (base + 7 + r() * 7).toFixed(1));
+      }
+      el.innerHTML =
+        '<polygon class="rim" points="0,40 ' + a.join(" ") + ' 1200,40"/>' +
+        '<polygon class="fl" points="0,40 ' + b.join(" ") + ' 1200,40"/>';
+    });
+  })();
+
+  /* reveal on scroll */
+  (function () {
+    const items = document.querySelectorAll(".rv");
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((es) => {
+        es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
+      }, { threshold: 0.25 });
+      items.forEach(i => io.observe(i));
+    } else {
+      items.forEach(i => i.classList.add("on"));
+    }
   })();
 </script>
 </body>
