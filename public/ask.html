@@ -21,6 +21,7 @@
     --ink:   #2a2118;
     --gold:  #d9a441;
     --green: #0f2b20;
+    --liner: #1b4a37;
     --serif: "Playfair Display", Georgia, "Times New Roman", serif;
     --sans: "Archivo", system-ui, sans-serif;
     --hand: "Reenie Beanie", cursive;
@@ -79,7 +80,7 @@
   .topnav .sm { display: none; }
 
   /* ---------- HERO ---------- */
-  .hero { text-align: center; padding: calc(var(--nav) + 9vh) 6vw 4vh; }
+  .hero { text-align: center; padding: calc(var(--nav) + 9vh) 6vw 2vh; }
   .hero small {
     display: block; color: var(--gold); font-weight: 700;
     letter-spacing: .9em; font-size: 13px; padding-left: .9em;
@@ -96,37 +97,38 @@
     color: rgba(246,239,220,.8);
   }
 
-  /* ---------- STAGE: slip + box ---------- */
+  /* ---------- STAGE: letter + envelope ---------- */
   .stage {
-    width: min(620px, 92vw);
-    margin: 4vh auto 0;
+    width: min(600px, 92vw);
+    margin: 5vh auto 0;
     position: relative;
   }
-  .slipwrap { position: relative; z-index: 4; }
 
-  .slip, .done {
+  .mail {
+    --eh: clamp(210px, 52vw, 270px);   /* envelope height */
+    --flap: .52;                        /* flap depth as share of envelope */
     position: relative;
+    isolation: isolate;
+    padding-bottom: calc(var(--eh) * .4);
+  }
+
+  /* the letter (the form) */
+  .letter {
+    position: relative; z-index: 2;
+    width: 90%; margin: 0 auto;
     background: #fbf5e6;
     border: .5px solid #c9b88f;
     color: var(--ink);
-    padding: 34px clamp(18px, 4vw, 36px) 26px;
-    box-shadow: 0 14px 30px rgba(0,0,0,.4);
+    padding: 26px clamp(18px, 4vw, 34px) calc(var(--eh) * .6 + 18px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.28);
   }
-  .slip { transform: rotate(-1deg); }
-  .done { transform: rotate(1deg); text-align: center; padding: 44px clamp(18px, 4vw, 36px); }
-  .tape {
-    position: absolute; top: -12px; left: 50%;
-    width: 84px; height: 26px; margin-left: -42px;
-    background: rgba(217,164,65,.75);
-    transform: rotate(-3deg);
-  }
-  .slip label.lbl {
+  .letter label.lbl {
     display: block;
     font-family: var(--serif); font-weight: 900;
     font-size: clamp(20px, 2.2vw, 26px);
     margin-bottom: 4px;
   }
-  .slip textarea {
+  .letter textarea {
     display: block; width: 100%;
     height: 180px;
     resize: none; border: 0; outline: 0;
@@ -137,20 +139,23 @@
     font-size: 32px; line-height: 36px;
     color: var(--ink);
   }
-  .slip textarea::placeholder { color: rgba(42,33,24,.45); }
-  .slip textarea:focus-visible { outline: 2px dashed rgba(15,43,32,.45); outline-offset: 4px; }
+  .letter textarea::placeholder { color: rgba(42,33,24,.45); }
+  .letter textarea:focus-visible { outline: 2px dashed rgba(15,43,32,.45); outline-offset: 4px; }
 
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; border: 0; }
-  .chips legend {
+  .topic {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    margin-top: 18px;
+  }
+  .topic .t {
     font-weight: 700; font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
-    color: rgba(42,33,24,.6); margin-bottom: 8px; padding: 0;
+    color: rgba(42,33,24,.55); margin-right: 4px;
   }
   .chip input { position: absolute; opacity: 0; pointer-events: none; }
   .chip span {
     display: inline-block; cursor: pointer;
-    padding: 8px 14px;
+    padding: 7px 13px;
     font-weight: 700; font-size: 13px; letter-spacing: .04em;
-    border: 1.5px solid rgba(42,33,24,.35);
+    border: 1.5px solid rgba(42,33,24,.3);
     border-radius: 999px;
     color: var(--ink);
     transition: background-color .2s, color .2s, border-color .2s;
@@ -158,115 +163,171 @@
   .chip span:hover { border-color: var(--green); }
   .chip input:checked + span { background: var(--green); color: var(--cream); border-color: var(--green); }
   .chip input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
-
-  .meter { margin-top: 18px; display: flex; align-items: center; gap: 12px; }
-  .meter .bar { flex: 1; height: 4px; background: rgba(42,33,24,.12); border-radius: 4px; overflow: hidden; }
-  .meter .bar i { display: block; height: 100%; width: 0; background: var(--green); transition: width .15s, background-color .3s; }
-  .meter .bar i.low { background: #a8432b; }
-  .meter b { font-family: var(--hand); font-weight: 400; font-size: 24px; line-height: 1; min-width: 4.5ch; text-align: right; }
+  .left {
+    margin-left: auto;
+    font-family: var(--hand); font-size: 24px; line-height: 1; color: #a8432b;
+  }
 
   .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
 
+  .err { margin-top: 14px; font-weight: 700; font-size: 14px; color: #a8432b; }
+  .err:empty { display: none; }
+
+  .foot {
+    display: flex; align-items: center; justify-content: space-between; gap: 18px;
+    margin-top: 18px; padding-top: 16px;
+    border-top: 1px solid rgba(120,90,50,.2);
+  }
+  .trust { font-size: 12.5px; line-height: 1.5; color: rgba(42,33,24,.6); max-width: 24ch; }
   .send {
-    display: block; margin: 22px auto 0;
-    cursor: pointer; border: 0;
-    background: var(--green); color: var(--cream);
+    flex: none;
+    cursor: pointer;
+    background: transparent; color: var(--ink);
+    border: 1.5px solid var(--ink); border-radius: 999px;
     font-family: var(--sans); font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-    font-size: 13px;
-    padding: 16px 34px;
-    clip-path: polygon(0 12%,4% 0,10% 10%,18% 0,30% 8%,42% 0,55% 9%,68% 0,80% 8%,92% 0,97% 10%,100% 4%,100% 90%,95% 100%,86% 91%,74% 100%,60% 92%,46% 100%,32% 90%,20% 100%,8% 92%,0 100%);
-    transition: transform .2s, background-color .2s;
+    font-size: 12.5px;
+    padding: 13px 30px;
+    transition: background-color .2s, color .2s;
   }
-  .send:hover:not(:disabled) { transform: translateY(-2px); background: #17402f; }
-  .send:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
-  .send:disabled { opacity: .6; cursor: default; }
+  .send:hover:not(:disabled) { background: var(--ink); color: var(--cream); }
+  .send:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+  .send:disabled { opacity: .5; cursor: default; }
 
-  .err { min-height: 1.4em; margin-top: 12px; text-align: center; font-weight: 700; font-size: 14px; color: #a8432b; }
-  .trust {
-    margin-top: 6px; text-align: center;
-    font-size: 13px; line-height: 1.5; color: rgba(42,33,24,.65);
+  /* ----- envelope pieces (all positioned against the bottom of .mail) ----- */
+  .env-back, .env-front {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: var(--eh);
+  }
+  .env-back {
+    z-index: 1;
+    border-radius: 6px;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 6px, transparent 6px 12px),
+      var(--liner);
+    box-shadow: 0 20px 34px rgba(0,0,0,.5);
+  }
+  .env-front {
+    z-index: 3;
+    border-radius: 6px;
+    background: linear-gradient(#ecdcb0, #dcc58f);
+    clip-path: polygon(0 0, 50% calc(var(--flap) * 100%), 100% 0, 100% 100%, 0 100%);
+    pointer-events: none;
+  }
+  .env-front::before { /* soft light along the pocket edge */
+    content: ""; position: absolute; inset: 0;
+    background:
+      linear-gradient(to bottom, rgba(0,0,0,.08), transparent 30%),
+      repeating-linear-gradient(90deg, rgba(120,90,50,.05) 0 2px, transparent 2px 7px);
   }
 
-  .done h2 { font-family: var(--serif); font-weight: 900; font-size: clamp(26px, 3vw, 36px); }
-  .done p { margin: 12px auto 0; max-width: 40ch; line-height: 1.7; font-weight: 500; font-size: 16px; }
-  .done .hand { font-family: var(--hand); font-size: 34px; line-height: 1; color: #6b4e1f; margin-top: 8px; }
+  /* flap: wrapper carries z-index + shadow, inner element does the 3D turn */
+  .flapwrap {
+    position: absolute; left: 0; right: 0; bottom: calc(var(--eh) - var(--eh) * var(--flap));
+    height: calc(var(--eh) * var(--flap));
+    /* sits on the envelope's top edge: bottom = eh - flap height */
+    z-index: 1;
+    filter: drop-shadow(0 4px 5px rgba(0,0,0,.3));
+    transition: z-index 0s .4s;
+    pointer-events: none;
+  }
+  .flap {
+    position: absolute; inset: 0;
+    transform-origin: 50% 0;
+    transform-style: preserve-3d;
+    transform: perspective(900px) rotateX(180deg);
+    transition: transform .8s ease-in-out;
+  }
+  .flap i {
+    position: absolute; inset: 0;
+    -webkit-backface-visibility: hidden; backface-visibility: hidden;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+  }
+  .flap .out { background: linear-gradient(#e6d3a3, #d3ba80); }
+  .flap .in  {
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,.05) 0 6px, transparent 6px 12px),
+      #225a43;
+    transform: rotateY(180deg);
+  }
+
+  .seal {
+    position: absolute; z-index: 5;
+    left: 50%; bottom: calc(var(--eh) - var(--eh) * var(--flap));
+    width: 58px; height: 58px; margin: 0 0 -29px -29px;
+    border-radius: 50%; object-fit: cover;
+    background: #fbf5e6;
+    border: 3px solid #fbf5e6;
+    box-shadow: 0 3px 8px rgba(0,0,0,.45);
+    opacity: 0; transform: scale(1.8) rotate(-12deg);
+    transition: opacity .15s, transform .15s;
+    pointer-events: none;
+  }
+
+  /* sealed state */
+  .mail.sealed .flapwrap { z-index: 4; }
+  .mail.sealed .flap { transform: perspective(900px) rotateX(0deg); }
+  .mail.sealed .seal { opacity: 1; transform: none; transition: opacity .3s .8s, transform .35s .8s cubic-bezier(.3,1.6,.5,1); }
+
+  /* thank-you, sits above the envelope */
+  .done {
+    position: absolute; z-index: 6;
+    left: 0; right: 0; bottom: calc(var(--eh) + 34px);
+    text-align: center;
+    visibility: hidden; opacity: 0; transform: translateY(14px);
+    transition: opacity .25s, transform .25s, visibility 0s .25s;
+  }
+  .mail.sealed .done {
+    visibility: visible; opacity: 1; transform: none;
+    transition: opacity .6s 1.1s, transform .6s 1.1s, visibility 0s 1.1s;
+  }
+  .done:focus { outline: none; }
+  .done .hand { font-family: var(--hand); font-size: clamp(44px, 8vw, 62px); line-height: 1; color: var(--gold); }
+  .done h2 { font-family: var(--serif); font-weight: 900; font-size: clamp(24px, 3vw, 32px); margin-top: 6px; }
+  .done p { margin: 10px auto 0; max-width: 38ch; line-height: 1.7; font-weight: 500; font-size: 15px; color: rgba(246,239,220,.8); }
   .again {
-    margin-top: 22px; cursor: pointer;
-    background: none; border: 1.5px solid var(--ink); color: var(--ink);
+    margin-top: 18px; cursor: pointer;
+    background: none; border: 1.5px solid var(--cream); color: var(--cream);
     font-family: var(--sans); font-weight: 700; font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
     padding: 12px 22px;
     transition: background-color .2s, color .2s;
   }
-  .again:hover { background: var(--ink); color: var(--cream); }
+  .again:hover { background: var(--cream); color: var(--ink); }
   .again:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
-  /* the box */
-  .box {
-    position: relative; z-index: 3;
-    width: min(300px, 72%); height: 150px;
-    margin: 30px auto 0;
-    border-radius: 6px 6px 12px 12px;
-    background: linear-gradient(#8a6a43, #6a4f30);
-    box-shadow: 0 18px 28px rgba(0,0,0,.5), inset 0 2px 0 rgba(255,255,255,.12);
-  }
-  .box::before {
-    content: ""; position: absolute; inset: 0; border-radius: inherit;
-    background: repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 3px, transparent 3px 9px);
-    pointer-events: none;
-  }
-  .box .slot {
-    position: absolute; top: 22px; left: 50%; transform: translateX(-50%);
-    width: 64%; height: 13px; border-radius: 7px;
-    background: #1b130b;
-    box-shadow: inset 0 3px 5px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.14);
-  }
-  .box .plate {
-    position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%) rotate(-2deg);
-    background: var(--cream); color: var(--ink);
-    padding: 6px 18px;
-    font-family: var(--hand); font-size: 30px; line-height: 1; white-space: nowrap;
-  }
-  .box.bump { animation: bump .6s ease; }
-  @keyframes bump {
-    0% { transform: none; } 25% { transform: translateY(6px) rotate(-1deg); }
-    55% { transform: translateY(-3px) rotate(.6deg); } 100% { transform: none; }
-  }
-
-  /* ---------- WALL ---------- */
-  .wall { padding: 14vh 6vw 10vh; max-width: 1100px; margin: 0 auto; }
+  /* ---------- ANSWERED ---------- */
+  .wall { padding: 14vh 6vw 10vh; max-width: 720px; margin: 0 auto; }
   .wall h2 {
     text-align: center;
     font-family: var(--serif); font-weight: 900; line-height: 1;
-    font-size: clamp(32px, 5vw, 60px);
+    font-size: clamp(32px, 5vw, 56px);
+  }
+  .wall h2::after {
+    content: ""; display: block; width: 48px; height: 2px;
+    background: var(--gold); margin: 18px auto 0;
   }
   .wall .sub {
-    text-align: center; margin: 14px auto 0; max-width: 40ch;
-    color: rgba(246,239,220,.75); line-height: 1.7; font-weight: 500;
+    text-align: center; margin: 16px auto 0; max-width: 40ch;
+    color: rgba(246,239,220,.7); line-height: 1.7; font-weight: 500;
   }
-  .pins {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-    gap: 46px 32px; margin-top: 7vh;
+  .list { margin-top: 6vh; border-top: 1px solid rgba(246,239,220,.18); }
+  .qa {
+    padding: 28px 0;
+    border-bottom: 1px solid rgba(246,239,220,.18);
   }
-  .pin {
-    position: relative; background: #efe3c6; color: var(--ink);
-    padding: 34px 24px 24px;
-    box-shadow: 0 10px 22px rgba(0,0,0,.4);
-    transform: rotate(-1.2deg);
-  }
-  .pin:nth-child(even) { transform: rotate(1.1deg); background: #fbf5e6; }
-  .pin:nth-child(3n) { transform: rotate(-.4deg); }
-  .pin .tape { width: 70px; margin-left: -35px; top: -11px; }
-  .pin .q { font-family: var(--hand); font-size: 30px; line-height: 1.05; }
-  .pin .a { margin-top: 14px; font-weight: 500; font-size: 15px; line-height: 1.7; }
-  .pin .cat {
+  .qa .cat {
     display: block; margin-bottom: 8px;
     font-weight: 700; font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
-    color: rgba(42,33,24,.55);
+    color: var(--gold);
   }
-  .pin a.more {
+  .qa .q { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(20px, 2.4vw, 25px); line-height: 1.3; }
+  .qa .a { margin-top: 12px; font-weight: 500; font-size: 15.5px; line-height: 1.75; color: rgba(246,239,220,.82); }
+  .qa a.more {
     display: inline-block; margin-top: 12px;
-    color: var(--green); font-weight: 700; font-size: 13px; letter-spacing: .06em;
+    color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    text-decoration: none; border-bottom: 1px solid rgba(217,164,65,.5);
   }
+  .qa a.more:hover { border-bottom-color: var(--gold); }
+  .empty { padding: 34px 0; text-align: center; font-family: var(--serif); font-style: italic; color: rgba(246,239,220,.6); }
 
   footer {
     text-align: center; padding: 0 6vw 7vh;
@@ -276,7 +337,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .box.bump { animation: none; }
+    .flap, .flapwrap, .seal, .done, .mail.sealed .seal, .mail.sealed .done { transition: none !important; }
   }
 
   @media (max-width: 800px) {
@@ -287,10 +348,12 @@
     .topnav .sm { display: inline; }
     .hero { padding-top: calc(var(--nav) + 6vh); }
     .hero small { letter-spacing: .6em; padding-left: .6em; font-size: 11px; }
-    .slip textarea { height: 216px; font-size: 30px; }
+    .letter { width: 94%; }
+    .letter textarea { height: 200px; font-size: 30px; }
+    .foot { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
+    .trust { max-width: none; text-align: center; }
     .send { width: 100%; }
     .wall { padding: 10vh 6vw 8vh; }
-    .pins { gap: 40px; }
   }
 </style>
 </head>
@@ -310,56 +373,66 @@
     <header class="hero">
       <small>THE FIS</small>
       <h1>Ask anything</h1>
-      <p>No name. No email. Write your question on a slip and drop it in the box.</p>
+      <p>No name. No email. Write it down, seal it, send it.</p>
     </header>
 
     <section class="stage" aria-label="Ask a question">
-      <div class="slipwrap">
-        <form class="slip" id="slip" novalidate>
-          <span class="tape"></span>
+      <div class="mail" id="mail">
+
+        <!-- inside of the envelope -->
+        <div class="env-back"></div>
+
+        <!-- flap (open until you send) -->
+        <div class="flapwrap" id="flapwrap">
+          <div class="flap"><i class="out"></i><i class="in"></i></div>
+        </div>
+
+        <!-- the letter -->
+        <form class="letter" id="slip" novalidate>
           <label class="lbl" for="q">Your question</label>
           <textarea id="q" name="question" maxlength="600" placeholder="ask anything, nobody will know it's you..."></textarea>
 
-          <fieldset class="chips">
-            <legend>What is it about?</legend>
+          <div class="topic" role="radiogroup" aria-label="What is it about?">
+            <span class="t">About</span>
             <label class="chip"><input type="radio" name="category" value="Aqeedah"><span>Aqeedah</span></label>
             <label class="chip"><input type="radio" name="category" value="Fiqh"><span>Fiqh</span></label>
             <label class="chip"><input type="radio" name="category" value="Daily life"><span>Daily life</span></label>
             <label class="chip"><input type="radio" name="category" value="Uni life"><span>Uni life</span></label>
             <label class="chip"><input type="radio" name="category" value="Other" checked><span>Other</span></label>
-          </fieldset>
-
-          <div class="meter" aria-hidden="true">
-            <div class="bar"><i id="ink"></i></div>
-            <b id="left">600</b>
+            <span class="left" id="left" aria-live="polite"></span>
           </div>
 
           <input class="hp" type="text" name="website" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-          <button class="send" id="send" type="submit">Drop it in the box</button>
           <p class="err" id="err" role="alert" aria-live="polite"></p>
-          <p class="trust">We don't ask for or store your name or email.</p>
+
+          <div class="foot">
+            <p class="trust">We don't ask for or store your name or email.</p>
+            <button class="send" id="send" type="submit">Send</button>
+          </div>
         </form>
 
-        <div class="done" id="done" hidden tabindex="-1">
-          <span class="tape"></span>
-          <h2>Dropped in</h2>
-          <p class="hand">jazakAllahu khayran</p>
-          <p>Your question is in the box. If we answer it publicly, you'll find it on the wall below.</p>
+        <!-- front of the envelope -->
+        <div class="env-front">
+        </div>
+
+        <img class="seal" src="/favicon.png?v=2" alt="" aria-hidden="true">
+
+        <!-- thank-you, appears above the envelope -->
+        <div class="done" id="done" tabindex="-1">
+          <div class="hand">jazakAllahu khayran</div>
+          <h2>Sealed &amp; sent</h2>
+          <p>Your question is in the envelope. If we answer it publicly, you'll find it below.</p>
           <button class="again" id="again" type="button">Ask another</button>
         </div>
-      </div>
 
-      <div class="box" id="box" aria-hidden="true">
-        <div class="slot" id="slot"></div>
-        <div class="plate">questions</div>
       </div>
     </section>
 
     <section class="wall" id="wall">
       <h2>Answered</h2>
-      <p class="sub">Questions we've answered, pinned for everyone.</p>
-      <div class="pins" id="pins"></div>
+      <p class="sub">Questions we've answered, for everyone.</p>
+      <div class="list" id="list"></div>
     </section>
   </main>
 
@@ -381,56 +454,51 @@
   ];
   /* ============================================= */
 
+  const mail = document.getElementById("mail");
+  const envBack = mail.querySelector(".env-back");
   const form = document.getElementById("slip");
   const ta = document.getElementById("q");
   const hp = document.getElementById("hp");
   const send = document.getElementById("send");
   const err = document.getElementById("err");
-  const ink = document.getElementById("ink");
   const leftEl = document.getElementById("left");
   const done = document.getElementById("done");
   const again = document.getElementById("again");
-  const box = document.getElementById("box");
-  const slot = document.getElementById("slot");
   const label = send.textContent;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let anim = null;
+  let slide = null;
 
-  /* ink meter */
-  function meter() {
-    const n = ta.value.length;
-    const left = MAX - n;
-    ink.style.width = Math.min(100, (n / MAX) * 100) + "%";
-    ink.classList.toggle("low", left < 60);
-    leftEl.textContent = left;
+  /* characters left, only shown when running low */
+  function counter() {
+    const left = MAX - ta.value.length;
+    leftEl.textContent = left <= 100 ? left + " left" : "";
   }
-  ta.addEventListener("input", meter);
-  meter();
+  ta.addEventListener("input", counter);
+  counter();
 
   /* cooldown (per browser, no personal data) */
   function lastSent() { try { return +sessionStorage.getItem("fisAskLast") || 0; } catch (e) { return 0; } }
   function markSent() { try { sessionStorage.setItem("fisAskLast", String(Date.now())); } catch (e) {} }
 
-  /* slip drops into the box */
-  function finish() {
-    form.hidden = true;
-    box.classList.add("bump");
-    done.hidden = false;
-    done.focus({ preventScroll: true });
+  /* letter slides into the envelope, flap closes, seal stamps, thank-you appears */
+  function sealUp() {
+    form.inert = true;
+    mail.classList.add("sealed");
+    setTimeout(() => done.focus({ preventScroll: true }), reduced ? 0 : 1300);
   }
   function drop() {
-    if (reduced) { finish(); return; }
-    const s = form.getBoundingClientRect();
-    const t = slot.getBoundingClientRect();
-    const dx = (t.left + t.width / 2) - (s.left + s.width / 2);
-    const dy = (t.top + t.height / 2) - (s.top + s.height / 2);
-    anim = form.animate([
-      { transform: "rotate(-1deg) scale(1)", opacity: 1 },
-      { transform: "rotate(-2deg) scale(.62,.4)", opacity: 1, offset: .38 },
-      { transform: "translate(" + dx + "px," + dy + "px) rotate(5deg) scale(.1,.07)", opacity: .9, offset: .92 },
-      { transform: "translate(" + dx + "px," + dy + "px) rotate(5deg) scale(.05)", opacity: 0 }
-    ], { duration: 1100, easing: "ease-in-out", fill: "forwards" });
-    anim.onfinish = finish;
+    if (reduced) { form.style.visibility = "hidden"; sealUp(); return; }
+    const lr = form.getBoundingClientRect();
+    const er = envBack.getBoundingClientRect();
+    /* travel until the top of the letter is below the pocket's V edge */
+    const T = (er.top + er.height * 0.6) - lr.top;
+    /* hide whatever would hang out below the bottom of the envelope */
+    const cut = Math.max(0, lr.bottom + T - er.bottom);
+    slide = form.animate([
+      { transform: "translateY(0)", clipPath: "inset(-60px -60px -60px -60px)" },
+      { transform: "translateY(" + T + "px)", clipPath: "inset(-60px -60px " + cut + "px -60px)" }
+    ], { duration: 1000, easing: "cubic-bezier(.5,0,.3,1)", fill: "forwards" });
+    slide.onfinish = sealUp;
   }
 
   form.addEventListener("submit", async (e) => {
@@ -462,22 +530,32 @@
     }
   });
 
+  /* ask another: flap opens, letter slides back out */
   again.addEventListener("click", () => {
-    if (anim) { anim.cancel(); anim = null; }
-    form.reset();
-    meter();
-    err.textContent = "";
-    send.disabled = false;
-    send.textContent = label;
-    box.classList.remove("bump");
-    done.hidden = true;
-    form.hidden = false;
-    ta.focus();
+    again.disabled = true;
+    mail.classList.remove("sealed");
+    function ready() {
+      if (slide) { slide.cancel(); slide = null; }
+      form.reset();
+      counter();
+      err.textContent = "";
+      send.disabled = false;
+      send.textContent = label;
+      form.style.visibility = "";
+      form.inert = false;
+      again.disabled = false;
+      ta.focus();
+    }
+    if (reduced || !slide) { ready(); return; }
+    setTimeout(() => {
+      slide.onfinish = ready;
+      slide.reverse();
+    }, 750);
   });
 
-  /* answered wall */
+  /* answered list */
   (function () {
-    const pins = document.getElementById("pins");
+    const list = document.getElementById("list");
     function el(tag, cls, text) {
       const n = document.createElement(tag);
       if (cls) n.className = cls;
@@ -485,25 +563,20 @@
       return n;
     }
     if (!ANSWERED.length) {
-      const p = el("article", "pin");
-      p.appendChild(el("span", "tape"));
-      p.appendChild(el("p", "q", "Nothing pinned yet."));
-      p.appendChild(el("p", "a", "Ask the first question and we'll pin the answer here."));
-      pins.appendChild(p);
+      list.appendChild(el("p", "empty", "Nothing answered yet. Ask the first one."));
       return;
     }
     ANSWERED.forEach(item => {
-      const p = el("article", "pin");
-      p.appendChild(el("span", "tape"));
-      if (item.cat) p.appendChild(el("span", "cat", item.cat));
-      p.appendChild(el("p", "q", item.q));
-      p.appendChild(el("p", "a", item.a));
+      const row = el("article", "qa");
+      if (item.cat) row.appendChild(el("span", "cat", item.cat));
+      row.appendChild(el("p", "q", item.q));
+      row.appendChild(el("p", "a", item.a));
       if (item.link) {
         const a = el("a", "more", "Read more");
         a.href = item.link; a.target = "_blank"; a.rel = "noopener";
-        p.appendChild(a);
+        row.appendChild(a);
       }
-      pins.appendChild(p);
+      list.appendChild(row);
     });
   })();
 </script>
