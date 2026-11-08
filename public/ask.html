@@ -181,17 +181,20 @@
   .trust { font-size: 12.5px; line-height: 1.5; color: rgba(42,33,24,.6); max-width: 24ch; }
   .send {
     flex: none;
-    cursor: pointer;
-    background: transparent; color: var(--ink);
-    border: 1.5px solid var(--ink); border-radius: 999px;
-    font-family: var(--sans); font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
-    font-size: 12.5px;
-    padding: 13px 30px;
-    transition: background-color .2s, color .2s;
+    display: inline-flex; align-items: center; gap: 10px;
+    cursor: pointer; border: 0; border-radius: 999px;
+    padding: 13px 24px 13px 26px;
+    background: var(--gold); color: var(--ink);
+    font-family: var(--sans); font-weight: 700; font-size: 14px; letter-spacing: .04em;
+    box-shadow: 0 3px 0 #a87a22;
+    transition: transform .15s, box-shadow .15s, background-color .2s;
   }
-  .send:hover:not(:disabled) { background: var(--ink); color: var(--cream); }
-  .send:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
-  .send:disabled { opacity: .5; cursor: default; }
+  .send .plane { width: 18px; height: 18px; transition: transform .3s; }
+  .send:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 0 #a87a22; background: #e2b050; }
+  .send:hover:not(:disabled) .plane { transform: translate(4px,-3px) rotate(-8deg); }
+  .send:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 #a87a22; }
+  .send:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+  .send:disabled { opacity: .6; cursor: default; }
 
   /* ----- envelope pieces (all positioned against the bottom of .mail) ----- */
   .env-back, .env-front {
@@ -262,6 +265,7 @@
     transition: opacity .15s, transform .15s;
     pointer-events: none;
   }
+  .seal.noimg { background: radial-gradient(circle at 35% 30%, #e8bd62, #b9852a 70%); }
 
   /* sealed state */
   .mail.sealed .flapwrap { z-index: 4; }
@@ -295,39 +299,55 @@
   .again:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
   /* ---------- ANSWERED ---------- */
-  .wall { padding: 14vh 6vw 10vh; max-width: 720px; margin: 0 auto; }
+  .wall { width: min(600px, 92vw); margin: 0 auto; padding: 14vh 0 10vh; }
   .wall h2 {
-    text-align: center;
     font-family: var(--serif); font-weight: 900; line-height: 1;
-    font-size: clamp(32px, 5vw, 56px);
+    font-size: clamp(32px, 5vw, 52px);
   }
   .wall h2::after {
     content: ""; display: block; width: 48px; height: 2px;
-    background: var(--gold); margin: 18px auto 0;
+    background: var(--gold); margin: 16px 0 0;
   }
-  .wall .sub {
-    text-align: center; margin: 16px auto 0; max-width: 40ch;
-    color: rgba(246,239,220,.7); line-height: 1.7; font-weight: 500;
+  .wall .sub { margin: 14px 0 0; color: rgba(246,239,220,.7); line-height: 1.7; font-weight: 500; }
+  .list { margin-top: 5vh; border-top: 1px solid rgba(246,239,220,.18); }
+  .qa { border-bottom: 1px solid rgba(246,239,220,.18); }
+  .qa summary {
+    list-style: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 22px 0;
   }
-  .list { margin-top: 6vh; border-top: 1px solid rgba(246,239,220,.18); }
-  .qa {
-    padding: 28px 0;
-    border-bottom: 1px solid rgba(246,239,220,.18);
-  }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
   .qa .cat {
-    display: block; margin-bottom: 8px;
+    display: block; margin-bottom: 6px;
     font-weight: 700; font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
     color: var(--gold);
   }
-  .qa .q { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: clamp(20px, 2.4vw, 25px); line-height: 1.3; }
-  .qa .a { margin-top: 12px; font-weight: 500; font-size: 15.5px; line-height: 1.75; color: rgba(246,239,220,.82); }
+  .qa .q {
+    display: block;
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(18px, 2.2vw, 22px); line-height: 1.35;
+    transition: color .2s;
+  }
+  .qa summary:hover .q { color: var(--gold); }
+  .qa .plus { flex: none; position: relative; width: 14px; height: 14px; }
+  .qa .plus::before, .qa .plus::after {
+    content: ""; position: absolute; left: 0; right: 0; top: 50%;
+    height: 2px; margin-top: -1px; background: var(--gold);
+    transition: transform .25s;
+  }
+  .qa .plus::after { transform: rotate(90deg); }
+  .qa[open] .plus::after { transform: rotate(0deg); }
+  .qa .body { padding: 0 34px 26px 0; animation: reveal .3s ease; }
+  .qa .a { font-weight: 500; font-size: 15.5px; line-height: 1.75; color: rgba(246,239,220,.85); white-space: pre-line; }
   .qa a.more {
     display: inline-block; margin-top: 12px;
     color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
     text-decoration: none; border-bottom: 1px solid rgba(217,164,65,.5);
   }
   .qa a.more:hover { border-bottom-color: var(--gold); }
-  .empty { padding: 34px 0; text-align: center; font-family: var(--serif); font-style: italic; color: rgba(246,239,220,.6); }
+  .empty { padding: 28px 0; font-family: var(--serif); font-style: italic; color: rgba(246,239,220,.6); }
+  @keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
   footer {
     text-align: center; padding: 0 6vw 7vh;
@@ -352,8 +372,8 @@
     .letter textarea { height: 200px; font-size: 30px; }
     .foot { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
     .trust { max-width: none; text-align: center; }
-    .send { width: 100%; }
-    .wall { padding: 10vh 6vw 8vh; }
+    .send { width: 100%; justify-content: center; }
+    .wall { padding: 10vh 0 8vh; }
   }
 </style>
 </head>
@@ -390,7 +410,7 @@
         <!-- the letter -->
         <form class="letter" id="slip" novalidate>
           <label class="lbl" for="q">Your question</label>
-          <textarea id="q" name="question" maxlength="600" placeholder="ask anything, nobody will know it's you..."></textarea>
+          <textarea id="q" name="question" maxlength="600" placeholder="ask away..."></textarea>
 
           <div class="topic" role="radiogroup" aria-label="What is it about?">
             <span class="t">About</span>
@@ -408,7 +428,7 @@
 
           <div class="foot">
             <p class="trust">We don't ask for or store your name or email.</p>
-            <button class="send" id="send" type="submit">Send</button>
+            <button class="send" id="send" type="submit"><span class="txt">Send it off</span><svg class="plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button>
           </div>
         </form>
 
@@ -416,7 +436,7 @@
         <div class="env-front">
         </div>
 
-        <img class="seal" src="/favicon.png?v=2" alt="" aria-hidden="true">
+        <img class="seal" id="seal" alt="" aria-hidden="true">
 
         <!-- thank-you, appears above the envelope -->
         <div class="done" id="done" tabindex="-1">
@@ -464,7 +484,8 @@
   const leftEl = document.getElementById("left");
   const done = document.getElementById("done");
   const again = document.getElementById("again");
-  const label = send.textContent;
+  const sendTxt = send.querySelector(".txt");
+  const label = sendTxt.textContent;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let slide = null;
 
@@ -511,7 +532,7 @@
 
     const cat = (form.querySelector('input[name="category"]:checked') || {}).value || "Other";
     send.disabled = true;
-    send.textContent = "Sending...";
+    sendTxt.textContent = "Sending...";
     try {
       const res = await fetch(ENDPOINT, {
         method: "POST",
@@ -526,7 +547,7 @@
     } catch (x) {
       err.textContent = "Couldn't send that. Check your connection and try again.";
       send.disabled = false;
-      send.textContent = label;
+      sendTxt.textContent = label;
     }
   });
 
@@ -540,7 +561,7 @@
       counter();
       err.textContent = "";
       send.disabled = false;
-      send.textContent = label;
+      sendTxt.textContent = label;
       form.style.visibility = "";
       form.inert = false;
       again.disabled = false;
@@ -552,6 +573,18 @@
       slide.reverse();
     }, 750);
   });
+
+  /* seal image: tries a few likely favicon paths, falls back to a plain gold disc */
+  (function () {
+    const seal = document.getElementById("seal");
+    const tries = ["public/favicon.png", "/favicon.png?v=2", "/public/favicon.png", "favicon.png"];
+    let i = 0;
+    seal.addEventListener("error", () => {
+      i++;
+      if (i < tries.length) seal.src = tries[i]; else seal.classList.add("noimg");
+    });
+    seal.src = tries[0];
+  })();
 
   /* answered list: pulled live from the sheet (rows marked "yes"), plus any hand-written ones in ANSWERED */
   (function () {
@@ -569,15 +602,22 @@
         return;
       }
       items.forEach(item => {
-        const row = el("article", "qa");
-        if (item.cat) row.appendChild(el("span", "cat", item.cat));
-        row.appendChild(el("p", "q", item.q));
-        row.appendChild(el("p", "a", item.a));
+        const row = el("details", "qa");
+        const sum = el("summary");
+        const txt = el("div");
+        if (item.cat) txt.appendChild(el("span", "cat", item.cat));
+        txt.appendChild(el("span", "q", item.q));
+        sum.appendChild(txt);
+        sum.appendChild(el("span", "plus"));
+        row.appendChild(sum);
+        const body = el("div", "body");
+        body.appendChild(el("p", "a", item.a));
         if (item.link && /^https?:\/\//i.test(item.link)) {
           const a = el("a", "more", "Read more");
           a.href = item.link; a.target = "_blank"; a.rel = "noopener";
-          row.appendChild(a);
+          body.appendChild(a);
         }
+        row.appendChild(body);
         list.appendChild(row);
       });
     }
