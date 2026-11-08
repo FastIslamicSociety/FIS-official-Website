@@ -79,11 +79,22 @@
   .topnav ul a.active::after { transform: scaleX(1); }
   .topnav .sm { display: none; }
 
+  /* ---------- PAGE GRID: hero + answers on the left, envelope on the right ---------- */
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) min(600px, 42vw);
+    grid-template-areas: "hero stage" "wall stage";
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(32px, 6vw, 110px);
+    align-items: start;
+    padding: 0 5vw;
+  }
+
   /* ---------- HERO ---------- */
-  .hero { text-align: center; padding: calc(var(--nav) + 9vh) 6vw 2vh; }
+  .hero { grid-area: hero; text-align: left; padding: calc(var(--nav) + 8vh) 0 0; }
   .hero small {
     display: block; color: var(--gold); font-weight: 700;
-    letter-spacing: .9em; font-size: 13px; padding-left: .9em;
+    letter-spacing: .9em; font-size: 13px;
   }
   .hero h1 {
     font-family: var(--serif); font-weight: 900; line-height: 1;
@@ -91,7 +102,7 @@
     margin-top: 10px; color: var(--cream);
   }
   .hero p {
-    max-width: 38ch; margin: 18px auto 0;
+    max-width: 38ch; margin: 18px 0 0;
     font-weight: 500; line-height: 1.7;
     font-size: clamp(15px, 1.2vw, 19px);
     color: rgba(246,239,220,.8);
@@ -99,9 +110,10 @@
 
   /* ---------- STAGE: letter + envelope ---------- */
   .stage {
-    width: min(600px, 92vw);
-    margin: 5vh auto 0;
-    position: relative;
+    grid-area: stage;
+    position: sticky; top: calc(var(--nav) + 24px);
+    margin-top: calc(var(--nav) + 8vh);
+    width: 100%;
   }
 
   .mail {
@@ -276,7 +288,7 @@
   .done {
     position: absolute; z-index: 6;
     left: 0; right: 0; bottom: calc(var(--eh) + 34px);
-    text-align: center;
+    text-align: left;
     visibility: hidden; opacity: 0; transform: translateY(14px);
     transition: opacity .25s, transform .25s, visibility 0s .25s;
   }
@@ -285,9 +297,9 @@
     transition: opacity .6s 1.1s, transform .6s 1.1s, visibility 0s 1.1s;
   }
   .done:focus { outline: none; }
-  .done .hand { font-family: var(--hand); font-size: clamp(44px, 8vw, 62px); line-height: 1; color: var(--gold); }
+  .done .hand { font-family: var(--hand); font-size: clamp(42px, 5vw, 64px); line-height: 1; color: var(--gold); }
   .done h2 { font-family: var(--serif); font-weight: 900; font-size: clamp(24px, 3vw, 32px); margin-top: 6px; }
-  .done p { margin: 10px auto 0; max-width: 38ch; line-height: 1.7; font-weight: 500; font-size: 15px; color: rgba(246,239,220,.8); }
+  .done p { margin: 10px 0 0; max-width: 38ch; line-height: 1.7; font-weight: 500; font-size: 15px; color: rgba(246,239,220,.8); }
   .again {
     margin-top: 18px; cursor: pointer;
     background: none; border: 1.5px solid var(--cream); color: var(--cream);
@@ -299,7 +311,7 @@
   .again:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
 
   /* ---------- ANSWERED ---------- */
-  .wall { width: min(600px, 92vw); margin: 0 auto; padding: 14vh 0 10vh; }
+  .wall { grid-area: wall; max-width: 760px; padding: 8vh 0 10vh; }
   .wall h2 {
     font-family: var(--serif); font-weight: 900; line-height: 1;
     font-size: clamp(32px, 5vw, 52px);
@@ -309,15 +321,16 @@
     background: var(--gold); margin: 16px 0 0;
   }
   .wall .sub { margin: 14px 0 0; color: rgba(246,239,220,.7); line-height: 1.7; font-weight: 500; }
-  .list { margin-top: 5vh; border-top: 1px solid rgba(246,239,220,.18); }
+  .list { margin-top: 4vh; border-top: 1px solid rgba(246,239,220,.18); }
   .qa { border-bottom: 1px solid rgba(246,239,220,.18); }
   .qa summary {
     list-style: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 22px;
     padding: 22px 0;
   }
   .qa summary::-webkit-details-marker { display: none; }
   .qa summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+  .qa summary > div { min-width: 0; }
   .qa .cat {
     display: block; margin-bottom: 6px;
     font-weight: 700; font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
@@ -325,21 +338,31 @@
   }
   .qa .q {
     display: block;
-    font-family: var(--serif); font-weight: 500;
-    font-size: clamp(18px, 2.2vw, 22px); line-height: 1.35;
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(19px, 2.2vw, 24px); line-height: 1.35;
+    overflow-wrap: anywhere;
     transition: color .2s;
   }
   .qa summary:hover .q { color: var(--gold); }
-  .qa .plus { flex: none; position: relative; width: 14px; height: 14px; }
+  /* the + button: circle that turns into a minus when open */
+  .qa .plus {
+    flex: none; position: relative; width: 32px; height: 32px;
+    border: 1.5px solid var(--gold); border-radius: 50%;
+    transition: background-color .2s;
+  }
   .qa .plus::before, .qa .plus::after {
-    content: ""; position: absolute; left: 0; right: 0; top: 50%;
-    height: 2px; margin-top: -1px; background: var(--gold);
-    transition: transform .25s;
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 12px; height: 2px; margin: -1px 0 0 -6px;
+    background: var(--gold);
+    transition: transform .25s, background-color .2s;
   }
   .qa .plus::after { transform: rotate(90deg); }
+  .qa summary:hover .plus, .qa[open] .plus { background: var(--gold); }
+  .qa summary:hover .plus::before, .qa summary:hover .plus::after,
+  .qa[open] .plus::before, .qa[open] .plus::after { background: var(--ink); }
   .qa[open] .plus::after { transform: rotate(0deg); }
-  .qa .body { padding: 0 34px 26px 0; animation: reveal .3s ease; }
-  .qa .a { font-weight: 500; font-size: 15.5px; line-height: 1.75; color: rgba(246,239,220,.85); white-space: pre-line; }
+  .qa .body { padding: 0 54px 26px 0; animation: reveal .3s ease; }
+  .qa .a { font-weight: 500; font-size: 15.5px; line-height: 1.75; color: rgba(246,239,220,.85); white-space: pre-line; overflow-wrap: anywhere; }
   .qa a.more {
     display: inline-block; margin-top: 12px;
     color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
@@ -350,7 +373,7 @@
   @keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
   footer {
-    text-align: center; padding: 0 6vw 7vh;
+    text-align: left; padding: 0 5vw 6vh;
     font-weight: 500; font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
     color: rgba(246,239,220,.4);
   }
@@ -360,6 +383,12 @@
     .flap, .flapwrap, .seal, .done, .mail.sealed .seal, .mail.sealed .done { transition: none !important; }
   }
 
+  @media (max-width: 960px) {
+    main { display: block; padding: 0 5vw; }
+    .stage { position: static; width: min(600px, 100%); margin: 5vh 0 0; }
+    .wall { max-width: none; padding: 8vh 0 8vh; }
+  }
+
   @media (max-width: 800px) {
     :root { --nav: 54px; }
     .topnav { padding: 0 4vw; }
@@ -367,7 +396,7 @@
     .topnav .lg { display: none; }
     .topnav .sm { display: inline; }
     .hero { padding-top: calc(var(--nav) + 6vh); }
-    .hero small { letter-spacing: .6em; padding-left: .6em; font-size: 11px; }
+    .hero small { letter-spacing: .6em; font-size: 11px; }
     .letter { width: 94%; }
     .letter textarea { height: 200px; font-size: 30px; }
     .foot { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
@@ -451,7 +480,7 @@
 
     <section class="wall" id="wall">
       <h2>Answered</h2>
-      <p class="sub">Questions we've answered, for everyone.</p>
+      <p class="sub">Tap a question to read the answer.</p>
       <div class="list" id="list"></div>
     </section>
   </main>
@@ -502,9 +531,20 @@
   function markSent() { try { sessionStorage.setItem("fisAskLast", String(Date.now())); } catch (e) {} }
 
   /* letter slides into the envelope, flap closes, seal stamps, thank-you appears */
+  let mailH = 0;
+  /* once the letter is inside, shrink the empty room above the envelope */
+  function collapse(animate) {
+    mailH = mail.offsetHeight;
+    const target = envBack.offsetHeight + 34 + done.offsetHeight;
+    mail.style.height = mailH + "px";
+    if (animate) { void mail.offsetHeight; mail.style.transition = "height .6s ease"; }
+    mail.style.height = target + "px";
+  }
   function sealUp() {
     form.inert = true;
     mail.classList.add("sealed");
+    if (reduced) { form.style.visibility = "hidden"; collapse(false); }
+    else setTimeout(() => { form.style.visibility = "hidden"; collapse(true); }, 1000);
     setTimeout(() => done.focus({ preventScroll: true }), reduced ? 0 : 1300);
   }
   function drop() {
@@ -551,12 +591,19 @@
     }
   });
 
-  /* ask another: flap opens, letter slides back out */
+  /* ask another: room comes back, flap opens, letter slides back out */
   again.addEventListener("click", () => {
     again.disabled = true;
     mail.classList.remove("sealed");
+    if (mailH) {
+      mail.style.transition = reduced ? "" : "height .5s ease";
+      mail.style.height = mailH + "px";
+    }
     function ready() {
       if (slide) { slide.cancel(); slide = null; }
+      mail.style.height = "";
+      mail.style.transition = "";
+      mailH = 0;
       form.reset();
       counter();
       err.textContent = "";
@@ -569,6 +616,7 @@
     }
     if (reduced || !slide) { ready(); return; }
     setTimeout(() => {
+      form.style.visibility = "";
       slide.onfinish = ready;
       slide.reverse();
     }, 750);
@@ -581,7 +629,7 @@
     let i = 0;
     seal.addEventListener("error", () => {
       i++;
-      if (i < tries.length) seal.src = tries[i]; else seal.classList.add("noimg");
+      if (i < tries.length) seal.src = tries[i]; else { seal.removeAttribute("src"); seal.classList.add("noimg"); }
     });
     seal.src = tries[0];
   })();
