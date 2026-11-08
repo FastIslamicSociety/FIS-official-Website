@@ -347,4 +347,552 @@
     padding: 22px 0;
   }
   .qa summary::-webkit-details-marker { display: none; }
-  .qa summary:focus-visible
+  .qa summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+  .qa summary > div { min-width: 0; }
+  .qa .cat {
+    display: block; margin-bottom: 6px;
+    font-weight: 700; font-size: 10px; letter-spacing: .24em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .qa .q {
+    display: block;
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(19px, 2.2vw, 24px); line-height: 1.35;
+    overflow-wrap: anywhere;
+    transition: color .2s;
+  }
+  .qa summary:hover .q { color: var(--gold); }
+  /* the + button: circle that turns into a minus when open */
+  .qa .plus {
+    flex: none; position: relative; width: 32px; height: 32px;
+    border: 1.5px solid var(--gold); border-radius: 50%;
+    transition: background-color .2s;
+  }
+  .qa .plus::before, .qa .plus::after {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 12px; height: 2px; margin: -1px 0 0 -6px;
+    background: var(--gold);
+    transition: transform .25s, background-color .2s;
+  }
+  .qa .plus::after { transform: rotate(90deg); }
+  .qa summary:hover .plus, .qa[open] .plus { background: var(--gold); }
+  .qa summary:hover .plus::before, .qa summary:hover .plus::after,
+  .qa[open] .plus::before, .qa[open] .plus::after { background: var(--ink); }
+  .qa[open] .plus::after { transform: rotate(0deg); }
+  .qa .body { padding: 0 54px 26px 0; animation: reveal .3s ease; }
+  .qa .a { font-weight: 500; font-size: 15.5px; line-height: 1.75; color: rgba(246,239,220,.85); white-space: pre-line; overflow-wrap: anywhere; }
+  .qa a.more {
+    display: inline-block; margin-top: 12px;
+    color: var(--gold); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    text-decoration: none; border-bottom: 1px solid rgba(217,164,65,.5);
+  }
+  .qa a.more:hover { border-bottom-color: var(--gold); }
+  .skel {
+    height: 76px; border-bottom: 1px solid rgba(246,239,220,.18);
+    background: linear-gradient(90deg, rgba(246,239,220,.04), rgba(246,239,220,.1), rgba(246,239,220,.04));
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+  }
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  @media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
+  .empty { padding: 28px 0; font-family: var(--serif); font-style: italic; color: rgba(246,239,220,.6); }
+  @keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- TORN PAPER (copied from the home page) ---------- */
+  .sec {
+    position: relative;
+    z-index: 1;
+    background: var(--c);
+    color: var(--t);
+  }
+  .sec::after {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .15 0'/></filter><rect width='200' height='200' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    z-index: 0;
+  }
+  .sec > *:not(.tear) { position: relative; z-index: 1; }
+
+  .tear {
+    position: absolute;
+    left: 0; top: -39px;
+    width: 100%; height: 40px;
+    display: block;
+    pointer-events: none;
+    z-index: 3;
+  }
+  .tear .rim { fill: var(--rim); }
+  .tear .fl  { fill: var(--c); }
+  .sec p {
+    font-family: var(--sans);
+    font-weight: 700;
+    line-height: 1.7;
+    font-size: clamp(14px, 1.15vw, 18px);
+    max-width: 50ch;
+  }
+
+  /* reveal */
+  .rv { opacity: 0; transform: translateY(22px); transition: opacity .9s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+  .rv.on { opacity: 1; transform: none; }
+  .d1 { transition-delay: .12s; } .d2 { transition-delay: .24s; } .d3 { transition-delay: .36s; }
+
+  /* ---------- CLOSING (ayah left, contacts right) ---------- */
+  #closing { padding: 20vh 6vw 5vh; }
+  #closing .wrap { max-width: 1200px; margin: 0 auto; }
+  #closing .cols {
+    display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 5vw; align-items: center; text-align: left;
+  }
+  #closing .verse { text-align: left; }
+  #closing .verse-ar {
+    font-family: "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
+    direction: rtl; text-align: left; font-weight: 500; max-width: none;
+    white-space: nowrap;
+    font-size: min(3.3vw, 46px); line-height: 2.1; color: var(--gold);
+  }
+  #closing .translit {
+    font-family: var(--serif); font-style: italic; font-weight: 400;
+    font-size: clamp(14px, 1.3vw, 19px); color: rgba(246,239,220,.6);
+    margin-top: 2vh; max-width: none; text-align: left;
+  }
+  #closing .trans {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(20px, 2.3vw, 32px); line-height: 1.4;
+    max-width: 24ch; margin-top: 3.5vh; color: var(--cream); text-align: left;
+  }
+  #closing .ref {
+    display: block; margin-top: 2.4vh;
+    font-family: var(--sans); font-weight: 700;
+    font-size: clamp(10px, .85vw, 12px); letter-spacing: .28em; text-transform: uppercase;
+    color: rgba(246,239,220,.5);
+  }
+  #closing .rows {
+    width: 100%;
+    border-top: 1px solid rgba(246,239,220,.2);
+  }
+  #closing .row {
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+    gap: 6px 24px; padding: 22px 0;
+    border-bottom: 1px solid rgba(246,239,220,.2);
+  }
+  #closing .row span {
+    font-family: var(--sans); font-weight: 700; font-size: 11px;
+    letter-spacing: .26em; text-transform: uppercase; color: rgba(246,239,220,.5);
+  }
+  #closing a {
+    font-family: var(--sans); font-weight: 500; font-size: clamp(13px, 1.1vw, 16px);
+    color: var(--cream); text-decoration: none; transition: color .25s ease;
+  }
+  #closing a:hover { color: var(--gold); }
+  #closing .foot {
+    display: flex; justify-content: space-between; gap: 16px;
+    margin-top: 14vh; padding-top: 3vh;
+    font-family: var(--sans); font-weight: 500; font-size: 11px;
+    letter-spacing: .22em; text-transform: uppercase; color: rgba(246,239,220,.4);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rv { opacity: 1; transform: none; transition: none; }
+    .flap, .flapwrap, .seal, .done, .mail.sealed .seal, .mail.sealed .done { transition: none !important; }
+  }
+
+  @media (max-width: 960px) {
+    main { display: block; padding: 0 5vw 6vh; }
+    .stage { position: static; width: min(600px, 100%); margin: 5vh 0 0; }
+    .wall { max-width: none; padding: 8vh 0 0; }
+  }
+
+  @media (max-width: 800px) {
+    :root { --nav: 54px; }
+    .topnav { padding: 0 4vw; }
+    .topnav ul { gap: 14px; font-size: 9.5px; letter-spacing: .08em; }
+    .topnav .lg { display: none; }
+    .topnav .sm { display: inline; }
+    .hero { padding-top: calc(var(--nav) + 6vh); }
+    .hero small { letter-spacing: .6em; font-size: 11px; }
+    .letter { width: 94%; }
+
+    /* CLOSING */
+    #closing { padding: 14vh 5vw 5vh; }
+    #closing .cols { grid-template-columns: 1fr; gap: 7vh; }
+    #closing .verse-ar { font-size: 6vw; text-align: left; }
+    #closing .foot { margin-top: 9vh; }
+    .letter textarea { height: 200px; font-size: 28px; }
+    .sendrow { flex-direction: column; align-items: stretch; gap: 12px; }
+    .send { width: 100%; justify-content: center; }
+    .wall { padding: 10vh 0 0; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="topnav">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/#about">About FIS</a></li>
+      <li><a href="/#archive">Archive</a></li>
+      <li><a href="/#messages"><span class="lg">President's Note</span><span class="sm">Note</span></a></li>
+      <li><a href="/ask.html" class="active">Ask</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <small>THE FIS</small>
+      <h1>Ask anything</h1>
+      <p>Write it down, seal it and send it.</p>
+    </header>
+
+    <section class="stage" aria-label="Ask a question">
+      <div class="mail" id="mail">
+
+        <!-- inside of the envelope -->
+        <div class="env-back"></div>
+
+        <!-- flap (open until you send) -->
+        <div class="flapwrap" id="flapwrap">
+          <div class="flap"><i class="out"></i><i class="in"></i></div>
+        </div>
+
+        <!-- the letter -->
+        <form class="letter" id="slip" novalidate>
+          <label class="lbl" for="q">Your question</label>
+          <textarea id="q" name="question" maxlength="600" placeholder="ask away..."></textarea>
+
+          <div class="topic" role="radiogroup" aria-label="What is it about?">
+            <span class="t">About</span>
+            <label class="chip"><input type="radio" name="category" value="Aqeedah"><span>Aqeedah</span></label>
+            <label class="chip"><input type="radio" name="category" value="Fiqh"><span>Fiqh</span></label>
+            <label class="chip"><input type="radio" name="category" value="Daily life"><span>Daily life</span></label>
+            <label class="chip"><input type="radio" name="category" value="Uni life"><span>Uni life</span></label>
+            <label class="chip"><input type="radio" name="category" value="Other" checked><span>Other</span></label>
+            <span class="left" id="left" aria-live="polite"></span>
+          </div>
+
+          <div class="reply">
+            <label for="email">Want a personal reply? (optional)</label>
+            <input type="email" id="email" name="email" maxlength="100" placeholder="your email" autocomplete="email" inputmode="email">
+            <small>Add your email and we'll send the answer to you. Leave it empty to stay anonymous.</small>
+          </div>
+
+          <input class="hp" type="text" name="website" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+          <p class="err" id="err" role="alert" aria-live="polite"></p>
+
+          <div class="sendrow">
+            <button class="send" id="send" type="submit"><span class="txt">Send it off</span><svg class="plane" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></button>
+          </div>
+        </form>
+
+        <!-- front of the envelope -->
+        <div class="env-front">
+        </div>
+
+        <img class="seal" id="seal" alt="" aria-hidden="true">
+
+        <!-- thank-you, appears above the envelope -->
+        <div class="done" id="done" tabindex="-1">
+          <div class="hand">jazakAllahu khayran</div>
+          <h2>Sealed &amp; sent</h2>
+          <p id="donep">Your question is in the envelope. If we answer it publicly, you'll find it below.</p>
+          <button class="again" id="again" type="button">Ask another</button>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="wall" id="wall">
+      <h2>Answered</h2>
+      <p class="sub">Tap a question to read the answer.</p>
+      <div class="list" id="list"></div>
+    </section>
+  </main>
+
+<!-- CLOSING (always visible, same as the home page) -->
+  <section class="sec" id="closing" style="--c:#17120d; --t:#f6e9cf; --rim:#d8c9a3; z-index:12">
+    <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
+    <div class="wrap">
+      <div class="cols">
+        <div class="verse">
+          <p class="verse-ar rv" lang="ar">وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ</p>
+          <p class="translit rv d1">Wa iẓā sa’alaka ʿibādī ʿannī fa innī qarīb</p>
+          <p class="trans rv d2">And when My servants ask you about Me, indeed, I am near.</p>
+          <span class="ref rv d3">Surah Al-Baqarah &middot; 2:186</span>
+        </div>
+        <div class="rows rv d1">
+          <div class="row"><span>Instagram</span><a href="https://www.instagram.com/fast.islamicsociety/" target="_blank" rel="noopener">@fast.islamicsociety</a></div>
+          <div class="row"><span>LinkedIn</span><a href="https://www.linkedin.com/company/fastislamicsociety/posts/" target="_blank" rel="noopener">FAST Islamic Society</a></div>
+          <div class="row"><span>Contact society</span><a href="mailto:fis.youtube.channel@gmail.com">fis.youtube.channel@gmail.com</a></div>
+          <div class="row"><span>Contact editorial</span><a href="mailto:fastislamicsociety@gmail.com">fastislamicsociety@gmail.com</a></div>
+        </div>
+      </div>
+      <div class="foot"><span>FAST Islamic Society, 2026</span><span>Est. 2025</span></div>
+    </div>
+  </section>
+
+<script>
+  /* ================= SETTINGS ================= */
+  const ENDPOINT = "https://script.google.com/macros/s/AKfycbxby3NUO--lHU8DRJZoWn7OHdtBuo0Pz6qhOmDL_jyCLIe_7D1j5zE2rD93DYZ3s4D2/exec";
+  const MAX = 600;          // max characters
+  const MIN = 5;            // min characters
+  const COOLDOWN = 30000;   // ms between sends from the same browser
+
+  /* Questions you've answered. Add one block per question, newest first.
+     link is optional (a blog post, a halaqah recording, etc).
+     Example:
+       { q: "Is it okay to ...?", a: "Short answer here.", cat: "Fiqh", link: "https://..." },
+  */
+  const ANSWERED = [
+  ];
+  /* ============================================= */
+
+  const mail = document.getElementById("mail");
+  const envBack = mail.querySelector(".env-back");
+  const form = document.getElementById("slip");
+  const ta = document.getElementById("q");
+  const emailEl = document.getElementById("email");
+  const hp = document.getElementById("hp");
+  const send = document.getElementById("send");
+  const err = document.getElementById("err");
+  const leftEl = document.getElementById("left");
+  const done = document.getElementById("done");
+  const donep = document.getElementById("donep");
+  const again = document.getElementById("again");
+  const sendTxt = send.querySelector(".txt");
+  const label = sendTxt.textContent;
+  const DONE_DEFAULT = donep.textContent;
+  const DONE_EMAIL = "Your question is in the envelope. We'll email you the answer, and if we answer it publicly you'll find it below.";
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let slide = null;
+
+  /* characters left, only shown when running low */
+  function counter() {
+    const left = MAX - ta.value.length;
+    leftEl.textContent = left <= 100 ? left + " left" : "";
+  }
+  ta.addEventListener("input", counter);
+  counter();
+
+  /* cooldown (per browser, no personal data) */
+  function lastSent() { try { return +sessionStorage.getItem("fisAskLast") || 0; } catch (e) { return 0; } }
+  function markSent() { try { sessionStorage.setItem("fisAskLast", String(Date.now())); } catch (e) {} }
+
+  /* letter slides into the envelope, flap closes, seal stamps, thank-you appears */
+  let mailH = 0;
+  /* once the letter is inside, shrink the empty room above the envelope */
+  function collapse(animate) {
+    mailH = mail.offsetHeight;
+    const target = envBack.offsetHeight + 34 + done.offsetHeight;
+    mail.style.height = mailH + "px";
+    if (animate) { void mail.offsetHeight; mail.style.transition = "height .6s ease"; }
+    mail.style.height = target + "px";
+    /* display:none (not visibility:hidden) so the slid-down letter can't leave
+       blank scrollable space below the page */
+    form.style.display = "none";
+  }
+  function sealUp() {
+    form.inert = true;
+    mail.classList.add("sealed");
+    if (reduced) collapse(false);
+    else setTimeout(() => collapse(true), 1000);
+    setTimeout(() => done.focus({ preventScroll: true }), reduced ? 0 : 1300);
+  }
+  function drop() {
+    if (reduced) { sealUp(); return; }
+    const lr = form.getBoundingClientRect();
+    const er = envBack.getBoundingClientRect();
+    /* travel until the top of the letter is below the pocket's V edge */
+    const T = (er.top + er.height * 0.6) - lr.top;
+    /* hide whatever would hang out below the bottom of the envelope */
+    const cut = Math.max(0, lr.bottom + T - er.bottom);
+    slide = form.animate([
+      { transform: "translateY(0)", clipPath: "inset(-60px -60px -60px -60px)" },
+      { transform: "translateY(" + T + "px)", clipPath: "inset(-60px -60px " + cut + "px -60px)" }
+    ], { duration: 1000, easing: "cubic-bezier(.5,0,.3,1)", fill: "forwards" });
+    slide.onfinish = sealUp;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    err.textContent = "";
+    const q = ta.value.trim();
+    if (q.length < MIN) { err.textContent = "Write a little more first."; ta.focus(); return; }
+
+    const email = emailEl.value.trim();
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      err.textContent = "That email doesn't look right. Fix it, or leave it empty to stay anonymous.";
+      emailEl.focus();
+      return;
+    }
+
+    const wait = COOLDOWN - (Date.now() - lastSent());
+    if (wait > 0) { err.textContent = "Give it " + Math.ceil(wait / 1000) + " seconds before sending another."; return; }
+
+    const cat = (form.querySelector('input[name="category"]:checked') || {}).value || "Other";
+    send.disabled = true;
+    sendTxt.textContent = "Sending...";
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ question: q, category: cat, email: email, website: hp.value })
+      });
+      let ok = res.ok;
+      try { const j = await res.json(); ok = j.ok !== false; } catch (x) {}
+      if (!ok) throw new Error("not ok");
+      markSent();
+      donep.textContent = email ? DONE_EMAIL : DONE_DEFAULT;
+      drop();
+    } catch (x) {
+      err.textContent = "Couldn't send that. Check your connection and try again.";
+      send.disabled = false;
+      sendTxt.textContent = label;
+    }
+  });
+
+  /* ask another: room comes back, flap opens, letter slides back out */
+  again.addEventListener("click", () => {
+    again.disabled = true;
+    mail.classList.remove("sealed");
+    if (mailH) {
+      mail.style.transition = reduced ? "" : "height .5s ease";
+      mail.style.height = mailH + "px";
+    }
+    function ready() {
+      if (slide) { slide.cancel(); slide = null; }
+      mail.style.height = "";
+      mail.style.transition = "";
+      mailH = 0;
+      form.reset();
+      counter();
+      err.textContent = "";
+      send.disabled = false;
+      sendTxt.textContent = label;
+      form.style.display = "";
+      form.style.visibility = "";
+      form.inert = false;
+      again.disabled = false;
+      ta.focus();
+    }
+    if (reduced || !slide) { ready(); return; }
+    setTimeout(() => {
+      form.style.display = "";
+      form.style.visibility = "";
+      slide.onfinish = ready;
+      slide.reverse();
+    }, 750);
+  });
+
+  /* seal image: tries a few likely favicon paths, falls back to a plain gold disc */
+  (function () {
+    const seal = document.getElementById("seal");
+    const tries = ["public/favicon.png", "/favicon.png?v=2", "/public/favicon.png", "favicon.png"];
+    let i = 0;
+    seal.addEventListener("error", () => {
+      i++;
+      if (i < tries.length) seal.src = tries[i]; else { seal.removeAttribute("src"); seal.classList.add("noimg"); }
+    });
+    seal.src = tries[0];
+  })();
+
+  /* answered list: pulled live from the sheet (rows marked "yes"), plus any hand-written ones in ANSWERED */
+  (function () {
+    const list = document.getElementById("list");
+    function el(tag, cls, text) {
+      const n = document.createElement(tag);
+      if (cls) n.className = cls;
+      if (text) n.textContent = text;
+      return n;
+    }
+    function render(items) {
+      list.textContent = "";
+      if (!items.length) {
+        list.appendChild(el("p", "empty", "Nothing answered yet. Ask the first one."));
+        return;
+      }
+      items.forEach(item => {
+        const row = el("details", "qa");
+        const sum = el("summary");
+        const txt = el("div");
+        if (item.cat) txt.appendChild(el("span", "cat", item.cat));
+        txt.appendChild(el("span", "q", item.q));
+        sum.appendChild(txt);
+        sum.appendChild(el("span", "plus"));
+        row.appendChild(sum);
+        const body = el("div", "body");
+        body.appendChild(el("p", "a", item.a));
+        if (item.link && /^https?:\/\//i.test(item.link)) {
+          const a = el("a", "more", "Read more");
+          a.href = item.link; a.target = "_blank"; a.rel = "noopener";
+          body.appendChild(a);
+        }
+        row.appendChild(body);
+        list.appendChild(row);
+      });
+    }
+    /* 1) show the last saved answers INSTANTLY (or loading placeholders on a first visit)
+       2) fetch fresh ones in the background and swap them in only if they changed */
+    const KEY = "fisAnswersCache";
+    let shown = "";
+    function show(items) {
+      const sig = JSON.stringify(items);
+      if (sig === shown) return;          /* nothing changed, don't re-render (no flicker) */
+      shown = sig;
+      render(items);
+    }
+    function skeleton() {
+      list.textContent = "";
+      for (let i = 0; i < 3; i++) list.appendChild(el("div", "skel"));
+    }
+
+    let cached = null;
+    try { cached = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    if (Array.isArray(cached)) show(cached.concat(ANSWERED));
+    else if (ANSWERED.length) show(ANSWERED);
+    else skeleton();
+
+    fetch(ENDPOINT)
+      .then(r => r.json())
+      .then(j => {
+        const fresh = j && Array.isArray(j.answers) ? j.answers : [];
+        try { localStorage.setItem(KEY, JSON.stringify(fresh)); } catch (e) {}
+        show(fresh.concat(ANSWERED));
+      })
+      .catch(() => { if (!shown) show(ANSWERED); });
+  })();
+
+  /* torn edge: same shape as on the home page (it is the 4th torn edge there) */
+  (function () {
+    function rnd(seed) { let t = seed; return () => (t = (t * 16807) % 2147483647) / 2147483647; }
+    document.querySelectorAll(".tear").forEach((el) => {
+      const k = 3;
+      const r = rnd(k * 97 + 13), W = 1200, n = 80, a = [], b = [];
+      for (let i = 0; i <= n; i++) {
+        const x = (i * W / n).toFixed(0);
+        const base = 14 + Math.sin(i * 0.33 + k * 2) * 3;
+        a.push(x + "," + (base + r() * 7).toFixed(1));
+        b.push(x + "," + (base + 7 + r() * 7).toFixed(1));
+      }
+      el.innerHTML =
+        '<polygon class="rim" points="0,40 ' + a.join(" ") + ' 1200,40"/>' +
+        '<polygon class="fl" points="0,40 ' + b.join(" ") + ' 1200,40"/>';
+    });
+  })();
+
+  /* reveal on scroll */
+  (function () {
+    const items = document.querySelectorAll(".rv");
+    if ("IntersectionObserver" in window) {
+      const io = new IntersectionObserver((es) => {
+        es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); } });
+      }, { threshold: 0.25 });
+      items.forEach(i => io.observe(i));
+    } else {
+      items.forEach(i => i.classList.add("on"));
+    }
+  })();
+</script>
+</body>
+</html>
