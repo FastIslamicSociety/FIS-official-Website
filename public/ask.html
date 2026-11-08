@@ -9,6 +9,8 @@
 <link rel="shortcut icon" href="/favicon.png?v=2">
 <link rel="apple-touch-icon" href="/favicon.png?v=2">
 
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=Reenie+Beanie&family=Noto+Nastaliq+Urdu:wght@500&family=Playfair+Display:ital,wght@0,500;0,900;1,400&display=swap" rel="stylesheet">
@@ -368,6 +370,14 @@
     text-decoration: none; border-bottom: 1px solid rgba(217,164,65,.5);
   }
   .qa a.more:hover { border-bottom-color: var(--gold); }
+  .skel {
+    height: 76px; border-bottom: 1px solid rgba(246,239,220,.18);
+    background: linear-gradient(90deg, rgba(246,239,220,.04), rgba(246,239,220,.1), rgba(246,239,220,.04));
+    background-size: 200% 100%;
+    animation: shimmer 1.4s linear infinite;
+  }
+  @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  @media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
   .empty { padding: 28px 0; font-family: var(--serif); font-style: italic; color: rgba(246,239,220,.6); }
   @keyframes reveal { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 
@@ -788,10 +798,35 @@
         list.appendChild(row);
       });
     }
+    /* 1) show the last saved answers INSTANTLY (or loading placeholders on a first visit)
+       2) fetch fresh ones in the background and swap them in only if they changed */
+    const KEY = "fisAnswersCache";
+    let shown = "";
+    function show(items) {
+      const sig = JSON.stringify(items);
+      if (sig === shown) return;          /* nothing changed, don't re-render (no flicker) */
+      shown = sig;
+      render(items);
+    }
+    function skeleton() {
+      list.textContent = "";
+      for (let i = 0; i < 3; i++) list.appendChild(el("div", "skel"));
+    }
+
+    let cached = null;
+    try { cached = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+    if (Array.isArray(cached)) show(cached.concat(ANSWERED));
+    else if (ANSWERED.length) show(ANSWERED);
+    else skeleton();
+
     fetch(ENDPOINT)
       .then(r => r.json())
-      .then(j => render((j && Array.isArray(j.answers) ? j.answers : []).concat(ANSWERED)))
-      .catch(() => render(ANSWERED));
+      .then(j => {
+        const fresh = j && Array.isArray(j.answers) ? j.answers : [];
+        try { localStorage.setItem(KEY, JSON.stringify(fresh)); } catch (e) {}
+        show(fresh.concat(ANSWERED));
+      })
+      .catch(() => { if (!shown) show(ANSWERED); });
   })();
 
   /* torn edge: same shape as on the home page (it is the 4th torn edge there) */
