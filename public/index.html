@@ -426,59 +426,65 @@
   .lb button:hover { color: var(--gold); }
   .lb button:focus-visible { outline: 2px solid var(--gold); }
 
-  /* ---------- MESSAGES (wide postcards, one per row) ---------- */
-  #messages { padding: 18vh 6vw 20vh; }
-  #messages > h2 { text-align: center; margin-bottom: 8vh; }
-  .pcs {
-    display: flex; flex-direction: column; gap: 5vh;
-    max-width: 1000px; margin: 0 auto;
-  }
-  .pc {
-    position: relative;
-    padding: 9px;
-    background: radial-gradient(circle, transparent 5px, #fbf5e6 5.5px) -9px -9px / 18px 18px;
-    filter: drop-shadow(0 8px 14px rgba(42,33,24,.38));
-  }
-  .pi {
-    background: #e3cf9f; color: var(--ink);
-    padding: 28px 36px 26px;
-  }
-  .hd {
-    display: flex; align-items: center; gap: 22px;
-    padding-bottom: 18px; margin-bottom: 16px;
-    border-bottom: 1px solid #5a4632;
-  }
-  .ph { position: relative; flex: none; width: 96px; height: 120px; }
-  .ph img {
-    width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
-    border: 1px solid rgba(60,40,25,.35);
-    filter: sepia(.12) contrast(1.02);
-  }
-  .ph svg { position: absolute; top: -12px; left: -6px; width: 18px; height: 48px; z-index: 2; }
-  .who small {
-    display: block;
-    font: 500 11px/1 "IBM Plex Mono", ui-monospace, "Courier New", monospace;
-    letter-spacing: .28em; color: #4a3826;
-  }
-  .who h3 {
-    font-family: var(--serif); font-weight: 500;
-    font-size: clamp(24px, 2.4vw, 34px); line-height: 1.05; margin: 8px 0 4px;
-  }
-  .who .sal {
-    font-family: "Noto Nastaliq Urdu", "Noto Naskh Arabic", serif;
-    direction: rtl; text-align: left; font-weight: 500;
-    font-size: 16px; line-height: 1.9; color: #5a4632; max-width: none; margin: 0;
-  }
-  .tx p {
-    margin: 0 0 10px; max-width: none;
-    font-weight: 500; font-size: 12.5px; line-height: 1.7; color: #3a2a1c;
-  }
-  .tx p em { font-style: italic; }
-  .sg { padding-top: 14px; display: block; }
-  .sg .role, .sg .nm { display: block; font-family: var(--script); font-weight: 400; color: var(--ink); }
-  .sg .role { font-size: clamp(18px, 1.8vw, 22px); line-height: 1.15; color: #6a5238; }
-  .sg .nm   { font-size: clamp(22px, 2.3vw, 28px); line-height: 1.2; margin-top: 4px; }
+ <!-- MESSAGES -->
+<section class="sec" id="messages" style="--c:#efe3c6; --t:#2a2118; --rim:#d8c9a3; z-index:11">
+  <svg class="tear" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"></svg>
+  <h2>EC's Message</h2>
+  <div class="pcs">
 
+    <!-- PRESIDENT -->
+    <article class="pc"><div class="pi">
+      <div class="hd">
+        <div class="ph"><svg viewBox="0 0 18 48" aria-hidden="true"><path d="M5 40V9a4 4 0 0 1 8 0v28a6 6 0 0 1-12 0V11" fill="none" stroke="#9a8a72" stroke-width="1.6" stroke-linecap="round"/></svg><img src="/images/president.png" alt="President"></div>
+        <div class="who">
+          <small>FIS</small>
+          <h3>President</h3>
+          <p class="sal" lang="ar">السلام عليكم ورحمة الله وبركاته</p>
+        </div>
+      </div>
+      <div class="tx">
+        <p>The vision and intentions behind FIS were never limited to building a student led society, but rather to building a community, a brotherhood, and a family. And that is precisely what drives us every day: to work for the Deen of Allah and the Ummah of His beloved Prophet Muhammad ﷺ through various events, initiatives, and efforts in Dawah. Everyone, regardless of where they stand in their journey of Imaan (faith), is welcome to join us and become a part of this family, seeking nothing but the pleasure of Allah.</p>
+        <p>May FIS, and every effort we put into it, become a means of attaining His pleasure and being granted Jannah. آمين يا رب العالمين.</p>
+        <div class="sg"><span class="nm">Abdul Mahid Kundi</span></div>
+      </div>
+    </div></article>
+
+    <!-- CO-PRESIDENT -->
+    <article class="pc"><div class="pi">
+      <div class="hd">
+        <div class="ph"><svg viewBox="0 0 18 48" aria-hidden="true"><path d="M5 40V9a4 4 0 0 1 8 0v28a6 6 0 0 1-12 0V11" fill="none" stroke="#9a8a72" stroke-width="1.6" stroke-linecap="round"/></svg><img src="/images/copresident.png" alt="Co-President"></div>
+        <div class="who">
+          <small>FIS</small>
+          <h3>Co-President</h3>
+          <p class="sal" lang="ar">السلام عليكم ورحمة الله وبركاته</p>
+        </div>
+      </div>
+      <div class="tx">
+        <p>None of us has reached the end of our journey with Allah. We are all learning, unlearning, growing, and finding our way back to Him in different ways. And perhaps that is what makes a sisterhood like FIS so special. As I step into this role, I hope to contribute to a legacy built on <em>sincerity, compassion, and a shared commitment to our faith.</em> A legacy where sisters encourage one another to grow, remind one another of Allah, and turn their love for Islam into actions that benefit others.</p>
+        <p>I believe that every gathering can plant a seed, every conversation can change a perspective, and every sincere effort can become a source of reward. May Allah put barakah in this journey, guide our intentions, and allow us to be of benefit to His Deen.</p>
+        <div class="sg"><span class="nm">Amna Hassan</span></div>
+      </div>
+    </div></article>
+
+    <!-- GENERAL SECRETARY -->
+    <article class="pc"><div class="pi">
+      <div class="hd">
+        <div class="ph"><svg viewBox="0 0 18 48" aria-hidden="true"><path d="M5 40V9a4 4 0 0 1 8 0v28a6 6 0 0 1-12 0V11" fill="none" stroke="#9a8a72" stroke-width="1.6" stroke-linecap="round"/></svg><img src="/images/gensec.png" alt="General Secretary"></div>
+        <div class="who">
+          <small>FIS</small>
+          <h3>General Secretary</h3>
+          <p class="sal" lang="ar">السلام عليكم ورحمة الله وبركاته</p>
+        </div>
+      </div>
+      <div class="tx">
+        <p>Allah says in the Quran: "And whoever does good, whether male or female, and is a believer, those will enter Paradise." (Surah An-Nisa 4:124) Being part of an Islamic society is an opportunity to spread goodness, strengthen our connection with Islam, and remind one another of the values that truly matter.</p>
+        <p>As the General Secretary of FAST Islamic Society, I feel grateful to be part of an effort that aims to bring us closer to our Deen. May Allah accept our efforts, put barakah in our work, guide us towards what pleases Him, and make our small contributions a source of Sadaqah-e-Jariyah. Ameen. May Allah grant us sincerity in our intentions and allow us to serve His Deen with kindness, unity, and dedication. Ameen.</p>
+        <div class="sg"><span class="nm">Wajeeha Mahmood</span></div>
+      </div>
+    </div></article>
+
+  </div>
+</section>
   /* ---------- CLOSING (ayah left, contacts right) ---------- */
   #closing { padding: 20vh 6vw 5vh; }
   #closing .wrap { max-width: 1200px; margin: 0 auto; }
