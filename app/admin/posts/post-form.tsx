@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, type ChangeEvent } from "react";
+import { useRef, useState, useTransition, type ChangeEvent } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Markdown from "@/components/markdown";
 import { savePost, type SaveIntent } from "./actions";
@@ -24,6 +24,11 @@ const imageTypes: Record<string, string> = {
   "image/webp": "webp",
 };
 
+// Puts `insertion` into `text`, replacing whatever is between start and end.
+function insertAt(text: string, start: number, end: number, insertion: string) {
+  return text.slice(0, start) + insertion + text.slice(end);
+}
+
 export default function PostForm({ post }: { post?: Post }) {
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
@@ -32,10 +37,11 @@ export default function PostForm({ post }: { post?: Post }) {
   const [authorName, setAuthorName] = useState(post?.author_name ?? "");
   const [coverPath, setCoverPath] = useState(post?.cover_image_path ?? "");
   const [coverAlt, setCoverAlt] = useState(post?.cover_image_alt ?? "");
-  const [preview, setPreview] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [preview, setPreview] = useState(false);
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
+  const articleRef = useRef<HTMLTextAreaElement>(null);
 
   // Published posts cannot change their slug (the database blocks it).
   const slugLocked = post?.status === "published";
@@ -74,6 +80,56 @@ export default function PostForm({ post }: { post?: Post }) {
       return;
     }
     setCoverPath(path);
+  }
+
+  // Uploads a picture and adds it to the article text at the cursor.
+  async function onInsertImage(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    const ext = imageTypes[file.type];
+    if (!ext) {
+      setError("Please choose a JPG, PNG or WebP image.");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      setError("The image must be smaller than 5 MB.");
+      return;
+    }
+
+    // Every picture needs a description for readers who cannot see it.
+    const answer = window.prompt(
+      "Describe this image in a few words (for screen readers):"
+    );
+    const description = (answer ?? "").replace(/[\[\]\r\n]+/g, " ").trim();
+    if (!description) {
+      setError("The image was not added: a description is required.");
+      return;
+    }
+
+    // Remember where the cursor was before the upload starts.
+    const start = articleRef.current?.selectionStart ?? content.length;
+    const end = articleRef.current?.selectionEnd ?? start;
+
+    setError("");
+    setUploading(true);
+    const path = `articles/${crypto.randomUUID()}.${ext}`;
+    const { error: uploadError } = await createClient()
+      .storage.from("blog-images")
+      .upload(path, file, { contentType: file.type });
+    setUploading(false);
+
+    if (uploadError) {
+      setError(`Image upload failed: ${uploadError.message}`);
+      return;
+    }
+
+    const url = createClient().storage.from("blog-images").getPublicUrl(path)
+      .data.publicUrl;
+    setContent((text) =>
+      insertAt(text, start, end, `\n\n![${description}](${url})\n\n`)
+    );
   }
 
   function submit(intent: SaveIntent) {
@@ -196,13 +252,27 @@ export default function PostForm({ post }: { post?: Post }) {
       <div className="flex flex-col gap-1 text-sm">
         <div className="flex items-center justify-between">
           <label htmlFor="article">Article (Markdown)</label>
-          <button
-            type="button"
-            onClick={() => setPreview(!preview)}
-            className="text-sm underline"
-          >
-            {preview ? "Back to writing" : "Preview"}
-          </button>
+          <div className="flex gap-4">
+            {!preview && (
+              <label className="cursor-pointer text-sm underline">
+                Insert image
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  onChange={onInsertImage}
+                  disabled={busy}
+                  className="hidden"
+                />
+              </label>
+            )}
+            <button
+              type="button"
+              onClick={() => setPreview(!preview)}
+              className="text-sm underline"
+            >
+              {preview ? "Back to writing" : "Preview"}
+            </button>
+          </div>
         </div>
         {preview ? (
           <div className="min-h-[24rem] rounded border border-gray-400 p-4">
@@ -215,6 +285,7 @@ export default function PostForm({ post }: { post?: Post }) {
         ) : (
           <textarea
             id="article"
+            ref={articleRef}
             className={`${input} font-mono`}
             rows={16}
             value={content}
