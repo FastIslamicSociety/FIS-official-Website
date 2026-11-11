@@ -18,10 +18,14 @@ export default function StatusPanel({
   id,
   status,
   role,
+  approvedText,
+  publishedText,
 }: {
   id: string;
   status: string;
   role: "admin" | "publisher";
+  approvedText: string | null;
+  publishedText: string | null;
 }) {
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
@@ -50,9 +54,12 @@ export default function StatusPanel({
 
   return (
     <section className="mb-6 rounded border border-gray-400 p-4">
-      <p className="mb-3 text-sm">
+      <p className="mb-1 text-sm">
         Status: <strong>{labels[status] ?? status}</strong>
       </p>
+      {approvedText && <p className="text-xs text-gray-500">{approvedText}</p>}
+      {publishedText && <p className="text-xs text-gray-500">{publishedText}</p>}
+      <div className="mb-3" />
 
       {error && (
         <p className="mb-3 rounded border border-red-300 bg-red-50 p-3 text-sm text-red-700">
