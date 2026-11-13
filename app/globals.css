@@ -37,3 +37,4 @@ body {
 .markdown a { text-decoration: underline; }
 .markdown code { background: rgba(128, 128, 128, 0.2); padding: 0.1rem 0.3rem; border-radius: 0.25rem; }
 .markdown img { max-width: 100%; height: auto; }
+.font-display { font-family: "Playfair Display", Georgia, serif; }
